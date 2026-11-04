@@ -1,0 +1,17 @@
+# Lines in scene seconds. The two composite lines drive each sprite's mouth; the full-H3 lines are shouted over the orbit.
+- name: arashi-ends
+  character: arashi
+  at: 2.1
+  text: "[cold, cutting] Your flame ends here, Kaen."
+- name: kaen-answers
+  character: kaen
+  at: 4.75
+  text: "[shouting, fierce] Then burn with it!"
+- name: kaen-finisher
+  character: kaen
+  at: 7.2
+  text: "[roaring] Crimson Breaker!"
+- name: arashi-finisher
+  character: arashi
+  at: 10.05
+  text: "[fierce battle shout] Storm Divide!"

@@ -1,0 +1,5 @@
+{"chunks": [
+  {"text": "[Intro]\n[Instrumental]", "duration_ms": 3000, "positive_styles": ["huge orchestral hit", "taiko drums", "shounen anime battle soundtrack", "brass stab"], "negative_styles": ["vocals", "lyrics"]},
+  {"text": "[Build]\n[Instrumental]", "duration_ms": 4000, "positive_styles": ["driving rock drums", "distorted electric guitar riff", "rising strings", "taiko", "fast tempo", "tension"], "negative_styles": ["vocals", "lyrics"], "context_adherence": "high"},
+  {"text": "[Climax]\n[Instrumental]", "duration_ms": 5000, "positive_styles": ["full orchestra and rock band climax", "soaring brass theme", "crashing cymbals", "continuous full arrangement to the last second", "the final chord rings out"], "negative_styles": ["vocals", "lyrics", "fade out"], "context_adherence": "high"}
+]}

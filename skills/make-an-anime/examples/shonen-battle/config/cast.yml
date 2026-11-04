@@ -1,0 +1,13 @@
+# One ElevenLabs voice per character, shared by every scene. Casting reason: two clearly different pitches over loud music.
+kaen:
+  name: Kaen
+  voice: Callum            # young, forward, hot-headed
+  stability: 0.3
+  similarity_boost: 0.8
+  ref: char-kaen-v1
+arashi:
+  name: Arashi
+  voice: Charlotte         # cool, cutting, controlled
+  stability: 0.35
+  similarity_boost: 0.8
+  ref: char-arashi-v1

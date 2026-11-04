@@ -1,0 +1,21 @@
+# First frames. The two green keyframes become sprites; arena-plate is the empty background; clash starts the full-H3 shot.
+arena-plate:
+  base: false
+  refs: [loc-sky-arena-v1]
+  prompt: >-
+    {{STYLE}} The arena from image 1, seen from low on its stone floor with the floor filling the lower third and a huge sky above: burning sunset on the left, dark thunderstorm on the right, chunks of rock hanging in the air. Dramatic wide 16:9 composition, centre of the frame open and empty. Absolutely no people, no characters, no text.
+kaen-green:
+  base: false
+  refs: [char-kaen-v1]
+  prompt: >-
+    {{STYLE}} The man from image 1, the same face, hair and outfit: full body in a low forward-leaning fighting stance, seen in three-quarter view facing to the RIGHT of the frame, right fist drawn back, small orange flames licking around his fist, sash and hair blown back, furious expression with his mouth closed. He is alone, centred, whole silhouette inside the frame with a generous margin on every side. Background: one perfectly flat solid chroma green colour #00B140 from edge to edge, no floor, no ground, no shadow, no gradient, no spill on the character. No green on the character. No text.
+arashi-green:
+  base: false
+  refs: [char-arashi-v1]
+  prompt: >-
+    {{STYLE}} The woman from image 1, the same face, hair and outfit: full body in a tall poised fighting stance, seen in three-quarter view facing to the LEFT of the frame, left arm extended forward with crackling blue-white lightning around her open hand, coat and ponytail blown back, cold contemptuous expression with her mouth closed. She is alone, centred, whole silhouette inside the frame with a generous margin on every side. Background: one perfectly flat solid chroma green colour #00B140 from edge to edge, no floor, no ground, no shadow, no gradient, no spill on the character. No green on the character. No text.
+clash:
+  base: false
+  refs: [char-kaen-v1, char-arashi-v1, loc-sky-arena-v1]
+  prompt: >-
+    {{STYLE}} Dynamic full-body two-shot, slightly low angle. The man from image 1, on the left of the frame, and the woman from image 2, on the right, the same faces, hair and outfits, both in mid-air over the arena of image 3, colliding at the centre of the frame: his flaming right fist against her lightning-wrapped left hand, a burst of orange fire and blue-white lightning between them, debris flying, hair and clothes whipped outward, both with fierce expressions. Sunset on the left, thunderstorm on the right. No other people. No text.

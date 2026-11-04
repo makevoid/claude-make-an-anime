@@ -1,0 +1,9 @@
+Character design sheet for an anime production. This asset belongs to a high-quality anime production with television-broadcast polish: every frame should be worth pausing on.
+
+{{STYLE}}
+
+The character: KAEN, an adult man of about 25, lean athletic martial artist. Sharp angular face, narrow fierce amber eyes, thick angled black brows, small scar across the left eyebrow, wild spiky crimson-red hair swept up and back with orange tips. Outfit: sleeveless charcoal-black fighting jacket (#20222a) with a high collar, open over black bodywrap, long white sash at the waist (#f3efe6), dark baggy trousers, black wrapped boots, crimson fingerless gauntlets (#b3201c) with brass plates. Never any green in his outfit, hair, eyes or effects.
+
+Layout on a plain light-grey background: full-body front turnaround, three-quarter, profile and back in a row on the left two thirds; on the right, a large front-view head close-up and three expressions: furious roar, cocky grin, cold focus. Same outfit in every view, neutral standing pose, whole silhouette inside the frame with margins, consistent scale between views.
+
+Exclusions: no text, labels, colour swatches, numbers, logos or watermarks; no extra characters; no photoreal rendering.
