@@ -161,6 +161,116 @@ bundle exec rspec --tag core
 bundle exec rspec --tag media    # includes a whole scene with synthetic media
 ```
 
+## Bonus: behind the scenes
+
+Everything here comes from the four examples above: what the skill generated, what got thrown away, and what changed on the way to the finished film.
+
+### Demo videos
+
+**Raw MiniMax H3 takes.** 18 takes straight from the model, with no subtitles, grading or sound.
+
+https://github.com/user-attachments/assets/49479813-9511-44c2-94a1-74e501aab90e
+
+**One shot, three stages.** One shot from each anime, first as the painted keyframe, then as the silent H3 take, then finished with sound on.
+
+https://github.com/user-attachments/assets/11ecdaf9-3d56-4855-bff2-ddfa5c6a423b
+
+**Rejected takes next to the kept ones.** Seven real retakes and what fixed each one. Silent.
+
+https://github.com/user-attachments/assets/3b14dde3-efe6-40db-9787-b4cd3c1998c6
+
+**The same scene in two languages.** *The Last One* was made in English first, then voiced again in Japanese with English subtitles.
+
+https://github.com/user-attachments/assets/638400e6-5f41-445d-b2cd-281a6d3dcd3b
+
+### Character sheets
+
+GPT Image 2.5 draws a turnaround and expressions for each character. Every later image and take uses these sheets as references, which keeps the characters on-model from shot to shot.
+
+**The Last One:** Mio and Haru
+
+<img src="https://github.com/user-attachments/assets/393854b4-920c-4ffe-819e-737e72e83852" alt="Character sheet of Mio: glasses, yellow shirt, green skirt and backpack" width="49%"> <img src="https://github.com/user-attachments/assets/06372093-7d9c-4ad3-b32a-afd188aab3ad" alt="Character sheet of Haru" width="49%">
+
+**The Invention of the Century:** the scientist and Aoi
+
+<img src="https://github.com/user-attachments/assets/b9a655d9-c7d8-42ae-82d6-87222034c8ba" alt="Character sheet of the scientist: lab coat, red shirt, goggles on his head" width="49%"> <img src="https://github.com/user-attachments/assets/8a2996e9-67fb-470b-a26c-62d1ca1d6f5e" alt="Character sheet of Aoi: blue hair, glasses, lab coat over a hoodie" width="49%">
+
+**One Round at the River:** Riku and Ren
+
+<img src="https://github.com/user-attachments/assets/7eed18cb-58e7-4b19-ab1d-f09c2e069471" alt="Character sheet of Riku: black tank top, red Muay Thai shorts, hand wraps" width="49%"> <img src="https://github.com/user-attachments/assets/516f64db-8007-4393-b168-86a0d5a55cc0" alt="Character sheet of Ren: white karate gi with a black belt" width="49%">
+
+**Too Salty:** Hana and Kiku
+
+<img src="https://github.com/user-attachments/assets/35fc0e5c-3cdc-4e07-92c0-16222e471bda" alt="Character sheet of Hana: headscarf, white shirt, dark apron" width="49%"> <img src="https://github.com/user-attachments/assets/8e7403bf-d8d3-4b73-bb60-19bc291ba519" alt="Character sheet of Kiku: elderly woman in a dark top and white apron" width="49%">
+
+A character is cheapest to change at this stage. The scientist went through three sheets, and the shots made from an earlier one were redone from the last:
+
+<img src="https://github.com/user-attachments/assets/62f2630a-df25-4e3f-94ad-b57e2ab9e56a" alt="Three versions of the scientist's character sheet, from scruffy and grimy to clean-cut" width="100%">
+
+### Location sheets
+
+Locations get sheets too, so a place stays the same from one shot to the next.
+
+<img src="https://github.com/user-attachments/assets/565919ba-b12e-4bd3-9117-65774cb51f87" alt="A country road through rice fields below green mountains" width="49%"> <img src="https://github.com/user-attachments/assets/ec803261-e7e2-4a7b-bdf8-b78cf6e224e8" alt="A cramped laboratory at night, full of shelves and glassware" width="49%">
+
+<img src="https://github.com/user-attachments/assets/6277c2a2-b512-4729-8fd0-bb685dee4cc9" alt="A grassy riverbank and an iron bridge at sunset" width="49%"> <img src="https://github.com/user-attachments/assets/d5c9cf10-04ba-491c-a28a-481f06910d02" alt="A small omelette shop at night, with a counter and a copper pan" width="49%">
+
+<img src="https://github.com/user-attachments/assets/d9c572c8-da7d-4944-97fe-20103dc07182" alt="A narrow old shopping street, wet from the rain" width="49%">
+
+### Keyframes
+
+Each shot starts from one painted frame. These are the keyframes of all four anime.
+
+**The Last One**
+
+<img src="https://github.com/user-attachments/assets/f42fc8f2-0c2a-4f36-9c53-179303b68066" alt="Three keyframes of The Last One" width="100%">
+
+**The Invention of the Century**
+
+<img src="https://github.com/user-attachments/assets/dd970f7a-2304-4be4-af07-ff6ca2cfd968" alt="Eight keyframes of The Invention of the Century" width="100%">
+
+**One Round at the River**
+
+<img src="https://github.com/user-attachments/assets/546e9c99-ff5b-4bab-911d-2740d1d8f0fb" alt="Nine keyframes of One Round at the River" width="100%">
+
+**Too Salty**
+
+<img src="https://github.com/user-attachments/assets/3a6989ca-a6f3-461e-b161-0acd25757c96" alt="Sixteen keyframes of Too Salty" width="100%">
+
+### MiniMax H3 takes, frame by frame
+
+Five frames across each continuous take, in order.
+
+Two characters act at once: he keeps talking while she eats the evidence.
+
+<img src="https://github.com/user-attachments/assets/3a921bc3-563a-4296-bdeb-71f541d0214b" alt="Five frames of the scientist talking while Aoi eats a tiny pineapple with tweezers" width="100%">
+
+A start frame and an end frame are both painted, and H3 animates the change between them.
+
+<img src="https://github.com/user-attachments/assets/7fb99f31-9e81-4f63-85fe-c1cd1c38a534" alt="Five frames of a pineapple shrinking to almost nothing under a dropper" width="100%">
+
+The camera moves around the fighters as they trade blows.
+
+<img src="https://github.com/user-attachments/assets/ca108e6b-47a4-4939-a774-61d39bb3a0d4" alt="Five frames of the two fighters exchanging punches while the camera circles them" width="100%">
+
+The lips follow a whispered line, and the two hands stay on the pan.
+
+<img src="https://github.com/user-attachments/assets/16c8b37d-d759-4cd2-bf22-a395b09f7dc9" alt="Five frames of Kiku and Hana with their eyes closed over a pan, Kiku whispering" width="100%">
+
+Cooking is the hard part to animate: the omelette has to roll as one piece.
+
+<img src="https://github.com/user-attachments/assets/08067966-5287-4878-81df-f6a91cc3d464" alt="Five frames of a rolled omelette being pushed along a copper pan" width="100%">
+
+A wide shot with a small action: the shop curtain goes up at dawn.
+
+<img src="https://github.com/user-attachments/assets/5ae9bbf9-6f5c-4f0f-bc15-459abc362d8b" alt="Five frames of Hana hanging the curtain over the shop door on a wet street" width="100%">
+
+### Editing takes together
+
+The first two frames come from separate H3 takes, and the last is the finished split panel, cut together in p5 with the subtitle on top.
+
+<img src="https://github.com/user-attachments/assets/e1db381d-0eff-4e29-88a3-7c7904dfc2b1" alt="A frame of Riku, a frame of Ren, and the finished split panel of the two with a subtitle" width="100%">
+
 ## License
 
 [MIT](LICENSE)
