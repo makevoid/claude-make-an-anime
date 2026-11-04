@@ -1,0 +1,30 @@
+{
+  "name": "make-an-anime",
+  "version": "0.4.0",
+  "license": "MIT",
+  "description": "Create anime from a story: character sheets (GPT Image 2.5 Sunburst), cinematic MiniMax H3 shots, green-screen layered composites, ElevenLabs v4 character voices, ElevenLabs Music v2.5 scores, p5 titles and subtitles, SFX and Swift VFX. Works from a 12-second scene to a full episode.",
+  "author": {
+    "name": "makevoid",
+    "url": "https://github.com/makevoid"
+  },
+  "homepage": "https://github.com/makevoid/claude-make-an-anime#readme",
+  "repository": "https://github.com/makevoid/claude-make-an-anime",
+  "keywords": ["anime", "animation", "storytelling", "fal", "elevenlabs", "minimax", "p5", "video"],
+  "skills": ["./skills/"],
+  "userConfig": {
+    "FAL_AI_API_KEY": {
+      "type": "string",
+      "title": "Fal API key",
+      "description": "Your Fal API key for image, video, voice and music generation. Paid tasks require an approved production plan.",
+      "sensitive": true,
+      "required": false
+    }
+  },
+  "mcpServers": {
+    "anime": {
+      "command": "ruby",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/skills/make-an-anime/scripts/mcp.rb"],
+      "env": { "FAL_AI_API_KEY_PLUGIN": "${user_config.FAL_AI_API_KEY}" }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#75665d"/>
+      <stop offset="0.45" stop-color="#322925"/>
+      <stop offset="1" stop-color="#171311"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="0.7" y2="1">
+      <stop stop-color="#ffe0c0"/>
+      <stop offset="0.5" stop-color="#af8970"/>
+      <stop offset="1" stop-color="#49362a"/>
+    </linearGradient>
+    <radialGradient id="orange" cx="0.4" cy="0.15" r="0.9">
+      <stop stop-color="#ffad59"/>
+      <stop offset="0.55" stop-color="#e76812"/>
+      <stop offset="1" stop-color="#883002"/>
+    </radialGradient>
+    <linearGradient id="highlight" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#fff0dc" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#ffba77" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" fill="#000"/>
+  <rect x="38" y="38" width="180" height="180" rx="31" fill="url(#glass)" stroke="url(#rim)" stroke-width="2"/>
+  <path d="M128 68c-40 0-69 25-69 58 0 20 11 37 30 48l-3 17q0 7 6 3l24-15 12 1c40 0 69-24 69-54S168 68 128 68Z"
+        fill="url(#orange)" stroke="#ff9d48" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M70 113c8-25 31-39 58-39s51 14 58 39c-27-20-88-20-116 0Z" fill="url(#highlight)"/>
+  <g fill="#ffbd76">
+    <rect x="78" y="119" width="10" height="14" rx="2"/>
+    <rect x="92" y="119" width="10" height="14" rx="2"/>
+    <rect x="106" y="119" width="7" height="14" rx="2"/>
+    <path d="M119 113q-2-1-2 2v23q0 3 3 1l18-11q3-2 0-4Z"/>
+    <rect x="145" y="119" width="7" height="14" rx="2"/>
+    <rect x="156" y="119" width="10" height="14" rx="2"/>
+    <rect x="170" y="119" width="10" height="14" rx="2"/>
+  </g>
+  <path d="M190 68V56l10-3v12" fill="none" stroke="#ffdbb6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#ffdbb6">
+    <ellipse cx="187" cy="69" rx="4" ry="3"/>
+    <ellipse cx="197" cy="66" rx="4" ry="3"/>
+  </g>
+</svg>

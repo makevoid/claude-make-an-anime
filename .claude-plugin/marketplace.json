@@ -1,0 +1,12 @@
+{
+  "name": "make-an-anime",
+  "description": "Anime creation plugin for Claude Code.",
+  "owner": { "name": "makevoid", "url": "https://github.com/makevoid" },
+  "plugins": [
+    {
+      "name": "make-an-anime",
+      "source": "./",
+      "description": "Create anime, from a 12-second scene to a full episode, with character sheets, H3 shots, green-screen composites, ElevenLabs voices and scores, p5 graphics and Swift VFX."
+    }
+  ]
+}

@@ -1,1 +1,15 @@
- 
+# Renders, working projects and everything generated stay out of the repo
+work/
+samples/
+**/node_modules/
+**/.venv/
+**/vfx/.build/
+**/.bundle/
+**/__pycache__/
+*.pyc
+.env
+.DS_Store
+skills/make-an-anime/scripts/output/
+skills/make-an-anime/scripts/tmp/
+skills/make-an-anime/scripts/specs/
+skills/make-an-anime/scripts/tools/p5/fonts/
