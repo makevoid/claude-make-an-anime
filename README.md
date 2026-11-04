@@ -1,20 +1,38 @@
 # Make an Anime
 
-A Claude Code plugin that turns a story into a finished anime: character sheets, camera-directed shots, voices, a score, titles, subtitles, sound effects and finishing VFX. It works at any length, from a 12-second battle scene to a full episode.
+A Claude Code plugin that turns a story into a finished anime: character sheets, camera-directed shots, voices, a score, titles, subtitles, sound effects and finishing VFX. It works at any length, from a 12-second scene to a full episode.
 
-<img src="https://github.com/user-attachments/assets/58d0fe9c-118d-4f17-8228-798e29b48e56" alt="Three frames from the sample: the EMBER × TEMPEST title card, the layered green-screen composite, and the full MiniMax H3 shot" width="100%">
+<img src="https://github.com/user-attachments/assets/6fdf8671-7a8d-4893-8b34-c265b88a564a" alt="Four frames, one from each example: two friends by a vending machine, a scientist and his assistant in a lab, a Muay Thai fighter against a karate fighter at sunset, and a grandmother and granddaughter in an omelette shop" width="100%">
 
-This 12-second sample was generated with the plugin, using the example bundled in this repo. Sound on:
+## Examples
 
-https://github.com/user-attachments/assets/50875ac6-d6f9-4b5f-b2b3-9f8f576d04fd
+All four were made with the plugin, with Japanese voices and English subtitles, and they show how far the same steps can stretch. Sound on.
 
-| Time | Section | How it is made |
-| --- | --- | --- |
-| 0–2 s | Title | Drawn in p5 over a colour plate |
-| 2–7 s | Layered composite | Two green-screen fighters, moved in p5 over an animated background, with subtitles and a rolling camera |
-| 7–12 s | Full H3 | One continuous MiniMax H3 take with no layers, the camera orbiting 180° around both fighters |
+### The Last One: slice of life, 12 s
 
-It also works at full length: the toolkit was first used for a narrated anime documentary of over 12 minutes, in about 40 scenes. See [Full episodes](#full-episodes).
+Two university friends have just missed the last train home. Across the rice fields it shrinks into the distance, and the only question left is what to get from the vending machine.
+
+https://github.com/user-attachments/assets/4be1633c-94f1-4c79-97c5-e8a69d96edc2
+
+### The Invention of the Century: comedy, 20 s
+
+A theatrical scientist unveils a shrinking fluid in his cramped lab. His deadpan assistant thinks it's melon soda, and then she eats the evidence.
+
+https://github.com/user-attachments/assets/7ec2cd36-a097-406c-b1a9-072a2deb27ed
+
+### One Round at the River: fight, 17 s
+
+A cocky Muay Thai fighter challenges a calm karate man to one fight on a riverbank at sunset, with hard hand-to-hand contact and no superpowers.
+
+https://github.com/user-attachments/assets/9be8bfb9-86dc-4d77-ba8d-c2e7a2b92733
+
+### Too Salty: cooking drama, 74 s
+
+For 91 days, Hana has tried to make her grandmother's rolled omelette, and every morning she hears the same verdict. Then one morning she leaves out the salt. This is the longest of the four, a whole short story told in 19 shots.
+
+https://github.com/user-attachments/assets/42b3fed6-5dce-4b97-9209-a7e25204336e
+
+The toolkit also works at full length: it was first used for a narrated anime documentary of over 12 minutes, in about 40 scenes. See [Full episodes](#full-episodes).
 
 ## Installation
 
@@ -51,130 +69,49 @@ Claude reads the story, writes a production plan (cast, voices, shot list, every
 
 Reference photos are optional: original characters are designed from text. Use photos of real people only with their consent.
 
-### Generate the sample yourself
+## How a scene is made
+
+Each stage reads prompts from `prompts/<run>/` and writes to `output/<run>/`, so everything can be inspected and redone on its own.
+
+<img src="https://github.com/user-attachments/assets/2f8d9c6d-0b09-4e4f-aa25-ce396cb5acaa" alt="One shot of Too Salty at four stages: the character sheet, the painted keyframe, a frame of the animated take, and the finished frame with subtitles" width="100%">
+
+1. **Character and location sheets.** A style bible (`config/style.md`) goes into every prompt, so the whole cast shares one look. GPT Image 2.5 draws a sheet for each character and location, and those sheets become the references for everything after.
+2. **Voices and score.** Each character gets one ElevenLabs voice in `config/cast.yml`. Voices come before animation because line lengths decide shot lengths. ElevenLabs Music then composes one score, and `gen:mix` ducks it under the voices.
+3. **Keyframes.** GPT Image 2.5 paints the first frame of each shot from the sheets.
+4. **Shots.** MiniMax H3 animates each keyframe as one continuous take, with the camera move written into the prompt and the speaker's voice as target audio so the mouth follows the line. Held stills and colour inserts cost nothing. For moments that need exact placement, [layered scenes](skills/make-an-anime/references/layered-scenes.md) composite green-screen sprites over a painted plate.
+5. **Overlay.** A p5 script (`05_overlay.js`) draws titles, subtitles, fades and any composite work.
+6. **Sound.** `sfx:gen` creates sound effects with Stable Audio, and `sfx:mix` places them from a cue list and levels them against the mix.
+7. **Finish.** `vfx:render` adds grain, glow or impact effects with Swift Core Image, on frame-accurate cues.
+
+The same steps as commands, once a project and its prompts exist:
 
 ```sh
-git clone https://github.com/makevoid/claude-make-an-anime
-ruby claude-make-an-anime/skills/make-an-anime/scripts/mv.rb init --project ~/anime/shonen --example shonen-battle
-cd ~/anime/shonen
-ruby mv.rb setup
-ruby mv.rb 'fonts:copy[config/fonts.json]'
-```
-
-`config/fonts.json` points to macOS system fonts, so change those paths on other systems. Read `docs/PLAN.md`, then record your approval. The commands below are paid, and need your key in `FAL_AI_API_KEY`:
-
-```sh
-NOTE='I approve this plan' ruby mv.rb plan:approve
-
-for run in char-kaen-v1 char-arashi-v1 loc-sky-arena-v1; do RUN=$run ruby mv.rb gen:ref_base; done
-
-export RUN=shonen-s01
+export RUN=my-scene
 ruby mv.rb gen:dialogue
 ruby mv.rb gen:music
 ruby mv.rb gen:mix
 ruby mv.rb gen:keyframes
-ruby mv.rb gen:clips
 ruby mv.rb gen:shots
 ruby mv.rb gen:overlay
-SFX=shonen-s01-sfx ruby mv.rb sfx:gen
-SFX=shonen-s01-sfx ruby mv.rb sfx:mix
+SFX=my-scene-sfx ruby mv.rb sfx:gen
+SFX=my-scene-sfx ruby mv.rb sfx:mix
 ruby mv.rb vfx:build
-VFX=shonen-s01-vfx ruby mv.rb vfx:render    # -> output/shonen-s01/final_vfx.mp4
+VFX=my-scene-vfx ruby mv.rb vfx:render    # -> output/my-scene/final_vfx.mp4
 ```
 
-The sample used 7 images, 5 H3 clips of 5 s (one was a retake), 4 voice lines with 4 Whisper checks, 1 score and 6 sound effects. It took about 20 minutes. Check current prices on Fal before you run it.
-
-## How a scene is made
-
-Each stage reads prompts from `prompts/<run>/` and writes to `output/<run>/`, so everything can be inspected and redone on its own. Here is what each stage produced for the sample.
-
-### 1. Character and location sheets
-
-The style bible (`config/style.md`) goes into every prompt through `{{STYLE}}`, so the whole cast shares one look. GPT Image 2.5 draws a turnaround and expressions for each character, and those sheets become the references for everything after. The colours and costumes avoid green on purpose, because these characters will be keyed.
-
-**Kaen**, the flame fighter:
-
-<img src="https://github.com/user-attachments/assets/6a59307a-22b5-49c3-9743-4630c2d8edc9" alt="Character sheet of Kaen: turnaround and expressions" width="100%">
-
-**Arashi**, the storm fighter:
-
-<img src="https://github.com/user-attachments/assets/ead8d6f4-bc20-48e8-8160-5f37a35c4adb" alt="Character sheet of Arashi: turnaround and expressions" width="100%">
-
-**The sky arena**, a recurring location:
-
-<img src="https://github.com/user-attachments/assets/a09e4508-786b-401b-96f7-ef2cd3dd4848" alt="Location sheet of a broken arena floating at sunset" width="100%">
-
-### 2. Voices and score, before any animation
-
-Each character gets one ElevenLabs Eleven v4 voice in `config/cast.yml`. Lines carry their start time, and audio tags like `[cold, cutting]` are performed rather than spoken. Line lengths decide the shot lengths, so voices come first:
-
-- `review:dialogue` checks every take with Whisper.
-- `dialogue:timeline` catches lines that cross a cut.
-
-ElevenLabs Music v2.5 then composes one score from a plan that follows the scene's beats, and `gen:mix` ducks it under the voices.
-
-### 3. Keyframes
-
-GPT Image 2.5 composes one first frame per shot from the sheets: an empty arena for the background, each fighter alone on flat `#00B140`, and the mid-air clash for the full-H3 shot.
-
-<img src="https://github.com/user-attachments/assets/f25487dd-200e-4adb-81ba-451c24593ab0" alt="The four keyframes: empty arena, Kaen on green, Arashi on green, and the clash" width="100%">
-
-### 4. Background plate
-
-MiniMax H3 animates the empty arena with an orbit around its centre. `roll: [-9, 9]` in `04_shots.yml` adds a virtual camera roll, applied locally in FFmpeg and scaled just enough to hide the corners.
-
-<img src="https://github.com/user-attachments/assets/2d2eebfd-a654-4b90-882f-c9520447ed38" alt="Four frames of the animated arena plate, with the camera orbiting and rolling" width="100%">
-
-### 5. Green-screen performances
-
-H3 animates each fighter with a locked camera, and that character's voice track as target audio so the mouth follows the line. `key: green` turns each clip into a transparent PNG sequence.
-
-<img src="https://github.com/user-attachments/assets/7e352b37-b66d-430b-94a4-08516738198b" alt="Each fighter on green beside the same frame keyed to transparency" width="100%">
-
-### 6. Composite in p5
-
-`05_overlay.js` draws the title, moves the two sprites around a shared centre and rushes them together for the hit at 5.6 s. It adds speed lines, a bloom, shock rings, embers and subtitles. Sprites are drawn inside `Anim.withRoll`, so they turn with the plate, while subtitles stay level.
-
-From left to right: the plate, the p5 layer, and the composite after sound and VFX.
-
-<img src="https://github.com/user-attachments/assets/800ee8c7-1427-496a-9945-a72d2f7e12c7" alt="The plate, the transparent p5 layer, and the final composite of the same frame" width="100%">
-
-### 7. The same fight with no layers
-
-For comparison, the last five seconds are a single H3 take from the clash keyframe. It needs one clip and no compositing, and the camera passes behind Kaen and ends on the opposite side of the fight. You get less control over timing, and the mouths are not synced to the finisher lines.
-
-<img src="https://github.com/user-attachments/assets/f92874fe-063e-4b13-abcd-6ed87e7e8bf4" alt="Four frames of the continuous H3 shot, with the fighters swapping sides as the camera orbits" width="100%">
-
-Painted full-frame shots like this are the default. Layers are for moments that need exact placement and timing: [layered-scenes.md](skills/make-an-anime/references/layered-scenes.md) explains when to use them.
-
-### 8. Sound and finish
-
-`sfx:gen` creates sound effects with Stable Audio, and `sfx:mix` places them from a cue list and levels them against the mix. `vfx:render` then adds impact punches, RGB split, glow and grain with Swift Core Image, on frame-accurate cues.
+Check current prices on Fal before you run anything. For scale, *Too Salty* took 4 sheets, 22 keyframe images, 23 H3 takes, about 22 voice takes, 1 score and 9 sound effects, retakes included.
 
 ## How a scene is edited
 
-Everything is a file, and every step is cached, so a change only redoes what it affects. Replaced takes are kept in `output/<run>/rejected/`. These are the real edits made to the sample after its first pass:
+Everything is a file and every step is cached, so a change only redoes what it affects. Replaced takes are kept in `output/<run>/rejected/`. These are real edits from the examples:
 
 | What was wrong | The edit | Cost |
 | --- | --- | --- |
-| Two pairs of voice lines overlapped | Changed `at:` in `03_dialogue.yml`, then `gen:dialogue` and `gen:mix` reused the takes | Free |
-| Arashi's hair and coat turned black partway through her clip | Added the colours to the prompt, then `ONLY=arashi FORCE=1 gen:clips` | 1 H3 clip |
-| An olive fringe around Kaen's flames, where they lit the green | Added `low: 8` to the clip, then `RECUT=1 ONLY=kaen FORCE=1 gen:clips` re-keyed the downloaded clip | Free |
-| Fighters too large, hiding each other | Edited `05_overlay.js` and checked single frames with `'anim:preview[70,100,134]'` | Free |
-| The score faded out at 10 s, under the last line | Held the climax chord (below) and set `music_from` | Free |
-
-The score edit, then the rebuild of everything that depends on it:
-
-```sh
-.venv/bin/python3 -I tools/python/score_tool.py freeze \
-  output/shonen-s01/03_music_12s.wav output/shonen-s01/03_score_end.wav 9.0 8.5 9.0 12 -19 -23
-# in config/generations.rb: music_from: "output/shonen-s01/03_score_end.wav"
-ruby mv.rb gen:music
-ruby mv.rb gen:mix
-ruby mv.rb 'scene:reaudio[shonen-s01]'        # new mix on the rendered picture, no re-render
-SFX=shonen-s01-sfx ruby mv.rb sfx:mix
-VFX=shonen-s01-vfx ruby mv.rb vfx:render
-```
+| Two voice lines overlapped | Changed `at:` in `03_dialogue.yml`, then `gen:dialogue` and `gen:mix` reused the takes | Free |
+| A voice take said its word twice | Added `gate_s` to mute the first one | Free |
+| A tear ran down Hana's cheek | Repainted the keyframe and changed the prompt, then `ONLY=outburst FORCE=1` on `gen:keyframes` and `gen:shots` | 1 image and 1 H3 take per try |
+| An umbrella vanished from the background mid-shot | Painted an end frame that keeps it, and set `end_image` on the shot | 1 image and 1 H3 take per try |
+| Steam washed out a tray of omelettes | Replaced the take with a slowly zooming still of its keyframe | Free |
 
 A retake needs a changed prompt. Fal requests are stored as receipts by their exact input, so `FORCE=1` with an unchanged prompt fetches the same result again, at no charge.
 
@@ -183,17 +120,9 @@ Local review tools help decide what to retake:
 | Command | What it shows |
 | --- | --- |
 | `review:camera` | The camera move each shot made, with frame strips to read by eye |
-| `review:clips` | A board of the keyed sprites and their coverage |
 | `review:dialogue` | What Whisper heard in each take (paid) |
 | `dialogue:timeline` | Lines against shots and cuts |
 | `audio:seams` | Abrupt music changes at scene joins and inside a score |
-
-### What is still imperfect in the sample
-
-- The sprites carry the light of their keyframes and have no contact shadow, so they sit less firmly in the scene than the full-H3 shot.
-- A faint warm edge remains around Kaen's flames.
-- Arashi still darkens a little under the lightning in the last second of her clip.
-- The full-H3 mouths are not synced to the finisher lines, which are shouted over the action.
 
 ## Full episodes
 
@@ -213,7 +142,7 @@ A longer project uses the same steps, one run per scene, plus:
 skills/make-an-anime/
   SKILL.md                        what Claude follows
   references/                     planning, prompts, camera language, audio, episodes
-  examples/shonen-battle/         the sample's story, config, prompts and plan
+  examples/                       a starter project for `init --example`
   scripts/
     mv.rb, mcp.rb                 CLI and MCP entry points
     lib/fal/                      Fal queue client with receipts, and model wrappers
@@ -225,11 +154,11 @@ skills/make-an-anime/
     spec/                         RSpec suite
 ```
 
-The specs never call Fal. They run from `skills/make-an-anime/scripts` after `npm ci`, with `MV_PYTHON` pointing at a Python that has `requirements.txt` installed:
+The specs never call Fal unless you authorize the live spec. They run from `skills/make-an-anime/scripts` after `npm ci`, with `MV_PYTHON` pointing at a Python that has `requirements.txt` installed:
 
 ```sh
 bundle exec rspec --tag core
-bundle exec rspec --tag media    # includes the whole sample scene with synthetic media
+bundle exec rspec --tag media    # includes a whole scene with synthetic media
 ```
 
 ## License
