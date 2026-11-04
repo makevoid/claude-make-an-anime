@@ -23,6 +23,11 @@ module Media
       call("camera_motion.py", first, last)
     end
 
+    # How fast the world moves in a shot, characters aside: { "world_speed" (frame widths per second), "seconds", "pairs", "tiles" }.
+    def world_motion(video)
+      call("world_motion.py", video)
+    end
+
     # Per-frame position of a feature (box `size` centred at x, y in frame `from`) by template matching.
     def track_template(video, x, y, size, search = size, from = 0)
       call("track_template.py", video, x.to_s, y.to_s, size.to_s, search.to_s, from.to_s)

@@ -10,7 +10,7 @@ module Pipeline
     #                                 stem from `rake media:stems`, so the mouth rests in the singer's pauses), gate: <dB> silences it below
     #   source: <path>                an existing video in the repo
     #   still: <keyframe> | <run>/<keyframe> | run:<run>   a keyframe of this run or another, or another run's ref_base (a single frame)
-    # and the cut-out options: key: paper | green (chroma background), box: [x, y, w, h] crop in source pixels,
+    # and the cut-out options: key: paper | green (chroma background) | none (a full-frame painted take, kept opaque, e.g. a manga panel), box: [x, y, w, h] crop in source pixels,
     # seed: [x, y] a point on the character (paper key: only the part connected to it is kept), frames: how many (default all),
     # start: first frame, scale: resize factor, low: <0-255> a stricter green key for fire or glow cast on the green (default 25). RECUT=1 ONLY=<name> FORCE=1 re-cuts a downloaded H3 clip without a fal call.
     class Clips < ItemsStep
@@ -18,6 +18,11 @@ module Pipeline
       FPS = 24
 
       def specs = @specs ||= yaml("04_clips").to_h { |clip| [clip.fetch("name"), clip] }
+
+      def run!(**)
+        Believability.refuse!(specs.flat_map { |name, spec| Believability.clip_problems(name, spec) })
+        super
+      end
 
       def generate(name, spec)
         source, generated = source_for(name, spec)
@@ -43,7 +48,10 @@ module Pipeline
         end
         {
           board: project[key]["path"], coverage_pct: coverage,
-          **verdict(coverage.to_h { |name, pct| ["#{name} cut out", [pct.between?(3, 90), "#{pct}% opaque, #{items[name]["frames"]} frames"]] })
+          **verdict(coverage.to_h do |name, pct|
+            next ["#{name} opaque", [pct >= 99, "#{pct}% opaque, #{items[name]["frames"]} frames"]] if specs.dig(name, "key") == "none"
+            ["#{name} cut out", [pct.between?(3, 90), "#{pct}% opaque, #{items[name]["frames"]} frames"]]
+          end)
         }
       end
 

@@ -2,7 +2,7 @@
 
 ## Separation of work
 
-H3 supplies expressive, self-contained characters on chroma green; p5 supplies the world around them: exact timing, camera movement, environments, props, text, diagrams and layer order. A full-frame H3 plate is a justified exception, not an equal option (see "Self-contained characters" in [prompts.md](prompts.md)). Python removes backgrounds, measures audio and composites sound. Swift applies final frame-cued camera, light and signal effects. Ruby services own all execution and manifests.
+H3 supplies the characters and their world together, in one full-frame take; p5 supplies exact timing, panels, text, diagrams and layer order on top. Action is never keyed (see [believable-motion.md](believable-motion.md)). Keyed characters are for explainers and paper-style pieces with no realistic world, and for a still figure as a last resort. Python removes backgrounds, measures audio and composites sound. Swift applies final frame-cued camera, light and signal effects. Ruby services own all execution and manifests.
 
 ## p5 scenes and overlays
 

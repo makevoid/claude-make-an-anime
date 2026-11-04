@@ -6,6 +6,8 @@ Kaen, a flame fighter, and Arashi, a storm fighter, meet on a broken arena float
 fought before and neither will back down. She tells him it ends here, he answers, they rush each other and the shock
 of the first clash splits the sky. In the last five seconds the camera whips around them as they trade finishing moves.
 
+This example tests the toolkit's keying. Its layered fight is not a model to copy: action on green screen looks fake (see `references/believable-motion.md`).
+
 - 0–2 s: title card "EMBER × TEMPEST".
 - 2–7 s: LAYERED COMPOSITE. Each fighter is animated alone on green screen with H3, keyed, and moved by p5 over an
   animated H3 background plate. The camera rolls and circles.

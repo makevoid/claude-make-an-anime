@@ -5,6 +5,7 @@
 # The layered section's background: H3 animates the empty arena, and `roll` turns the plate locally. p5 draws the two
 # keyed fighters over it inside Anim.withRoll, so they turn with it (05_overlay.js).
 - name: composite-plate
+  believable: clouds race across the sky, and nobody runs in this empty plate
   image: arena-plate
   frames: 120
   roll: [-9, 9]

@@ -270,8 +270,9 @@ module Media
 
     # Score ducked under dialogue (sidechain compression keyed by the dialogue), then limited; `seconds` long.
     # music_end: hard-cut the score there (smash cut) with a 30 ms fade.
-    def duck_mix(music, dialogue, out, seconds:, music_db: -4, dialogue_db: 0, duck: true, music_end: nil, music_out: 0.03)
+    def duck_mix(music, dialogue, out, seconds:, music_db: -4, dialogue_db: 0, duck: true, music_end: nil, music_out: 0.03, music_gaps: [], music_back: 1.5)
       cut = music_end ? ",afade=t=out:st=#{[music_end.to_f - music_out, 0].max}:d=#{music_out}" : "" # afade out leaves silence after it
+      cut += music_gaps.map { |from, to| gap_filter(from, to, 0.03, music_back) }.join
       fmt = "aresample=44100,aformat=sample_fmts=fltp:channel_layouts=stereo"
       inputs = ["-i", music]
       graph = if dialogue
@@ -286,6 +287,11 @@ module Media
       run("ffmpeg", "-y", "-v", "error", *inputs, "-filter_complex", graph, "-map", "[out]", "-t", seconds.to_s,
           "-ar", "44100", "-c:a", "pcm_s16le", out)
       out
+    end
+
+    # Silence between two times: gain 1 before, 0 inside, then back to 1 over `back` seconds.
+    def gap_filter(from, to, out, back)
+      ",volume='max(clip((#{from.to_f}-t)/#{out.to_f},0,1),clip((t-#{to.to_f})/#{back.to_f},0,1))':eval=frame"
     end
 
     # Lengthen a score past its last note: the final second rings out as decaying echoes under a fade, so a scene held a

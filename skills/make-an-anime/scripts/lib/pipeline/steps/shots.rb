@@ -15,6 +15,8 @@ module Pipeline
     #   still: <keyframe>  no generation: the keyframe held (zoom: [1.0, 1.06] for a slow push) — inserts, held drawings
     #   color: "#05070a"   no generation: a solid frame the overlay draws on (screens, title cards, smash-cut white)
     #   from_run: <run>    no generation: that run's video (same timeline) from this shot's position
+    #   same_take: <shot>  no generation: the footage of an earlier shot of this list, from skip_frames on, for a beat that must
+    #                      repeat exactly (a running gag). Place the repeated line at the same offset inside the shot.
     # The shots are cut, concatenated and muxed with the scene soundtrack (Mix, else Music) -> final.mp4 (the Overlay plate).
     class Shots < ItemsStep
       MODEL = Fal::Models::H3MaxImageToVideo
@@ -38,6 +40,11 @@ module Pipeline
       # changes (frames, colour, still, zoom) — no FORCE needed. A white card once kept its old 12 frames after its
       # frames were raised to 96 because a cached local shot counted as done. Items from before this record no spec:
       # those are compared by frame count only.
+      def run!(**)
+        Believability.refuse!(specs.flat_map { |name, spec| Believability.shot_problems(name, spec) })
+        super
+      end
+
       def stale_item?(name, spec, item)
         return false unless spec["still"] || spec["color"]
         stale = item["spec"] ? item["spec"] != local_spec(spec) : ffmpeg.summary(item["path"]).dig(:video, :frames).to_i != spec["frames"]
@@ -50,6 +57,10 @@ module Pipeline
       def generate(name, spec)
         if (run = spec["from_run"])
           return { source: run, path: Project.new(run).fetch!(:video, :path) }
+        end
+        if (take = spec["same_take"])
+          raise ArgumentError, "shot #{name}: same_take #{take} is not an earlier generated shot" unless reusable_take?(name, take)
+          return { source: take, path: project.path("04_shot_#{take}.mp4") }
         end
         if spec["still"] || spec["color"]
           image = spec["still"] && keyframe_path(spec["still"])
@@ -82,7 +93,7 @@ module Pipeline
       def finish(items)
         segments = specs.map do |name, spec|
           { path: items[name]["path"], frames: spec["frames"], retime: spec["retime"], keep: spec["source_frames"],
-            skip: spec["from_run"] ? spec["start_frame"] : 0, roll: spec["roll"] }
+            skip: source_skip(spec), roll: spec["roll"] }
         end
         plate = ffmpeg.concat_shots(segments, project.path("04_plate.mp4"), fps: FPS, w: 1920, h: 1080) # 768P H3 shots upscaled to the 1080p delivery
         { path: ffmpeg.mux(plate, project.soundtrack, project.path("final.mp4"), shortest: false), plate: plate }
@@ -98,9 +109,9 @@ module Pipeline
             [ffmpeg.frame_index(final, n, project.review_path(key, "f#{n}.jpg")), "f#{n} #{label}"]
           end
         end
-        # Frames each source must have: from_run sources are read from the shot's position, generated ones from 0.
+        # Frames each source must have: from_run and same_take sources start part way in, generated ones at 0.
         short = specs.reject do |name, s|
-          s["retime"] || s["still"] || s["color"] || ffmpeg.summary(project[key]["items"][name]["path"]).dig(:video, :frames).to_i >= (s["from_run"] ? s["start_frame"] : 0) + s["frames"]
+          s["retime"] || s["still"] || s["color"] || ffmpeg.summary(project[key]["items"][name]["path"]).dig(:video, :frames).to_i >= source_skip(s) + s["frames"]
         end
         {
           summary: summary, contact_sheet: ffmpeg.contact_sheet(final, project.review_path(key, "contact_sheet.jpg"), cols: 6, rows: 3),
@@ -119,6 +130,18 @@ module Pipeline
       def endpoint = MODEL.endpoint
 
       private
+
+      def source_skip(spec)
+        return spec["start_frame"] if spec["from_run"]
+
+        spec.fetch("skip_frames", 0)
+      end
+
+      def reusable_take?(name, take)
+        names = specs.keys
+        source = specs[take]
+        source && names.index(take) < names.index(name) && !source["still"] && !source["color"] && !source["from_run"] && !source["same_take"]
+      end
 
       # The shot's own length (H3 may add ~0.7 s), at least 2 s when audio is pinned, rounded up to 0.1 s.
       def default_seconds(spec)

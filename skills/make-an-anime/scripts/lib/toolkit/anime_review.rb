@@ -9,6 +9,9 @@ module Toolkit
   #                             (e.g. v2,v3) are stacked so alternatives compare against the same photos.
   #   review:camera             per H3 shot of RUN: a frame strip, the measured camera move (zoom / pan / tilt between
   #                             the first and last frame) next to the directed `camera:` move, and a verdict hint.
+  #   review:believable         RUN's prompts and finished takes against references/believable-motion.md: action on green,
+  #                             a run with a static camera or several runners, and a measured treadmill (a run whose world
+  #                             hardly moves), plus softer warnings and the by-eye checklist. Works before generating too.
   #   dialogue:timeline         RUN's shots and lines on one timeline with the checks that matter before animating:
   #                             every `audio:` shot contains its speaker's whole on-screen line, no on-screen line
   #                             crosses a cut, the shortest frame count each talking shot needs.
@@ -16,6 +19,7 @@ module Toolkit
     FPS = 24
     # A camera estimate below this match score is unreliable: strong parallax, a big character move or a morph.
     TRUST = 0.65
+    BELIEVABLE_CHECK = "Watch at normal speed: feet land where the body travels, light on the characters matches their background, nothing outlined or floating, nobody runs in place, each blow connects, and no glow or ring looks pasted on."
 
     def initialize(project = Pipeline::Project.new)
       @project = project
@@ -65,6 +69,29 @@ module Toolkit
       end
     end
 
+    def believable
+      shots = prompt_file("04_shots") ? Pipeline::Steps::Shots.new(project: project).specs : {}
+      clips = prompt_file("04_clips") ? Pipeline::Steps::Clips.new(project: project).specs : {}
+      issues = shots.flat_map { |name, spec| Pipeline::Believability.shot_problems(name, spec) } +
+               clips.flat_map { |name, spec| Pipeline::Believability.clip_problems(name, spec) }
+      runs = shots.select { |_, spec| Pipeline::Believability.running?(spec) }.filter_map do |name, spec|
+        video = project.path("04_shot_#{name}.mp4")
+        next { shot: name, measured: "not generated yet" } unless File.file?(video)
+        measured = python.world_motion(video)
+        speed = measured["world_speed"] * retime_factor(spec, measured["seconds"])
+        min = Pipeline::Believability::MIN_RUN_WORLD_SPEED
+        issues << format("%s: treadmill, the world moves %.2f frame widths per second behind a run (at least %.2f). Retake with more camera travel", name, speed, min) if speed < min
+        { shot: name, world_speed: speed.round(3), minimum: min }
+      end
+      cues = File.join(Pipeline::ROOT, "prompts", "#{project.name}-vfx", "cues.yml")
+      issues.concat(Pipeline::Believability.cue_problems(YAML.safe_load_file(cues)["cues"])) if File.file?(cues)
+      overlay = prompt_file("05_overlay")
+      { run: project.name, ok: issues.empty?, issues: issues, measured_runs: runs,
+        warnings: Pipeline::Believability.warnings(shots: shots, clips: clips, overlay: overlay && File.read(overlay)),
+        accepted_by_author: (shots.merge(clips)).select { |_, spec| spec["believable"] }.transform_values { _1["believable"] },
+        check_by_eye: BELIEVABLE_CHECK }
+    end
+
     def timeline
       lines_path = project.path("03_dialogue_lines.json")
       raise ArgumentError, "run gen:dialogue first (#{lines_path})" unless File.file?(lines_path)
@@ -97,6 +124,15 @@ module Toolkit
     end
 
     private
+
+    # How much faster a retimed take plays in the edit than the file on disk.
+    def retime_factor(spec, seconds)
+      return 1.0 unless spec["retime"]
+      source = spec["source_frames"] || (seconds * FPS)
+      source.to_f / spec["frames"]
+    end
+
+    def prompt_file(stem) = Dir[File.join(Pipeline::ROOT, "prompts", project.name, "#{stem}.*")].first
 
     def reference_photos(p)
       Array(p.generation[:photos]).map { |f| File.expand_path(f, Pipeline::ROOT) }

@@ -43,7 +43,7 @@ Name versions, never overwrite: a rejected sheet stays in its run for comparison
 1. `{{STYLE}}`
 2. Shot size and angle (e.g. "medium close-up, slightly low angle, 35mm feel"), subject placement in percent of frame and facing direction, eyeline.
 3. The pose at the **first frame** of the action, expression, hands.
-4. Set, props and light sources with direction and colour; time of day.
+4. Set, props and light sources with direction and colour; time of day. Put the character in the world: say which side of the body the light falls on, and put something out of focus in front of them.
 5. Space left for p5 elements (a subtitle band, a screen insert).
 6. Exclusions: no text on screens or signs (screens show a soft blank glow), no extra people.
 
@@ -96,9 +96,13 @@ camera:
   focus: shallow depth of field, background bookshelf softly blurred
 ```
 
+### Action shots
+
+Action is painted with its world in one take. Write "one painted image with the character and the world drawn together" in the keyframe, and name the light on the body. For a run, direct one runner, a camera that travels beside them, and what passes in the foreground and background. [believable-motion.md](believable-motion.md) has a worked example, and `review:believable` checks it.
+
 ### Sprite composites
 
-When several characters must be choreographed independently, or a performance is reused over different plates, animate each character alone on flat chroma green #00B140 with a locked camera (`Steps::Clips`, `key: green`) and composite them in p5 over a still plate; the camera is then a p5 transform of the whole composite. This is the exception for anime; painted full-frame shots are the default.
+Never for action: `gen:clips` refuses it. A keyed sprite is the last resort for a figure who stays still, on flat chroma green #00B140 with a locked camera (`Steps::Clips`, `key: green`), cropped by the frame so no feet show. For two people talking far apart, use painted panels with a paper cut instead.
 
 ## Retakes
 

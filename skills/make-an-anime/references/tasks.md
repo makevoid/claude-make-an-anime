@@ -159,7 +159,7 @@ Example `03_dialogue.yml` and `04_shots.yml` for a scene:
   frames: 48
 ```
 
-Anime review tools (local): `review:likeness[run,...]` stacks character sheets under their numbered reference photos; `review:camera` measures each H3 shot's camera move (first vs last frame) beside its directed `camera:` and writes a ~4 fps strip per shot (`review/camera/<shot>_strip.jpg`) for spotting H3-inserted cuts by eye; `dialogue:timeline` checks talking shots and cuts against the generated lines. `scene:new[run,frames]` scaffolds a scene; `episode:preview[out.mp4,ep01]` joins the scenes' finals, each leveled to `LUFS` (default −23; `LUFS=off`).
+Anime review tools (local): `review:likeness[run,...]` stacks character sheets under their numbered reference photos; `review:believable` checks RUN against [believable-motion.md](believable-motion.md) (action on green, treadmill runs, garbling VFX values, with warnings and a by-eye list); `review:camera` measures each H3 shot's camera move (first vs last frame) beside its directed `camera:` and writes a ~4 fps strip per shot (`review/camera/<shot>_strip.jpg`) for spotting H3-inserted cuts by eye; `dialogue:timeline` checks talking shots and cuts against the generated lines. `scene:new[run,frames]` scaffolds a scene; `episode:preview[out.mp4,ep01]` joins the scenes' finals, each leveled to `LUFS` (default −23; `LUFS=off`).
 
 `gen:dialogue` makes the lines, `review:dialogue` checks each with paid Whisper; `gen:music` with `03_score.*` composes the score; `gen:mix` (local) ducks it under the dialogue; `anim:prepare` with no argument loads the dialogue word cues for the overlay.
 

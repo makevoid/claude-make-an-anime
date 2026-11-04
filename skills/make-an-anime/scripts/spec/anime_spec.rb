@@ -167,3 +167,117 @@ RSpec.describe "Anime scene pipeline", :media do
   end
 
 end
+
+RSpec.describe "Reused takes and Whisper language", :core do
+  it "reuses the footage of an earlier generated shot and refuses anything else" do
+    specs = { "bite" => { "image" => "a", "frames" => 96 }, "held" => { "still" => "a", "frames" => 24 },
+              "again" => { "same_take" => "bite", "skip_frames" => 29, "frames" => 60 },
+              "bad_still" => { "same_take" => "held", "frames" => 12 }, "bad_order" => { "same_take" => "later", "frames" => 12 },
+              "later" => { "image" => "a", "frames" => 24 } }
+    shots = Pipeline::Steps::Shots.allocate
+    allow(shots).to receive(:specs).and_return(specs)
+    allow(shots).to receive(:project).and_return(double(path: "/out/04_shot_bite.mp4"))
+    expect(shots.send(:generate, "again", specs["again"])).to eq(source: "bite", path: "/out/04_shot_bite.mp4")
+    expect(shots.send(:source_skip, specs["again"])).to eq(29)
+    expect { shots.send(:generate, "bad_still", specs["bad_still"]) }.to raise_error(ArgumentError, /not an earlier generated shot/)
+    expect { shots.send(:generate, "bad_order", specs["bad_order"]) }.to raise_error(ArgumentError, /not an earlier generated shot/)
+    expect(Pipeline::Believability.generated?(specs["again"])).to be(false)
+  end
+
+  it "asks Whisper for the language of each line, so Japanese is transcribed and not translated" do
+    with_workspace do |dir|
+      lines = File.join(dir, "lines.json")
+      File.write(lines, JSON.generate([{ "name" => "ja", "character" => "a", "text" => "はい" }, { "name" => "en", "character" => "a", "text" => "yes" }]))
+      data = { "lines" => lines, "tracks" => {}, "items" => { "ja" => { "url" => "u1" }, "en" => { "url" => "u2" } } }
+      step = Pipeline::Steps::Dialogue.allocate
+      allow(step).to receive_messages(key: :dialogue, client: nil, project: { dialogue: data }.tap { |h| h.define_singleton_method(:duration) { 1.0 } },
+                                       specs: { "ja" => { "language_code" => "ja" }, "en" => {} })
+      whisper = double
+      allow(Fal::Models::Whisper).to receive(:new).and_return(whisper)
+      allow(whisper).to receive(:transcribe).and_return(double(output: { "text" => "" }))
+      step.send(:review)
+      expect(whisper).to have_received(:transcribe).with(audio_url: "u1", language: "ja")
+      expect(whisper).to have_received(:transcribe).with(audio_url: "u2", language: "en")
+    end
+  end
+end
+
+RSpec.describe "Believable motion rules", :core do
+  rules = Pipeline::Believability
+
+  def run_spec(prompt, camera) = { "prompt" => prompt, "camera" => { "move" => camera } }
+
+  it "refuses action on green and accepts a performance that stays put" do
+    fight = { "key" => "green", "prompt" => "He sprints forward and throws a punch." }
+    talk = { "key" => "green", "prompt" => "He stands still and says his line. Nobody runs. No fighting." }
+    expect(rules.clip_problems("a", fight).first).to include("sprints", "throws", "one H3 shot")
+    expect(rules.clip_problems("b", talk)).to eq([])
+  end
+
+  it "does not treat a full-frame painted clip as a keyed one" do
+    expect(rules.clip_problems("panel", { "key" => "none", "prompt" => "He punches the air." })).to eq([])
+  end
+
+  it "ignores action words that only appear in the style bible" do
+    allow(Pipeline::Project).to receive(:style).and_return("A story about a fight.")
+    expect(rules.clip_problems("a", { "key" => "green", "prompt" => "A story about a fight. He stands and talks." })).to eq([])
+  end
+
+  it "refuses a run without a travelling camera, and several runners in one shot" do
+    locked = run_spec("He sprints along the river.", "locked-off")
+    pair = run_spec("They sprint towards each other.", "fast lateral tracking shot")
+    tracked = run_spec("He sprints along the river. The world rushes past.", "fast lateral tracking shot")
+    expect(rules.shot_problems("locked", locked).join).to include("treadmill")
+    expect(rules.shot_problems("pair", pair).join).to include("one runner per shot")
+    expect(rules.shot_problems("tracked", tracked)).to eq([])
+  end
+
+  it "accepts a flagged word when the item explains itself" do
+    hair = run_spec("He runs a hand through his hair.", "locked-off").merge("believable" => "no running, only a hand gesture")
+    expect(rules.shot_problems("hair", hair)).to eq([])
+  end
+
+  it "stops a paid shot step before the first call" do
+    step = Pipeline::Steps::Shots.allocate
+    allow(step).to receive(:specs).and_return("bad" => run_spec("They sprint at each other.", "push-in"))
+    expect { step.run! }.to raise_error(ArgumentError, /refused before any paid call/)
+  end
+
+  it "stops a paid clip step before the first call" do
+    step = Pipeline::Steps::Clips.allocate
+    allow(step).to receive(:specs).and_return("bad" => { "key" => "green", "prompt" => "He sprints." })
+    expect { step.run! }.to raise_error(ArgumentError, /refused before any paid call/)
+  end
+
+  it "catches a colour split large enough to garble the picture" do
+    expect(rules.cue_problems([{ "fx" => "rgb", "f" => 242, "amt" => 6 }]).join).to include("garbles")
+    expect(rules.cue_problems([{ "fx" => "rgb", "f" => 242, "amt" => 0.006 }, { "fx" => "grain", "amt" => 3 }])).to eq([])
+  end
+
+  it "warns about pasted-on effects, sprites and full turns" do
+    notes = rules.warnings(shots: { "s" => { "camera" => "a 360 orbit" } }, clips: { "c" => { "key" => "green" } }, overlay: "Anim.shockRing(x, y, p);")
+    expect(notes.join).to include("keyed sprites (c)", "full camera turn", "shockRing")
+  end
+end
+
+RSpec.describe "Near-ground motion measure", :media do
+  # A textured ground under a fixed sky, with a block standing in for a runner whose limbs move while the ground stays.
+  def clip(path, ground_speed)
+    Open3.capture2e("ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "nullsrc=s=960x540:r=24:d=2",
+                    "-vf", "geq=lum='128+60*sin((X+#{ground_speed}*N)/9)*sin(Y/7)':cb=128:cr=128,format=yuv420p", path).last.success? or raise "ffmpeg failed"
+    path
+  end
+
+  def world_speed(path)
+    out, status = Open3.capture2(Media::Python.new.executable, File.join(SKILL, "scripts", "tools", "python", "world_motion.py"), path)
+    raise out unless status.success?
+    JSON.parse(out)["world_speed"]
+  end
+
+  it "reads a still ground as a treadmill and a passing ground as travel" do
+    Dir.mktmpdir do |dir|
+      expect(world_speed(clip(File.join(dir, "still.mp4"), 0))).to be < 0.05
+      expect(world_speed(clip(File.join(dir, "moving.mp4"), 16))).to be > Pipeline::Believability::MIN_RUN_WORLD_SPEED
+    end
+  end
+end

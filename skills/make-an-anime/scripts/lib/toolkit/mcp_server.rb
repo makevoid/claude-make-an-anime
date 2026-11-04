@@ -11,7 +11,7 @@ module Toolkit
   class CredentialTasks
     TASKS = %w[doctor audio:transcribe media:stems media:upload sfx:gen
       pipeline:all adopt gen:ref_base gen:ref_torn gen:keyframes gen:video
-      gen:shots gen:clips gen:music gen:dialogue gen:mix gen:overlay review:music review:dialogue review:likeness review:camera dialogue:timeline scene:new episode:preview].freeze
+      gen:shots gen:clips gen:music gen:dialogue gen:mix gen:overlay review:music review:dialogue review:likeness review:camera review:believable dialogue:timeline scene:new episode:preview].freeze
     OPTIONS = %w[RUN ONLY FORCE RECUT NEW_REQUEST VIDEO_RES SFX VFX REFRESH_UPLOAD].freeze
     OUTPUT_LIMIT = 20_000
     MAX_RUNNING = 10

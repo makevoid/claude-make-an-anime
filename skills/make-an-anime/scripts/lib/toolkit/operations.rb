@@ -23,6 +23,7 @@ module Toolkit
       "pipeline:status" => "Show RUN's generated/reviewed steps",
       "review:likeness" => "Character sheet(s) beside their reference photos: [run,run2,...] (local)",
       "review:camera" => "Measured vs directed camera move for RUN's H3 shots, with frame strips (local)",
+      "review:believable" => "RUN's prompts and takes against the believable-motion rules: action on green, treadmill runs (local)",
       "scene:new" => "Scaffold an anime scene: [run,frames] -> prompts/<run>/, prompts/<run>-sfx/, config/generations/<run>.rb (local)",
       "scene:reaudio" => "Put RUN's current mix on its rendered overlay: [run] (picture copied, local)",
       "scene:vfx" => "Film-frame cues from scene-frame beats: [vfx_name], prompts/<name>/beats.yml -> cues.yml (local)",
@@ -89,6 +90,7 @@ module Toolkit
       when "openapi:summary" then endpoints.each { |id| puts Fal::OpenAPI.load(id).summary if File.file?(Fal::OpenAPI.spec_path(id)) }
       when "review:likeness" then emit AnimeReview.new.likeness(a)
       when "review:camera" then emit AnimeReview.new.camera
+      when "review:believable" then emit AnimeReview.new.believable
       when "dialogue:timeline" then emit AnimeReview.new.timeline
       when "scene:new" then required(a, 2); emit Episode.new.scaffold(a[0], a[1])
       when "audio:seams" then required(a, 1); emit Episode.new.seam_report(a[0], a[1] || "ep01")

@@ -138,4 +138,15 @@ RSpec.describe "Episode preview", :media do
     lifted = ff.duck_mix(music, voice, file("lift.wav"), seconds: 3, duck: false, music_db: -60, dialogue_db: 6)
     expect(ff.loudness(lifted)[:lufs]).to be > ff.loudness(plain)[:lufs] + 3
   end
+
+  it "silences the score in a music gap with a hard cut, whatever music_out the end of the film uses" do
+    music = tone(file("gap_music.wav"), duration: 4)
+    out = ff.duck_mix(music, nil, file("gap.wav"), seconds: 4, music_db: 0, music_end: 4, music_out: 1.0, music_gaps: [[1.0, 2.0]], music_back: 0.1)
+    level = py.audio_energy(out)["windows"]
+    at = ->(from, to) { level.select { |w| w["t"] >= from && w["t"] < to }.map { _1["rms_db"] } }
+    before, inside, after = at.(0.2, 0.7), at.(1.2, 1.8), at.(2.3, 2.8)
+    expect(inside.max).to be < -60
+    expect(before.min).to be > -40 # not already fading towards the gap
+    expect(after.min).to be_within(1).of(before.min) # and back at full level after it
+  end
 end

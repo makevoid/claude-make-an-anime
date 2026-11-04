@@ -1,13 +1,10 @@
 # Layered scenes: green-screen characters over an animated background
 
-Painted full-frame H3 shots are the default: they are one pass, and light, depth and contact come free. A layered scene costs more clips and more review, and it earns that when you need something H3 will not do reliably in one take:
+**Do not use this for action.** A keyed fighter has no ground contact, no shared light and no shared camera, so a run, a punch or a fall looks ridiculous, and `gen:clips` refuses it. Read [believable-motion.md](believable-motion.md) first.
 
-- two characters who must each keep their face and act exactly on cue;
-- precise placement and timing of a hit, locked to the score;
-- a camera or effect that must match frame-accurately across layers;
-- a character moved, scaled or reused freely in p5.
+Painted full-frame H3 shots are the default: they are one pass, and light, depth and contact come free. For two people talking far apart, painted panels with a paper cut are better than this recipe. Layers are the last resort, for someone who stays still and must act exactly on cue, cropped by the frame so no feet show.
 
-`examples/shonen-battle` is a complete worked example, with a 5 s layered section beside a 5 s full-H3 section for comparison. Start one with `init --project /absolute/project --example shonen-battle`.
+`examples/shonen-battle` shows the mechanics, but its layered section is what not to copy: its fighters punch and dash on green. It stays as a test of keying, and its items carry a `believable:` note saying so.
 
 ## The recipe
 
@@ -38,5 +35,5 @@ Painted full-frame H3 shots are the default: they are one pass, and light, depth
 ## Review
 
 - Look at the key on light and dark: hair, hands, feet, spill. `RECUT=1 ONLY=<name> FORCE=1 gen:clips` re-keys a downloaded clip for free.
-- A sprite has no contact shadow, and it carries the light of its keyframe. Direct the light of the green keyframe to match the plate, and hide the ground contact with dust, speed lines or a low camera.
+- A sprite has no contact shadow, and it carries the light of its keyframe. Direct the light of the green keyframe to match the plate, and crop the figure so no ground contact shows. If it still looks pasted on, paint the shot instead.
 - Check the mouth against the line at normal speed: `audio` pins the track but is not proof of lip-sync.

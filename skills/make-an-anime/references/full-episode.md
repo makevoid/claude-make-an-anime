@@ -19,6 +19,7 @@ RUN=ep01-s05 ruby mv.rb gen:mix             # local
 RUN=ep01-s05 ruby mv.rb gen:keyframes       # paid
 RUN=ep01-s05 ruby mv.rb gen:shots           # paid
 RUN=ep01-s05 ruby mv.rb review:camera       # local: measured against directed camera, with frame strips
+RUN=ep01-s05 ruby mv.rb review:believable   # local: action on green, treadmill runs, garbling VFX values
 RUN=ep01-s05 ruby mv.rb gen:overlay         # local for anime scenes
 SFX=ep01-s05-sfx ruby mv.rb sfx:gen         # paid, cached
 SFX=ep01-s05-sfx ruby mv.rb sfx:mix         # local

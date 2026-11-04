@@ -30,6 +30,8 @@ Locations: id, description, light, full prompt, which scenes use it.
 | Run | Frames [start, end) | Beat | Shot | Size/angle | Camera move (from → to, speed, timing) | Source (H3 / still / colour) | Speaker / audio track | Lines (at, text) | p5 (screens, titles, subtitles) | SFX | Dependencies |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 
+For every action shot, answer in the plan: is the character painted with the world in one take (never keyed)? If someone runs, is there one runner and a camera that travels, and what passes behind them? For two people talking far apart, use paper-cut panels. See `references/believable-motion.md`.
+
 For every shot: the keyframe prompt and refs, the H3 prompt, the `camera:` block, seconds, audio track, and acceptance (on-model faces, camera did the directed move, mouth on the right lines, no invented text).
 
 ## Dialogue and score
@@ -42,4 +44,4 @@ First 2 pilot assets (usually the protagonist's sheet and one other), then 3–4
 
 ## Review and delivery
 
-Likeness board, voice table, per-shot playback review, lip-sync check on talking shots, camera check, frame count, soundtrack continuity, SFX levels, delivery paths and known issues.
+Likeness board, voice table, `review:believable` with the by-eye list, per-shot playback review, lip-sync check on talking shots, camera check, frame count, soundtrack continuity, SFX levels, delivery paths and known issues.

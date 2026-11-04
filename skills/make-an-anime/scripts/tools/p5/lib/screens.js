@@ -142,7 +142,7 @@ window.Anim = window.Anim || {};
   Anim.spoken = (lines) => lines.map((l) => (l.speech_at != null ? { ...l, at: Math.max(l.at, l.speech_at) } : l));
   const spokenCache = new WeakMap();
 
-  Anim.subtitles = (t, lines, { font, italic = font, size = 46, y = height - 92, lead = 0.05, tail = 0.35, skip = () => false } = {}) => {
+  Anim.subtitles = (t, lines, { font, italic = font, size = 46, x = width / 2, y = height - 92, lead = 0.05, tail = 0.35, skip = () => false } = {}) => {
     if (!spokenCache.has(lines)) spokenCache.set(lines, Anim.spoken(lines));
     const l = spokenCache.get(lines).find((x) => t >= x.at - lead && t < x.end + tail && !skip(x));
     if (!l) return null;
@@ -150,10 +150,43 @@ window.Anim = window.Anim || {};
     const a = Anim.envelope(t, l.at - lead, l.end + tail, 0.12, 0.2);
     textFont(l.vo ? italic : font); textSize(size); textAlign(CENTER, BASELINE);
     drawingContext.shadowBlur = 14; drawingContext.shadowColor = `rgba(0,0,0,${0.9 * a})`;
-    fill(0, 0, 0, 150 * a); text(str, width / 2 + 2, y + 2);
-    fill(255, 255, 255, 255 * a); text(str, width / 2, y);
+    fill(0, 0, 0, 150 * a); text(str, x + 2, y + 2);
+    fill(255, 255, 255, 255 * a); text(str, x, y);
     drawingContext.shadowBlur = 0;
     return l;
+  };
+
+  // A manga page: two painted panels with a paper cut between them, so two people who are far apart can talk on one screen.
+  // drawLeft and drawRight each paint a full frame and are clipped to their side. cut: [x at the top, x at the bottom].
+  // The cut is a strip of off-white paper with a slightly uneven scissor edge, a thin ink line and a soft cast shadow.
+  // Paint each panel as one H3 take with its own world, not a keyed sprite (references/believable-motion.md).
+  Anim.paperCutPanels = (drawLeft, drawRight, { cut = [width * 0.54, width * 0.46], gutter = 22, paper = "#f4efe3", ink = "rgba(18,16,14,0.92)", seed = 7 } = {}) => {
+    const g = drawingContext;
+    const jitter = (i, side) => {
+      const v = Math.sin((i + 1) * 12.9898 + seed * 78.233 + side * 37.719) * 43758.5453;
+      return (v - Math.floor(v) - 0.5) * 4;
+    };
+    const STEP = 30, rows = Math.ceil(height / STEP);
+    const edge = (side) => Array.from({ length: rows + 1 }, (_, i) => {
+      const y = Math.min(height, i * STEP);
+      return [cut[0] + (cut[1] - cut[0]) * (y / height) + (side * gutter) / 2 + jitter(i, side), y];
+    });
+    const trace = (points, closeAt) => {
+      g.beginPath();
+      points.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y)));
+      if (closeAt != null) { g.lineTo(closeAt, height); g.lineTo(closeAt, 0); g.closePath(); }
+    };
+    const left = edge(-1), right = edge(1);
+    g.save(); g.fillStyle = paper; g.fillRect(0, 0, width, height); g.restore();
+    g.save(); trace(left, 0); g.clip(); drawLeft(); g.restore();
+    g.save(); trace(right, width); g.clip(); drawRight(); g.restore();
+    for (const points of [left, right]) {
+      g.save();
+      g.shadowColor = "rgba(0,0,0,0.55)"; g.shadowBlur = 14;
+      g.strokeStyle = ink; g.lineWidth = 3; g.lineJoin = "round";
+      trace(points); g.stroke();
+      g.restore();
+    }
   };
 
   // Place/date card ("CITY · 1999"): letter-spaced, fading in.

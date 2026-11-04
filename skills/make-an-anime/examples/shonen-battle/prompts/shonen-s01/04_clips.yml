@@ -1,6 +1,8 @@
+# NOT a model for action: see references/believable-motion.md.
 # Green-screen performances: H3 with a locked camera, keyed to transparent PNG sequences. audio: <cast id> pins that
 # character's mouth track, audio_at: the scene second the clip starts at, so frame i is scene time audio_at + i/24.
 - name: kaen
+  believable: kept only to test keying. Punching on green looks fake, so do not copy this; see references/believable-motion.md
   image: kaen-green
   seconds: 5
   frames: 120

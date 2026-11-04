@@ -3,7 +3,8 @@ module Pipeline
     # Step 3c — the scene soundtrack (local, no Fal call): the score (Music step) ducked under the dialogue (Dialogue step),
     # limited, at the scene's exact length -> 03_mix.wav. Shots, Overlay and the final assembly use it via Project#soundtrack.
     # Generation option `mix: { music_db: -4, dialogue_db: 0, duck: true, music_end: 19.5 }`; music_end hard-cuts the score
-    # (a smash cut) with a 30 ms fade, or over music_out seconds; ambience and spot effects are added later by sfx:mix.
+    # (a smash cut) with a 30 ms fade, or over music_out seconds; music_gaps: [[20.0, 48.0]] silences the score between those
+    # seconds (cut out in 30 ms, back in over music_back seconds, default 1.5) for a scene held on silence; ambience and spot effects are added later by sfx:mix.
     # voice_lift_db raises the voice over the bed and writes 03_mix_ref.wav without it (see Media::Sfx#voice_args).
     # A mix older than its score or dialogue file is stale and is rebuilt without FORCE (a music retake used to leave the
     # old mix in 03_mix.wav and final.mp4).

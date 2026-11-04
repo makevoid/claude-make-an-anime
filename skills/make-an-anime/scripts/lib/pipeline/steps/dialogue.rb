@@ -95,7 +95,9 @@ module Pipeline
         whisper = Fal::Models::Whisper.new(client: client)
         heard = lines.to_h do |l|
           url = data.dig("items", l["name"], "url")
-          text = url ? whisper.transcribe(audio_url: url).output["text"].to_s.strip : ""
+          # Whisper defaults to English and then translates another language instead of transcribing it.
+          language = specs.dig(l["name"], "language_code") || "en"
+          text = url ? whisper.transcribe(audio_url: url, language: language).output["text"].to_s.strip : ""
           [l["name"], text]
         end
         checks = lines.to_h do |l|
@@ -103,7 +105,7 @@ module Pipeline
           got = self.class.spoken(heard[l["name"]])
           missing, extra = self.class.word_diff(want, got)
           ["#{l["name"]} (#{l["character"]}) says its text", [missing.size <= [1, want.size / 6].max && extra.size <= [1, want.size / 6].max,
-                                                             "heard #{heard[l["name"]].inspect}; missing #{missing.inspect}; extra #{extra.inspect}"]]
+                                                             "heard #{heard[l["name"]].inspect}; missing #{missing.inspect}; extra #{extra.inspect}#{"; not Latin script, so compare it by reading" if want.empty?}"]]
         end
         tracks = data["tracks"].transform_values { |p| ffmpeg.summary(p)[:duration] }
         checks["mouth tracks are scene length"] = [tracks.values.all? { |d| (d - project.duration).abs < 0.05 }, tracks.inspect]
