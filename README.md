@@ -2,7 +2,7 @@
 
 A Claude Code plugin that turns a story into a finished anime: character sheets, camera-directed shots, voices, a score, titles, subtitles, sound effects and finishing VFX. It works at any length, from a 12-second scene to a full episode.
 
-<img src="https://github.com/user-attachments/assets/6fdf8671-7a8d-4893-8b34-c265b88a564a" alt="Four frames, one from each example: two friends by a vending machine, a scientist and his assistant in a lab, a Muay Thai fighter against a karate fighter at sunset, and a grandmother and granddaughter in an omelette shop" width="100%">
+<img src="https://github.com/user-attachments/assets/64abaa31-71bf-4c0e-ae8e-99db67edc366" alt="Four frames, one from each example: two friends by a vending machine, a scientist and his assistant in a lab, a Muay Thai fighter against a karate fighter at sunset, and a grandmother and granddaughter in an omelette shop" width="100%">
 
 ## Examples
 
@@ -28,9 +28,9 @@ https://github.com/user-attachments/assets/9be8bfb9-86dc-4d77-ba8d-c2e7a2b92733
 
 ### Too Salty: cooking drama, 74 s
 
-For 91 days, Hana has tried to make her grandmother's rolled omelette, and every morning she hears the same verdict. Then one morning she leaves out the salt. This is the longest of the four, a whole short story told in 19 shots.
+For 91 days, Hana has tried to make her grandmother's rolled omelette, and every morning she hears the same verdict. Then one morning she leaves out the salt. This is the longest of the four, a whole short story told in 19 shots, painted with GPT Image 2.6.
 
-https://github.com/user-attachments/assets/42b3fed6-5dce-4b97-9209-a7e25204336e
+https://github.com/user-attachments/assets/352d902c-39b4-4511-8496-56b03737c028
 
 The toolkit also works at full length: it was first used for a narrated anime documentary of over 12 minutes, in about 40 scenes. See [Full episodes](#full-episodes).
 
@@ -73,7 +73,7 @@ Reference photos are optional: original characters are designed from text. Use p
 
 Each stage reads prompts from `prompts/<run>/` and writes to `output/<run>/`, so everything can be inspected and redone on its own.
 
-<img src="https://github.com/user-attachments/assets/2f8d9c6d-0b09-4e4f-aa25-ce396cb5acaa" alt="One shot of Too Salty at four stages: the character sheet, the painted keyframe, a frame of the animated take, and the finished frame with subtitles" width="100%">
+<img src="https://github.com/user-attachments/assets/56267103-9aec-4482-a20b-f4c1d074eb2a" alt="One shot of Too Salty at four stages: the character sheet, the painted keyframe, a frame of the animated take, and the finished frame with subtitles" width="100%">
 
 1. **Character and location sheets.** A style bible (`config/style.md`) goes into every prompt, so the whole cast shares one look. GPT Image 2.6 draws a sheet for each character and location, and those sheets become the references for everything after.
 2. **Voices and score.** Each character gets one ElevenLabs voice in `config/cast.yml`. Voices come before animation because line lengths decide shot lengths. ElevenLabs Music then composes one score, and `gen:mix` ducks it under the voices.
@@ -99,7 +99,7 @@ ruby mv.rb vfx:build
 VFX=my-scene-vfx ruby mv.rb vfx:render    # -> output/my-scene/final_vfx.mp4
 ```
 
-Check current prices on Fal before you run anything. For scale, *Too Salty* took 4 sheets, 22 keyframe images, 23 H3 takes, about 22 voice takes, 1 score and 9 sound effects, retakes included.
+Check current prices on Fal before you run anything. For scale, the first build of *Too Salty*, made with GPT Image 2.5, took 4 sheets, 22 keyframe images, 23 H3 takes, about 22 voice takes, 1 score and 9 sound effects, retakes included.
 
 ## How a scene is edited
 
@@ -163,7 +163,7 @@ bundle exec rspec --tag media    # includes a whole scene with synthetic media
 
 ## Bonus: behind the scenes
 
-Everything here comes from the four examples above: what the skill generated, what got thrown away, and what changed on the way to the finished film.
+Everything here comes from the four examples above, plus one extra film at the end: what the skill generated, what got thrown away, and what changed on the way to the finished film. The demo videos show the first build of *Too Salty*, made with GPT Image 2.5. Its sheets, keyframes and frame strips further down come from the current GPT Image 2.6 version.
 
 ### Demo videos
 
@@ -201,7 +201,7 @@ The image model draws a turnaround and expressions for each character. Every lat
 
 **Too Salty:** Hana and Kiku
 
-<img src="https://github.com/user-attachments/assets/35fc0e5c-3cdc-4e07-92c0-16222e471bda" alt="Character sheet of Hana: headscarf, white shirt, dark apron" width="49%"> <img src="https://github.com/user-attachments/assets/8e7403bf-d8d3-4b73-bb60-19bc291ba519" alt="Character sheet of Kiku: elderly woman in a dark top and white apron" width="49%">
+<img src="https://github.com/user-attachments/assets/1e6e2e40-ac07-451b-9c64-043af4ec34eb" alt="Character sheet of Hana: headscarf, pale shirt, dark apron" width="49%"> <img src="https://github.com/user-attachments/assets/3b4aecd5-cc08-4334-b3d9-4477ce7df923" alt="Character sheet of Kiku: elderly woman in a dark top and white apron" width="49%">
 
 A character is cheapest to change at this stage. The scientist went through three sheets, and the shots made from an earlier one were redone from the last:
 
@@ -213,9 +213,9 @@ Locations get sheets too, so a place stays the same from one shot to the next.
 
 <img src="https://github.com/user-attachments/assets/565919ba-b12e-4bd3-9117-65774cb51f87" alt="A country road through rice fields below green mountains" width="49%"> <img src="https://github.com/user-attachments/assets/ec803261-e7e2-4a7b-bdf8-b78cf6e224e8" alt="A cramped laboratory at night, full of shelves and glassware" width="49%">
 
-<img src="https://github.com/user-attachments/assets/6277c2a2-b512-4729-8fd0-bb685dee4cc9" alt="A grassy riverbank and an iron bridge at sunset" width="49%"> <img src="https://github.com/user-attachments/assets/d5c9cf10-04ba-491c-a28a-481f06910d02" alt="A small omelette shop at night, with a counter and a copper pan" width="49%">
+<img src="https://github.com/user-attachments/assets/6277c2a2-b512-4729-8fd0-bb685dee4cc9" alt="A grassy riverbank and an iron bridge at sunset" width="49%"> <img src="https://github.com/user-attachments/assets/29fbd1ee-b326-4ce0-be8a-3d0d92bb801e" alt="A small omelette shop at night, with a counter and a copper pan" width="49%">
 
-<img src="https://github.com/user-attachments/assets/d9c572c8-da7d-4944-97fe-20103dc07182" alt="A narrow old shopping street, wet from the rain" width="49%">
+<img src="https://github.com/user-attachments/assets/e779296a-3330-4943-84ea-33e3a8890873" alt="A narrow old shopping street, wet from the rain" width="49%">
 
 ### Keyframes
 
@@ -235,7 +235,7 @@ Each shot starts from one painted frame. These are the keyframes of all four ani
 
 **Too Salty**
 
-<img src="https://github.com/user-attachments/assets/3a6989ca-a6f3-461e-b161-0acd25757c96" alt="Sixteen keyframes of Too Salty" width="100%">
+<img src="https://github.com/user-attachments/assets/1a1eaaaf-d996-4571-8ed6-2ac98ded358d" alt="Sixteen keyframes of Too Salty" width="100%">
 
 ### MiniMax H3 takes, frame by frame
 
@@ -255,21 +255,27 @@ The camera moves around the fighters as they trade blows.
 
 The lips follow a whispered line, and the two hands stay on the pan.
 
-<img src="https://github.com/user-attachments/assets/16c8b37d-d759-4cd2-bf22-a395b09f7dc9" alt="Five frames of Kiku and Hana with their eyes closed over a pan, Kiku whispering" width="100%">
+<img src="https://github.com/user-attachments/assets/ac3f6781-0cdc-483b-90ab-8e2c6f37f239" alt="Five frames of Kiku and Hana with their eyes closed over a pan, Kiku whispering" width="100%">
 
 Cooking is the hard part to animate: the omelette has to roll as one piece.
 
-<img src="https://github.com/user-attachments/assets/08067966-5287-4878-81df-f6a91cc3d464" alt="Five frames of a rolled omelette being pushed along a copper pan" width="100%">
+<img src="https://github.com/user-attachments/assets/48ea195a-4450-4fc9-bd9e-ff3df002a239" alt="Five frames of a rolled omelette being pushed along a copper pan" width="100%">
 
 A wide shot with a small action: the shop curtain goes up at dawn.
 
-<img src="https://github.com/user-attachments/assets/5ae9bbf9-6f5c-4f0f-bc15-459abc362d8b" alt="Five frames of Hana hanging the curtain over the shop door on a wet street" width="100%">
+<img src="https://github.com/user-attachments/assets/6ceafd23-827e-4d51-af26-2f24335d6364" alt="Five frames of Hana hanging the curtain over the shop door on a wet street" width="100%">
 
 ### Editing takes together
 
 The first two frames come from separate H3 takes, and the last is the finished split panel, cut together in p5 with the subtitle on top.
 
 <img src="https://github.com/user-attachments/assets/e1db381d-0eff-4e29-88a3-7c7904dfc2b1" alt="A frame of Riku, a frame of Ren, and the finished split panel of the two with a subtitle" width="100%">
+
+### One more film: Final Inspection
+
+A rusted 40-metre robot is due to be cut up tomorrow. Tetsu, the old mechanic who kept it running for 30 years, climbs up for one last check and shares a thermos of tea with it. 34 s, painted with GPT Image 2.6.
+
+https://github.com/user-attachments/assets/b91a89cc-f32b-46f3-95ac-fcf6d19f8e58
 
 ## License
 
