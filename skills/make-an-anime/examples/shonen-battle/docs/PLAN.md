@@ -7,7 +7,7 @@ score is unbroken. Prices are not quoted here: check the fal.ai pages of each mo
 
 | Model | First pass | Retake ceiling |
 | --- | --- | --- |
-| GPT Image 2.5 Sunburst xhigh | 3 sheets + 4 keyframes = 7 images | 4 more |
+| GPT Image 2.6 Sunburst | 3 sheets + 4 keyframes = 7 images | 4 more |
 | MiniMax H3 Max 768P | 4 clips of 5 s = 20 s | 2 clips more |
 | ElevenLabs Eleven v4 | 4 lines | 4 more |
 | ElevenLabs Music v2.5 | 1 score of 12 s | 1 more |

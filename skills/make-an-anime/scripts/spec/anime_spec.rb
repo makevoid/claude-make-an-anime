@@ -85,7 +85,7 @@ RSpec.describe "Anime scene pipeline", :media do
     expect([@fresh, @stale, @rebuilt]).to eq([true, true, true])
     expect(@music_stale).to be(true)
     expect(@refit).to eq([true, "local:#{music}", false])
-    kf = client.calls.find { |e, _| e == Fal::Models::GptImage25Edit.endpoint }
+    kf = client.calls.find { |e, _| e == Fal::Models::GptImage26Edit.endpoint }
     expect(kf[1][:prompt]).to eq("Clean cel-shaded TV anime. Kid in bed")
     h3 = client.calls.select { |e, _| e.include?("image-to-video") }
     expect(h3.size).to eq(1) # still and colour shots make no model call, also when rebuilt after a spec change

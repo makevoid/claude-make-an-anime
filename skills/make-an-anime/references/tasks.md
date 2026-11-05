@@ -79,7 +79,8 @@ The music-video form remains available: song sections share one soundtrack.
 
 ```ruby
 {
-  "char-singer-v1" => { steps: [Steps::RefBase], image_model: Fal::Models::GptImage25 },
+  # image_model: and edit_model: pin another image model, e.g. Fal::Models::GptImage25 and Fal::Models::GptImage25Edit.
+  "char-singer-v1" => { steps: [Steps::RefBase] },
   "ep01-s01" => {
     steps: [Steps::RefBase, Steps::Music, Steps::Keyframes, Steps::Clips, Steps::Overlay],
     import: { ref_base: "char-singer-v1" },

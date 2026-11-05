@@ -1,9 +1,9 @@
 module Pipeline
   module Steps
     # Step 1 — the singer reference frame (text-to-image, prompt = prompts/<run>/01_ref_base.*).
-    # nano-banana-2 unless the generation sets image_model: (e.g. run3 uses gpt-image-2.5).
+    # GPT Image 2.6 unless the generation sets image_model: (or edit_model: for photos and edit_from), e.g. Fal::Models::GptImage25.
     class RefBase < Step
-      MODEL = Fal::Models::GptImage25
+      MODEL = Fal::Models::GptImage26
 
       # A character sheet from reference photos: `photos: ["references/hero/front.png", ...]` (project-relative) are uploaded
       # and sent with the prompt to the Sunburst edit endpoint, which redraws the person in the approved anime style.
@@ -42,7 +42,7 @@ module Pipeline
 
       protected
 
-      def model = project.generation[:edit_from] || project.generation[:photos] ? Fal::Models::GptImage25Edit : project.generation.fetch(:image_model, MODEL)
+      def model = project.generation[:edit_from] || project.generation[:photos] ? project.generation.fetch(:edit_model, Fal::Models::GptImage26Edit) : project.generation.fetch(:image_model, MODEL)
       def endpoint = model.endpoint
     end
   end

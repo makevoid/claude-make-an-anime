@@ -75,9 +75,9 @@ Each stage reads prompts from `prompts/<run>/` and writes to `output/<run>/`, so
 
 <img src="https://github.com/user-attachments/assets/2f8d9c6d-0b09-4e4f-aa25-ce396cb5acaa" alt="One shot of Too Salty at four stages: the character sheet, the painted keyframe, a frame of the animated take, and the finished frame with subtitles" width="100%">
 
-1. **Character and location sheets.** A style bible (`config/style.md`) goes into every prompt, so the whole cast shares one look. GPT Image 2.5 draws a sheet for each character and location, and those sheets become the references for everything after.
+1. **Character and location sheets.** A style bible (`config/style.md`) goes into every prompt, so the whole cast shares one look. GPT Image 2.6 draws a sheet for each character and location, and those sheets become the references for everything after.
 2. **Voices and score.** Each character gets one ElevenLabs voice in `config/cast.yml`. Voices come before animation because line lengths decide shot lengths. ElevenLabs Music then composes one score, and `gen:mix` ducks it under the voices.
-3. **Keyframes.** GPT Image 2.5 paints the first frame of each shot from the sheets.
+3. **Keyframes.** GPT Image 2.6 paints the first frame of each shot from the sheets.
 4. **Shots.** MiniMax H3 animates each keyframe as one continuous take, with the camera move written into the prompt and the speaker's voice as target audio so the mouth follows the line. Held stills and colour inserts cost nothing. For moments that need exact placement, [layered scenes](skills/make-an-anime/references/layered-scenes.md) composite green-screen sprites over a painted plate.
 5. **Overlay.** A p5 script (`05_overlay.js`) draws titles, subtitles, fades and any composite work.
 6. **Sound.** `sfx:gen` creates sound effects with Stable Audio, and `sfx:mix` places them from a cue list and levels them against the mix.
@@ -185,7 +185,7 @@ https://github.com/user-attachments/assets/638400e6-5f41-445d-b2cd-281a6d3dcd3b
 
 ### Character sheets
 
-GPT Image 2.5 draws a turnaround and expressions for each character. Every later image and take uses these sheets as references, which keeps the characters on-model from shot to shot.
+The image model draws a turnaround and expressions for each character. Every later image and take uses these sheets as references, which keeps the characters on-model from shot to shot.
 
 **The Last One:** Mio and Haru
 

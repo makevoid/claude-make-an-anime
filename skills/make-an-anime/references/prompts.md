@@ -12,9 +12,9 @@ Do not instruct a generation model to browse: the coordinating agent researches 
 
 One paragraph, pasted into every image and H3 prompt through `{{STYLE}}`. Define: medium (cel-shaded 2D TV anime, painted backgrounds), line (thin clean lineart, line weight on silhouettes), shading (one or two cel tones plus soft highlight), eyes and faces (proportion, how realistic), colour (palette anchors in hex for each recurring light: monitor glow, lamp, moonlight, golden hour), backgrounds (painted, detailed, depth haze), lighting (motivated sources, rim light), and what to avoid (3D render look, photorealism, chibi, text). Choose the look from the story and brief; keep it unchanged for the whole production so every scene cuts together.
 
-## Character sheets from reference photos: GPT Image 2.5 Sunburst xhigh
+## Character sheets from reference photos: GPT Image 2.6 Sunburst
 
-`Steps::RefBase` with `photos:` sends the uploaded reference photos to `openai/gpt-image-2.5/sunburst/edit` (quality `xhigh`, 2752×1536). Structure of `01_ref_base.txt`:
+`Steps::RefBase` with `photos:` sends the uploaded reference photos to `openai/gpt-image-2.6/sunburst/edit` (quality `high`, `reasoning_effort` `high`, 2752×1536). Structure of `01_ref_base.txt`:
 
 1. "Character design sheet for an anime production. Draw the person shown in the reference photos as an anime character, keeping their real likeness: …" then the likeness anchors you verified in the photos (face shape, hairline, eyebrows, eyes, nose, beard, glasses, colouring) and the age at this point in the story.
 2. `{{STYLE}}`
@@ -114,4 +114,4 @@ If a take drifts off-model, reduce motion, shorten the shot or add an `end_image
 
 Fetch `openapi:fetch` and read `openapi:summary`. The wrappers validate known properties/enums/ranges. Add any other Fal model as a Ruby `Fal::Models::Base` subclass, then a service/task. Do not call an SDK or curl directly. Do not silently substitute a model or quality setting.
 
-Official sources: [H3 API](https://fal.ai/models/minimax/h3-max/image-to-video/api), [Sunburst generation](https://fal.ai/models/openai/gpt-image-2.5/sunburst/text-to-image/api), [Sunburst edit](https://fal.ai/models/openai/gpt-image-2.5/sunburst/edit/api), [ElevenLabs Eleven v4](https://fal.ai/models/elevenlabs/tts/eleven-v4/api), [ElevenLabs Music v2.5](https://fal.ai/models/elevenlabs/music/v2.5/api).
+Official sources: [H3 API](https://fal.ai/models/minimax/h3-max/image-to-video/api), [Sunburst generation](https://fal.ai/models/openai/gpt-image-2.6/sunburst/text-to-image/api), [Sunburst edit](https://fal.ai/models/openai/gpt-image-2.6/sunburst/edit/api), [ElevenLabs Eleven v4](https://fal.ai/models/elevenlabs/tts/eleven-v4/api), [ElevenLabs Music v2.5](https://fal.ai/models/elevenlabs/music/v2.5/api).
