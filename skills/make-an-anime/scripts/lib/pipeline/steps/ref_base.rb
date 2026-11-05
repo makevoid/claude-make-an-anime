@@ -1,7 +1,7 @@
 module Pipeline
   module Steps
     # Step 1 — the singer reference frame (text-to-image, prompt = prompts/<run>/01_ref_base.*).
-    # GPT Image 2.6 unless the generation sets image_model: (or edit_model: for photos and edit_from), e.g. Fal::Models::GptImage25.
+    # GPT Image 2.6 unless the generation sets image_model: (or edit_model: for photos and edit_from), e.g. Fal::Models::NanoBanana2.
     class RefBase < Step
       MODEL = Fal::Models::GptImage26
 

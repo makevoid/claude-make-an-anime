@@ -4,7 +4,7 @@ module Pipeline
     # prompts/<run>/02_keyframes.yml { name => edit prompt }, each sent with the ref_base image to gpt-image-2.6/edit.
     # A spec can also be { "prompt" => ..., "refs" => [run, ...] } to add other runs' ref_base images (a second character):
     # image_urls = [this run's ref_base, *those], so the prompt can say "the character in the second image".
-    # Generation option edit_model: Fal::Models::GptImage25Edit paints the keyframes with another image model.
+    # Generation option edit_model: Fal::Models::NanoBanana2Edit paints the keyframes with another image model.
     # "base" => <keyframe name> edits an earlier keyframe of this list instead of ref_base (same framing, new pose),
     # "base" => false sends only the refs (a keyframe without the singer), "base" => "<run>/<keyframe>" edits another run's keyframe.
     class Keyframes < ItemsStep
