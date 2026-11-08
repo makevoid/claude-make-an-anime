@@ -1,0 +1,15 @@
+# Lines in scene seconds. vo: true is heard but never drives a mouth (Ono is off screen in the wide).
+# Takes vary: gate_s mutes a blip before the first word, keep_s cuts a long tail, gain_db levels a take (see 04-too-salty).
+- name: ono-staring
+  character: ono
+  at: 0.6
+  vo: true
+  text: "[dry, not looking up from his papers] Staring at it won't make it go any faster."
+- name: mei-might
+  character: mei
+  at: 3.8
+  text: "[quiet, stubborn, half asleep] It might."
+- name: ono-fine
+  character: ono
+  at: 10.4
+  text: "[dry, the smallest smile] ...Fine. It might."

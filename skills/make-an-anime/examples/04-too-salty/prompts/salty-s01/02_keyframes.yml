@@ -1,0 +1,86 @@
+# First frames. Every shot paints the characters and the world in one image. Kiku is screen left facing right, Hana screen right facing left.
+# Interior refs: char-hana-v1, char-kiku-v1, loc-shop-v1. Hand-drawn anime, never a photograph.
+tear:
+  base: false
+  refs: [char-hana-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image. Close overhead three-quarter view of the square copper tamagoyaki pan from image 2 on a blue gas flame, filling the frame. A thin sheet of yellow egg is half rolled at the far end of the pan, with a small tear starting in the middle of the sheet. Long bamboo cooking chopsticks enter from the right edge of the frame, their tips under the egg. The wooden pan handle leaves the frame at the left edge. No hands or fingers in the frame, only the chopsticks. Warm lamp light from above, glistening oil, thin steam. No face, no other people, no text.
+taste:
+  base: false
+  refs: [char-hana-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the character and the world drawn together. Medium close-up of the woman from image 1, the same tired face, navy bandana, white shirt with rolled sleeves and dark apron, standing behind the counter in the shop from image 2, three-quarter view facing left of camera. Her left hand holds a small ceramic bowl of beaten egg at chest height, with the small plaster on its index finger. The tip of her right index finger touches her lower lip, tasting. Eyes lowered, concentrating, unimpressed. Warm pendant lamp above and to the right casting soft light on her forehead and cheek, the dark shelves softly out of focus behind her. Five fingers on each hand. No other people, no text.
+bite:
+  base: false
+  refs: [char-kiku-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the character and the world drawn together. Medium close-up of the elderly woman from image 1, the same lined face, grey bun, glasses pushed up on her head, indigo jacket and white apron, sitting very straight on the stool at the dark counter from image 2, screen left, in three-quarter view facing to the right. Her eyes are half-closed and aimed at nothing, not at the plate, her head tilted a little as if listening, her mouth closed. In front of her on the counter is a small plate with two slices of rolled omelette. Her right hand holds bamboo chopsticks correctly with one slice of omelette in their tips just above the plate. Warm lamp light from the right side of the frame on her face and hand, cold blue rain light faintly on her left shoulder from the window behind. No other people, no text.
+tray:
+  base: false
+  refs: [loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image. Straight top-down view of the dark wooden counter from image 1. On the left, a narrow wooden tray holding eight failed rolled omelettes in a row, torn, lumpy and browned, each a different failure. On the right, an open small lined notebook lying flat with a pencil on it. The handwriting on the right-hand page is hasty, in pencil, in correct Japanese: the top line reads 91日目, and below it are four short lines, 塩 小さじ1, 塩 小さじ1/2, 塩 小さじ1/3, 塩 ひとつまみ, each one crossed out with one pencil stroke. The left-hand page has similar faint crossed-out lines too small to read. A small closed white salt container with a wooden lid at the top edge. Warm lamp light falling from the top left, soft shadows. No other text anywhere, no people, no hands.
+wipe:
+  base: false
+  refs: [char-hana-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the character and the world drawn together. Medium-wide shot from the customer side of the counter in the shop from image 2. In the near foreground on the counter, slightly out of focus at the lower left, the small white salt container with its wooden lid closed. Behind the counter, the woman from image 1 stands at the stove with her back to the camera, navy bandana knot, white shirt with rolled sleeves, apron ties, shoulders tired, wiping the copper pan with a folded cloth. The pendant lamp hangs over her and lights her shoulders and the steel wall. Her face is not visible. No other people, no text.
+silence:
+  base: false
+  refs: [char-kiku-v1, char-hana-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the characters and the world drawn together. Close-up of the elderly woman from image 1, sharp, in the LEFT half of the frame, head and shoulders in three-quarter view facing to the right, sitting at the counter of the shop from image 3. The same lined face, grey bun, glasses pushed up on her head. Her eyes are half-closed, her mouth closed. In the lower right of her part of the frame her right hand holds bamboo chopsticks with a slice of omelette in their tips, stopped in the air halfway between the plate and her mouth. In the RIGHT part of the frame, far behind her and soft out of focus, the young woman from image 2 stands at the stove under the pendant lamp with her back to us. On the counter in front of her only one small plain plate with one slice of rolled omelette and one plain tea cup: no rice, no soup, no side dishes. Warm lamp light from the right on the old woman's face, cold blue window light on the back of her head. No other people, no text.
+across:
+  base: false
+  refs: [char-kiku-v1, char-hana-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the characters and the world drawn together. Medium two-shot in pure side view across the narrow dark counter of the shop from image 3, the counter running from the near edge of the frame to the back. On the left, the elderly woman from image 1 sits straight on the stool in profile facing right, chopsticks still in her right hand above a small plate. On the right, the young woman from image 2 stands behind the counter in profile facing left, a folded cloth forgotten in her hand, her face open and shaken. They look at each other, both mouths closed, from waist up. The small closed white salt container stands on the counter between them. The pendant lamp hangs high above the middle of the frame, a warm pool of light on both faces, rain-blue window far behind on the left. No other people, no text.
+tap:
+  base: false
+  refs: [char-kiku-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the character and the world drawn together. Medium shot of the elderly woman from image 1 standing at the old gas stove in the shop from image 2, screen left, three-quarter view facing to the right, small and straight-backed, the same lined face, glasses on her head, mouth closed, her expression softer than ever. The copper tamagoyaki pan sits on the burner in the lower centre of the frame, its wooden handle towards the right. Her right hand holds one bamboo chopstick just above the copper rim of the pan, about to tap it. Warm pendant lamp straight above, blue gas flame under the pan, the worn steel wall behind. No other people, no text.
+faces:
+  base: false
+  refs: [char-kiku-v1, char-hana-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the characters and the world drawn together. Low angle from just behind the stove in the shop from image 3, looking up across the copper tamagoyaki pan. In the lower foreground, the pan's wooden handle comes towards us at a slight angle, with one young woman's left hand gripping it, a small skin-coloured plaster on its index finger, and an old, thin, veined hand resting gently on top of that hand, both clearly separate hands with the correct number of fingers. Above the pan, two faces close together side by side, cheeks almost touching, sharp: on the left the elderly woman from image 1 with her grey bun and glasses on her head, on the right the young woman from image 2 with her navy bandana. Both have their eyes fully closed, both mouths closed, both listening. Their faces are lit warmly from below by the stove and the glow off the copper, with soft shadows above their cheekbones, the pendant lamp a dim halo above them and thin steam rising between us and them. No other people, no text.
+roll:
+  base: false
+  refs: [loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image. Close three-quarter overhead view of the square copper tamagoyaki pan from image 1 on a low blue flame, filling the frame. A perfect smooth golden sheet of egg is half rolled over itself, glistening, unbroken, with soft steam rising. The tips of long bamboo cooking chopsticks enter from the right edge of the frame and rest under the edge of the roll. No hands in the frame, no people, no text.
+sliced:
+  base: false
+  refs: [loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image. Close view of the wooden chopping board on the dark counter from image 1. A rolled omelette cut into five thick slices, the nearest slices leaning a little so their faces show perfect, even spiral layers in deep gold and pale yellow, moist and steaming. A kitchen knife with a plain blade lies just lifted at the right edge of the frame. Warm lamp light from above, soft steam rising. No hands, no people, no text.
+chew:
+  base: false
+  refs: [char-hana-v1, char-kiku-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the characters and the world drawn together. In the near foreground on the RIGHT, the young woman from image 1 in sharp focus, head and shoulder in profile facing left, navy bandana, lips pressed tightly together, holding her breath, eyes fixed and wide. In the background on the LEFT beyond the counter, the elderly woman from image 2, softer but readable, sits straight on the stool facing right, eyes closed, jaw mid-chew, chopsticks resting in her right hand above a small plate with slices of golden omelette. The shop from image 3 around them, pendant lamp above lighting the young woman's cheek and the old woman's forehead, blue rain light faintly behind the old woman. No other people, no text.
+outburst:
+  base: false
+  refs: [char-hana-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the character and the world drawn together. Close-up of the young woman from image 1, three-quarter view facing to the left, navy bandana slightly askew, the same face, big bright glistening eyes with a very thin shine of wetness along the lower lashes only, clean matte skin on her cheeks and chin, cheeks flushed, eyebrows up in outrage, the corners of her mouth trying not to laugh, her mouth just opening. Warm lamp light from above and to the left, the shop's dark shelves from image 2 soft and far out of focus behind her. No other people, no text.
+noren:
+  base: false
+  refs: [char-kiku-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the character and the world drawn together. Medium shot of the elderly woman from image 1 sitting straight on the stool at the dark counter of the shop from image 2, on the left of the frame, her body facing right but her head turned slightly away to the left, not looking at anyone, a very small dry expression, mouth closed. On the counter in front of her lies the plain rolled-up indigo cloth curtain on its wooden pole, from the corner of image 2, unmarked, running from left to right. Her right hand rests flat on the roll, about to push it to the right. Warm lamp light from the right, the first faint grey in the window far behind on the left. No other people, no text, no markings on the cloth.
+hang:
+  base: false
+  refs: [char-hana-v1, loc-street-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the character and the world drawn together. The same narrow shopping street and the same tiny shop with the dented tin awning from image 2, seen from the same place across the street, but at a pale clear dawn: the rain has stopped, the sky is soft pale blue and rose, the pavement is wet and mirrors the pale sky, water drips slowly from the awning, the window glow is faint now. In front of the door under the awning, small in the frame and seen from behind, the young woman from image 1 with her navy bandana and white shirt stands with both arms raised, lifting a wooden pole into its hooks above the door, a plain indigo cloth curtain with no markings just beginning to fall open from the pole. No other people, no vehicles, no text, no signs, no letters on the cloth or on any shop.
+pour:
+  base: false
+  refs: [char-hana-v1, loc-shop-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the character and the world drawn together. Medium shot of the young woman from image 1 at the stove in the shop from image 2, seen from the side, on the right of the frame, facing right towards the copper pan at the right edge. Her right hand tips a small bowl, a thin stream of beaten egg falling into the pan, her left hand with its small plaster holding the pan's handle. Her face is calm, eyes still open and lowered. Far behind her on the left of the frame, the sliding door stands open onto the pale dawn street, the lower hem of a plain indigo curtain hanging across the top of the doorway, soft pale daylight entering and mixing with the warm lamp. The doorway is empty. No other people, no text, no markings on the cloth.
+pour-end:
+  base: pour
+  prompt: >-
+    {{STYLE}} The same painting with the same framing, the same room and the same doorway, a few seconds later. The young woman has set the bowl down on the stove, her right hand resting beside the pan, her left hand with its small plaster still on the handle, her eyes gently closed, a calm listening face, her mouth closed, thin steam rising from the pan. In the doorway far behind on the left, at the edge of the door frame, one closed, tightly folded wet umbrella hangs tip down, held by the fingers of a person who is otherwise out of sight. The tall dark umbrella propped against the wooden post just inside the shop stays exactly where it is in the source, unchanged. There is no open umbrella anywhere, no person's face or body, and no rain falling outside: the wet road beyond the door is still and mirror-smooth with no drops. Nothing else changes. No text, no markings on the cloth.

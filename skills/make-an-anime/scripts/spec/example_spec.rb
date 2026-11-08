@@ -1,36 +1,48 @@
 require_relative "spec_helper"
 
-RSpec.describe "Bundled shonen-battle example" do
-  EXAMPLE = File.join(SKILL, "examples", "shonen-battle")
-  FONTS = JSON.parse(File.read(File.join(EXAMPLE, "config", "fonts.json")))
+RSpec.describe "Bundled examples" do
+  EXAMPLES = %w[01-sample-seven 02-final-inspection 03-riverbank-bout 04-too-salty].freeze
+  STARTER = "01-sample-seven"
+  FONTS = JSON.parse(File.read(File.join(SKILL, "examples", STARTER, "config", "fonts.json")))
 
-  def init_example(dir)
-    out, err, status = cli("init", "--project", dir, "--example", "shonen-battle")
+  def init_example(dir, name = STARTER)
+    out, err, status = cli("init", "--project", dir, "--example", name)
     raise "#{out}\n#{err}" unless status.success?
     JSON.parse(out)
   end
 
-  it "is an initialised, valid 12 s project with the three directed sections", :core do
-    Dir.mktmpdir do |tmp|
-      project = File.join(tmp, "p")
-      expect(init_example(project)).to include("example" => "shonen-battle")
-      expect(File.file?(File.join(project, "config", "cast.yml"))).to be(true)
-      expect(File.read(File.join(project, "docs", "BRIEF.md"))).to include("EMBER")
+  def scene_run(project) = Dir.children(File.join(project, "prompts")).find { _1.end_with?("-s01") }
 
-      shots = YAML.safe_load_file(File.join(project, "prompts", "shonen-s01", "04_shots.yml"))
-      expect(shots.map { [_1["name"], _1["frames"]] }).to eq([["title", 48], ["composite-plate", 120], ["full-h3", 120]])
-      expect(shots[1]["roll"]).to eq([-9, 9])
-      expect(shots[2]).to include("image" => "clash")
-
-      clips = YAML.safe_load_file(File.join(project, "prompts", "shonen-s01", "04_clips.yml"))
-      expect(clips.map { _1["key"] }).to all(eq("green"))
-      expect(clips.map { _1["audio_at"] }).to all(eq(2.0))
-      cast = YAML.safe_load_file(File.join(project, "config", "cast.yml"))
-      expect(clips.map { _1["audio"] }).to match_array(cast.keys)
+  it "bundles exactly the four examples, each with a story, a plan and a style, and says they only showcase workflows", :core do
+    expect(Dir.children(File.join(SKILL, "examples")).select { File.directory?(File.join(SKILL, "examples", _1)) }.sort).to eq(EXAMPLES)
+    expect(File.read(File.join(SKILL, "examples", "README.md"))).to include("must not influence")
+    EXAMPLES.each do |name|
+      %w[story.md docs/PLAN.md config/style.md config/cast.yml config/generations.rb].each do |path|
+        expect(File.file?(File.join(SKILL, "examples", name, path))).to be(true), "#{name}/#{path}"
+      end
     end
   end
 
-  it "refuses an unknown example and a missing story", :core do
+  EXAMPLES.each do |name|
+    it "#{name}: initialises, its shots fill the scene and its prompts pass the believable rules", :core do
+      Dir.mktmpdir do |tmp|
+        project = File.join(tmp, "p")
+        expect(init_example(project, name)).to include("example" => name)
+        run = scene_run(project)
+        shots = YAML.safe_load_file(File.join(project, "prompts", run, "04_shots.yml"))
+        frames = File.read(File.join(project, "config", "generations.rb"))[/"#{run}".*?scene\((\d+)\)/m, 1].to_i
+        expect(shots.sum { _1["frames"] }).to eq(frames)
+        cast = YAML.safe_load_file(File.join(project, "config", "cast.yml"))
+        lines = YAML.safe_load_file(File.join(project, "prompts", run, "03_dialogue.yml"))
+        expect(lines.map { _1["character"] }.uniq - cast.keys).to be_empty
+        out, err, status = cli("--project", project, "review:believable", env: { "RUN" => run })
+        expect(status.success?).to be(true), err
+        expect(JSON.parse(out)).to include("ok" => true, "issues" => [])
+      end
+    end
+  end
+
+  it "refuses an unknown example and a path", :core do
     Dir.mktmpdir do |tmp|
       _, err, status = cli("init", "--project", File.join(tmp, "p"), "--example", "nope")
       expect(status.success?).to be(false)
@@ -57,7 +69,7 @@ RSpec.describe "Bundled shonen-battle example" do
     end
   end
 
-  it "generates the whole scene from its real prompts with synthetic media", :media do
+  it "generates the starter scene from its real prompts with synthetic media", :media do
     missing = FONTS.values.reject { File.file?(_1) }
     skip "system fonts missing: #{missing.join(", ")}" if missing.any?
     Dir.mktmpdir do |tmp|
@@ -70,14 +82,12 @@ RSpec.describe "Bundled shonen-battle example" do
       out, err, status = Open3.capture3(env, RbConfig.ruby, "spec/support/example_driver.rb", chdir: project)
       expect(status.success?).to be(true), "#{out}\n#{err}"
       summary = JSON.parse(out.lines.last)
-      expect(summary["calls"].keys.grep(/image-to-video/).sum { summary["calls"][_1] }).to eq(4) # 2 sprites, plate, full H3
+      expect(summary["calls"].keys.grep(/image-to-video/).sum { summary["calls"][_1] }).to eq(5) # the title is a free colour frame
 
-      final = File.join(project, "output", "shonen-s01", "final_overlay.mp4")
-      info = ff.summary(final)
-      expect(info[:duration]).to be_within(0.06).of(12.0)
-      expect(Dir[File.join(project, "output", "shonen-s01", "04_clips", "kaen", "*.png")].size).to eq(120)
-      shots = JSON.parse(File.read(File.join(project, "output", "shonen-s01", "05_overlay", "shots.json")))
-      expect(shots.find { _1["name"] == "composite-plate" }["roll"]).to eq([-9, 9])
+      final = File.join(project, "output", "lab-s01", "final_overlay.mp4")
+      expect(ff.summary(final)[:duration]).to be_within(0.06).of(14.0)
+      shots = JSON.parse(File.read(File.join(project, "output", "lab-s01", "05_overlay", "shots.json")))
+      expect(shots.map { _1["name"] }).to eq(%w[lab mei flask dash ono title])
     end
   end
 end

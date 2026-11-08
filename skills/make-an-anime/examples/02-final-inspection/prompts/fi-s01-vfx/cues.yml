@@ -1,0 +1,5 @@
+# Fine grain over the whole film, nothing else: this film has no effects to sell.
+source: output/fi-s01/final_sfx.mp4
+out: output/fi-s01/final_vfx.mp4
+cues:
+  - {fx: grain, f: 0, dur: 816, amt: 0.025}

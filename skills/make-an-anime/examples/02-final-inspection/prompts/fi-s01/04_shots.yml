@@ -1,0 +1,65 @@
+# 816 frames (34 s). Every take is one painted H3 shot with a locked or nearly locked camera. Nobody ever sees the robot move.
+---
+- name: wide
+  image: wide
+  frames: 96
+  prompt: "{{STYLE}} The same scrapyard, the same robot and the same tiny man as in the image, ONE CONTINUOUS TAKE with no cuts. Light snow keeps falling and drifting on the wind. The tiny man climbs slowly up the ladder on the robot's knee, rung by rung. The robot does not move at all: its head stays bowed and its lens stays dark. There is no smoke, no steam and no plume anywhere. The sea and the sky stay still. No new objects, no other people, no text."
+  camera:
+    move: locked-off extreme wide shot, a tripod camera with no movement
+- name: tag
+  image: tag
+  frames: 84
+  prompt: "{{STYLE}} The same steel finger, the same red tag and the same gloved hand as in the image, ONE CONTINUOUS TAKE with no cuts. 0-1.5 s: the gloved hand slowly brushes the snow off the blank red tag in two soft strokes, the snow falling away. 1.5-3.5 s: the hand comes to rest on the steel of the finger beside the tag and stays there, not moving, light snow falling. The tag stays blank, with no writing, and the rusty wire stays around the finger. The giant finger does not move. Five fingers on the glove. No face, no new objects, no other people, no text."
+  camera:
+    move: locked-off close-up, a tripod camera with no movement
+- name: palm
+  image: palm
+  frames: 192
+  audio: tetsu
+  prompt: "{{STYLE}} The same old man on the same steel palm as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-1.5 s: he pours tea from the thermos into the small white cup in his left hand, a thin steady stream, steam rising, his mouth closed. 1-1.8 s: he sets the thermos aside on the steel. 1.4-7.4 s: he says his gruff tired line without looking up, mouth moving in small movements that follow the voice. 3.5-5.5 s: while he speaks he leans over and sets the small white cup down carefully on the bare steel of the palm, an arm's length away from him, and his hand comes back to his knee. 7.4-8 s: his mouth closes and he looks at the cup. The giant fingers and the thumb do not move. Five fingers on each glove. Light snow falling, the steam thin and pale. No new objects, no other people, no text."
+  camera:
+    move: locked-off medium shot, a tripod camera with no movement
+- name: walk
+  image: walk
+  frames: 60
+  prompt: "{{STYLE}} The same robot and the same tiny man as in the image, ONE CONTINUOUS TAKE with no cuts. The tiny man keeps walking slowly away across the snow towards the sea with short old steps, his boots pressing into the snow, his line of footprints growing behind him. The robot's shoulder and bowed head in the foreground do not move at all. Light snow falling, fine snow blowing off the shoulder. No new objects, no other people, no text."
+  camera:
+    move: locked-off very wide high shot, a tripod camera with no movement
+- name: cup
+  image: cup
+  frames: 72
+  prompt: "{{STYLE}} The same white cup on the same steel palm as in the image, ONE CONTINUOUS TAKE with no cuts. 0-1 s: the tea is perfectly still, light snow falling. A very thin steam rises only from the tea in the cup, and there is no steam or smoke anywhere else, none from the steel or between the fingers. At 1 s one single clean ring of ripple spreads from the centre of the tea to the rim of the cup. At 2 s one more identical ring spreads from the centre to the rim, as if from one deep slow pulse below. The cup itself stays exactly where it is and the steel palm and giant fingers do not visibly move. The tea does not spill. Nobody appears, no new objects, no text."
+  camera:
+    move: locked-off low close-up, a tripod camera with no movement
+- name: eye
+  image: eye
+  end_image: eye-lit
+  frames: 72
+  prompt: "{{STYLE}} The same steel head and the same huge dark lens as in the image, ONE CONTINUOUS TAKE with no cuts. 0-1.2 s: the lens stays dark, snow drifting past. 1.2-2 s: deep inside the lens a very faint amber light flickers twice, unsteady, like an old lamp. 2-3 s: the small amber light comes on and holds, faint and steady. Nothing else changes: the head does not move, the steel ring, rivets and rust stay exactly the same. The light stays small, with no beam, no flare and no rays. No new objects, no text."
+  camera:
+    move: locked-off extreme close-up, a tripod camera with no movement
+- name: face
+  image: face
+  frames: 132
+  audio: tetsu
+  prompt: "{{STYLE}} The same old man in the same snowfield as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-2.2 s: he stands still with his eyes lowered, his back to the distant robot, his mouth closed. 2.2-2.6 s: he gives one short quiet snort through his nose, the smallest crooked smile under his moustache, mouth closed. 3.1-4.9 s: he says his short gruff line with small mouth movements that follow the voice. He never turns around and never looks behind him. 4.9-5.5 s: his mouth closes and he starts to step forward. The distant robot stays still and soft out of focus, its tiny amber light steady. Light snow falling. No new objects, no other people, no text."
+  camera:
+    move: locked-off medium close-up, a tripod camera with no movement
+- name: end-a
+  image: end-f0
+  end_image: end-f1
+  frames: 54
+  seconds: 2.3
+  retime: true
+  prompt: "{{STYLE}} The same snowfield, the same robot and the same tiny man as in the image, ONE CONTINUOUS TAKE with no cuts. The tiny man keeps walking very slowly to the right with short old steps, leaving his line of footprints, and covers only a short distance: he stays well inside the frame for the whole take and never reaches the edge. The robot at the far left does not move at all and stays exactly as painted. The overcast sky and the snow keep the same flat cold blue-grey for the whole take. Light snow falling and drifting. The middle of the frame stays empty snow. No new objects, no other people, no text."
+  camera:
+    move: locked-off extreme wide shot, a tripod camera with no movement
+- name: end-b
+  image: end-f1
+  end_image: end-f2
+  frames: 54
+  seconds: 2.3
+  retime: true
+  prompt: "{{STYLE}} The same snowfield, the same robot and the same tiny man as in the image, ONE CONTINUOUS TAKE with no cuts. The tiny man keeps walking very slowly to the right with short old steps, leaving his line of footprints, and covers only a short distance: he stays well inside the frame for the whole take and never reaches the edge. The robot at the far left does not move at all and stays exactly as painted. The overcast sky and the snow keep the same flat cold blue-grey for the whole take. Light snow falling and drifting. The middle of the frame stays empty snow. No new objects, no other people, no text."
+  camera:
+    move: locked-off extreme wide shot, a tripod camera with no movement

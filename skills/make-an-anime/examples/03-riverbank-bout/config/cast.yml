@@ -1,0 +1,13 @@
+# One ElevenLabs voice per character, set to Japanese. Casting reason: a calm low voice against a young, bright one.
+ren:
+  name: Ren
+  voice: Brian             # low, calm, unhurried
+  stability: 0.55
+  similarity_boost: 0.8
+  ref: char-ren-v2
+riku:
+  name: Riku
+  voice: Liam              # young, bright, cocky
+  stability: 0.35
+  similarity_boost: 0.8
+  ref: char-riku-v2

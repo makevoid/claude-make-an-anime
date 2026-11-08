@@ -7,11 +7,11 @@ require "open3"
 runtime = __dir__
 options = {}
 parser = OptionParser.new do |o|
-  o.banner = "make-an-anime toolkit\nUsage: ruby scripts/mv.rb [--project DIR] TASK [task arguments]\n       ruby scripts/mv.rb init --project DIR --story STORY.md [--references DIR] [--song FILE]\n       ruby scripts/mv.rb init --project DIR --example shonen-battle\nRuby is the only execution entry. Tasks use ENV RUN/ONLY/FORCE/VFX/SFX."
+  o.banner = "make-an-anime toolkit\nUsage: ruby scripts/mv.rb [--project DIR] TASK [task arguments]\n       ruby scripts/mv.rb init --project DIR --story STORY.md [--references DIR] [--song FILE]\n       ruby scripts/mv.rb init --project DIR --example 01-sample-seven\nRuby is the only execution entry. Tasks use ENV RUN/ONLY/FORCE/VFX/SFX."
   o.on("--project DIR", "Project workspace (defaults to bundled runtime)") { |v| options[:project] = File.expand_path(v) }
   o.on("--song FILE", "Local soundtrack for init") { |v| options[:song] = File.expand_path(v) }
   o.on("--prompt-file FILE", "--story FILE", "Story bible / creative brief for init") { |v| options[:prompt] = File.expand_path(v) }
-  o.on("--example NAME", "Start init from a bundled example, e.g. shonen-battle") { |v| options[:example] = v }
+  o.on("--example NAME", "Start init from a bundled example, e.g. 01-sample-seven") { |v| options[:example] = v }
   o.on("--references DIR", "Character reference photos for init (copied to references/)") { |v| options[:references] = File.expand_path(v) }
   o.on("-T", "List all rake tasks") { options[:list] = true }
   o.on("--help", "Show tasks and exit") { puts o; puts "Tasks: init, setup, doctor, test, plan:approve, work:next, work:accept, audio:analyze, audio:transcribe, media:stems, gen:<step>, review:<step>, gen:dialogue, gen:music, gen:mix, gen:keyframes, gen:shots, pipeline:all, anim:preview, anim:overlay, media:preview, sfx:gen, sfx:mix, vfx:render. Use -T for the complete rake task list.\nExit: 0 success; 1 task/runtime failure; 2 invalid CLI or missing input. No interactive shell prompts."; exit }

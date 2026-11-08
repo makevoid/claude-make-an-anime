@@ -1,0 +1,7 @@
+# Finishing pass in frames at 24 fps: grain throughout, a small jolt into the run and on the flask landing.
+source: output/lab-s01/final_sfx.mp4
+out: output/lab-s01/final_vfx.mp4
+cues:
+  - {fx: grain, f: 0, dur: 336, amt: 0.025}
+  - {fx: punch, f: 192, dur: 5, amt: 0.03, radius: 2}
+  - {fx: punch, f: 228, dur: 5, amt: 0.025, radius: 2}

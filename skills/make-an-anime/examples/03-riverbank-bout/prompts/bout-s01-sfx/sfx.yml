@@ -1,0 +1,29 @@
+# River and wind carry the place; every blow gets its own sound on the frame it lands.
+source: output/bout-s01/final_overlay.mp4
+out: output/bout-s01/final_sfx.mp4
+rel_db: -6
+peak_db: -3
+max_gain_db: 18
+voice_dip_db: 5
+sounds:
+  river: {prompt: "Evening riverbank ambience, gentle wind through tall grass and soft water lapping, steady, no music, no voices", duration: 18, seed: 41}
+  train: {prompt: "A distant commuter train crossing a steel railway bridge far away, soft rhythmic clatter, no music, no voices", duration: 4, seed: 42}
+  run: {prompt: "One person sprinting barefoot on grass and packed earth, fast heavy footsteps, isolated, no music, no voices", duration: 1.5, seed: 48}
+  whoosh: {prompt: "One short fast punch whoosh through the air, anime fight sound effect, isolated, no music, no voices", duration: 1, seed: 44}
+  block: {prompt: "One hard punch landing on a raised forearm, a tight meaty smack, anime fight sound effect, isolated, no music, no voices", duration: 1, seed: 45}
+  impact: {prompt: "One huge heavy punch impact with a deep boom and a sharp crack, anime finishing blow sound effect, isolated, no music, no voices", duration: 1.5, seed: 46}
+  thud: {prompt: "A body slamming flat onto grass and earth, one heavy thud with a short dusty skid, isolated, no music, no voices", duration: 1, seed: 47}
+cues:
+  - {at: 0.0, sound: river, rel_db: -10, len: 17.08, fade: 0.4}
+  - {at: 0.8, sound: train, rel_db: -6, len: 4.0, fade: 0.8}
+  - {at: 5.0, sound: run, rel_db: 7, len: 1.5, fade: 0.1}
+  - {at: 6.54, sound: block, rel_db: 7, len: 0.5, fade: 0.05}
+  - {at: 6.9, sound: whoosh, rel_db: 3, len: 0.3, fade: 0.05}
+  - {at: 7.08, sound: block, rel_db: 7, len: 0.5, fade: 0.05}
+  - {at: 7.55, sound: whoosh, rel_db: 3, len: 0.3, fade: 0.05}
+  - {at: 7.75, sound: block, rel_db: 8, len: 0.5, fade: 0.05}
+  - {at: 8.72, sound: whoosh, rel_db: 3, len: 0.3, fade: 0.05}
+  - {at: 8.95, sound: block, rel_db: 8, len: 0.5, fade: 0.05}
+  - {at: 9.88, sound: whoosh, rel_db: 5, len: 0.3, fade: 0.05}
+  - {at: 10.08, sound: impact, rel_db: 12, len: 1.0, fade: 0.2}
+  - {at: 10.95, sound: thud, rel_db: 10, len: 0.8, fade: 0.1}

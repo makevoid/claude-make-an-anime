@@ -1,9 +1,0 @@
-Character design sheet for an anime production. This asset belongs to a high-quality anime production with television-broadcast polish: every frame should be worth pausing on.
-
-{{STYLE}}
-
-The character: ARASHI, an adult woman of about 25, tall disciplined martial artist. Long oval face, cool sharp ice-blue eyes, thin straight brows, long straight silver-white hair in a high ponytail with a blue-black streak, resting expression calm and contemptuous. Outfit: fully covering long indigo battle coat (#1c2452) with a high collar and silver trim (#c8d0e0), long sleeves, belted over dark armoured trousers, knee-high steel-grey boots, steel-blue gauntlets. Never any green in her outfit, hair, eyes or effects.
-
-Layout on a plain light-grey background: full-body front turnaround, three-quarter, profile and back in a row on the left two thirds; on the right, a large front-view head close-up and three expressions: cold contempt, fierce battle shout, narrowed focus. Same outfit in every view, neutral standing pose, whole silhouette inside the frame with margins, consistent scale between views.
-
-Exclusions: no text, labels, colour swatches, numbers, logos or watermarks; no extra characters; no photoreal rendering.

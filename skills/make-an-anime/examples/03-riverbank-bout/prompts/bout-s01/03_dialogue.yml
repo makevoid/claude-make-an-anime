@@ -1,0 +1,41 @@
+---
+- name: riku-challenge
+  character: riku
+  at: 0.4
+  language_code: ja
+  text: "[cocky, grinning] いっかいだけ、しょうぶしろよ、せんぱい！"
+  subtitle: One fight, senpai. Just one!
+  gain_db: -1
+  keep_s: 2.95
+- name: ren-accept
+  character: ren
+  at: 3.3
+  language_code: ja
+  text: "[firm] いいだろう、かかってこい！"
+  subtitle: Fine. Bring it on.
+  gain_db: -3.5
+  keep_s: 1.6
+- name: ren-kiai
+  character: ren
+  at: 9.8
+  vo: true
+  language_code: ja
+  text: "[fierce shout] せいっ！"
+  subtitle: Seiii!
+  keep_s: 0.95
+  gain_db: -2
+- name: riku-next
+  character: riku
+  at: 12.183
+  language_code: ja
+  text: "[exhausted, out of breath, smiling] つぎは、もっとつよくなってやる…！"
+  subtitle: Next time... I'll be stronger...!
+  keep_s: 2.85
+  gain_db: 1
+- name: ren-wait
+  character: ren
+  at: 15.183
+  language_code: ja
+  text: "[warm] ああ、まってるぞ。"
+  subtitle: Yeah. I'll be waiting.
+  gain_db: 0

@@ -1,0 +1,6 @@
+# The user's lines, in kana so the voice cannot misread a kanji. The first is over a glove, so it is voice-over.
+# The last take snorts three times; gate_s mutes the first two, leaving the one snort of the script.
+---
+- {name: tetsu-tomorrow, character: tetsu, at: 4.6, vo: true, language_code: ja, text: "[elderly man, low and gruff, quiet, matter of fact] あした、きられる。", subtitle: "Tomorrow they cut you up."}
+- {name: tetsu-thirty, character: tetsu, at: 8.9, language_code: ja, text: "[elderly man, gruff and tired, half to himself] さんじゅうねん、なおしてやったのに…れいのひとつも、なかったな。", subtitle: "Thirty years I kept you running… and never once a thank-you."}
+- {name: tetsu-welcome, character: tetsu, at: 24.0, gate_s: 2.0, language_code: ja, text: "[elderly man, low and dry, one short snort first, not looking back] ふん。ああ、どういたしまして。", subtitle: "…Yeah, yeah. You're welcome."}

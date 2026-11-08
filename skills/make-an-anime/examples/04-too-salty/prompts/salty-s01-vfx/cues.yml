@@ -1,0 +1,5 @@
+# Fine grain over the whole film, nothing else: this film has no effects to sell.
+source: output/salty-s01/final_sfx.mp4
+out: output/salty-s01/final_vfx.mp4
+cues:
+  - {fx: grain, f: 0, dur: 1764, amt: 0.025}

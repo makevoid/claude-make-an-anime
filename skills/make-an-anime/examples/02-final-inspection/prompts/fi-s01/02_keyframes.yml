@@ -1,0 +1,49 @@
+# First frames. Every shot paints the man, the machine and the world in one image. The robot kneels on both knees with its
+# hands open, palms up, on its thighs; a ladder climbs the right knee to the right thigh, and Tetsu sits on the right palm.
+# palm comes before tag and cup because they edit it: the hand has to be the same steel in the same light.
+wide:
+  base: false
+  refs: [char-robot-v1, char-tetsu-v1, loc-yard-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the machine and the world drawn together. Extreme wide shot of the snowy scrapyard from image 3 at dawn, light snow falling. In the centre the enormous robot from image 1 kneels on both knees in three-quarter view, its small domed head bowed steeply forward as if in prayer, chin down on its chest, the lens aimed at the ground, both its hands lying flat and open on its thighs with the palms up and the fingers uncurled. It is rusted, and thick snow lies on its shoulders, the back of its neck, its forearms and its thighs. Its knees are sunk in the snow. Its round lens is dark. It towers 25 metres above the ground and dwarfs the distant scrap heaps. A tiny man, the man from image 2 seen from behind and no bigger than a fingernail in the frame, is halfway up the steel ladder on the robot's right knee. Pale sky low over the grey sea behind it. No other people, no text.
+palm:
+  base: false
+  refs: [char-tetsu-v1, char-robot-v1, loc-yard-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the man, the machine and the world drawn together. Medium shot. The old man from image 1, the same weathered face, white moustache, navy wool cap, grey-blue padded jacket and tan leather gloves, sits on the enormous open rusted steel palm of the robot's right hand from image 2, in three-quarter view facing to the right of frame, with his back leaning against the massive base of the giant thumb at the left of frame. The palm is as big as a small room. On the right of frame the four giant riveted fingers curve gently upward, each as thick as an oil drum, snow lying along them. A plain blank red scrap tag is wired around the index finger. In his right hand he holds the dented steel thermos, tilted, and in his left hand the small white enamel cup with a chipped rim, just about to pour. His mouth is closed, his eyes lowered to the cup. Fresh snow lies on the palm around him with a clean patch where he brushed it away. Far below and behind him, soft out of focus, the snowy yard and the grey sea from image 3. Cold soft sky light from the right on his face and gloves. Five fingers on each glove. No other people, no text.
+tag:
+  base: palm
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image. The same enormous rusted steel hand of the robot, the same steel, rust, snow and cold light as in the image, now seen in close-up on the index finger only, which runs across the frame from left to right and is as thick as an oil drum. The plain blank red scrap tag is wired tightly around the finger with rusty wire, in the centre of the frame, covered with a thin layer of snow. The old man is not sitting there now. From the lower left only his gloved right hand and forearm enter the frame, the worn tan leather glove and grey-blue padded cuff, the fingertips just touching the snow on the tag. No thermos, no cup. The yard far below is a soft pale blur. The tag has no writing on it. No face, no other people, no text.
+cup:
+  base: palm
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image. The same enormous rusted steel palm, the same steel, rust and cold light as in the image, now seen in a low close-up with the old man gone. In the centre of the frame the small white enamel cup with the chipped rim stands alone on the bare steel of the palm, full to just below the rim with dark amber tea, the surface perfectly still, thin pale steam rising. Snow lies on the steel around the clean patch where the cup stands. Behind it, soft out of focus, the giant riveted fingers curve upward and a small blur of the red tag. Light snow falling. Nobody in the frame, no thermos, no text.
+walk:
+  base: false
+  refs: [char-robot-v1, char-tetsu-v1, loc-yard-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the man, the machine and the world drawn together. Very wide high shot from behind the robot from image 1, looking down over its shoulder. The huge rusted right shoulder and the back of its bowed domed head fill the lower left of the frame, close and heavy with thick snow. Far below them the untouched snowfield of image 3 stretches to the grey sea, and a tiny man, the man from image 2 seen from behind, walks away from the robot towards the sea, leaving one thin line of footprints in the snow that leads back towards the camera. Light snow falling, pale dawn sky. No other people, no text.
+eye:
+  base: false
+  refs: [char-robot-v1, loc-yard-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image. Extreme close-up of the bowed head of the robot from image 1, seen from slightly below, in cold dawn light. The single huge round glass lens fills most of the frame, as wide as a car, set in a thick riveted steel ring, dark, dead and empty, reflecting only a faint pale smear of sky. Snow has gathered on the lower rim of the steel ring and on the riveted dome above it, rust streaks run down below the rivets. Light snow falling past it. No light inside the lens, no glow. No text.
+eye-lit:
+  base: eye
+  prompt: >-
+    The same image with exactly the same framing, the same steel ring, rivets, snow, rust and cold light. The only change: deep inside the dark lens, in its centre, there is now one small faint soft amber light (#d99a4e), like a coal seen through thick glass, with a very slight warm glow on the inner edge of the lens. Nothing else changes. No text.
+face:
+  base: false
+  refs: [char-tetsu-v1, char-robot-v1, loc-yard-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the man, the machine and the world drawn together. Medium close-up of the old man from image 1 from the chest up, slightly right of centre, facing the camera, standing still in the snowfield from image 3, the same weathered face, white moustache, navy wool cap and grey-blue padded jacket, with snow on his shoulders. His eyes are lowered and looking at nothing, his mouth closed, his face dry and unimpressed. Far behind him, soft out of focus and pale with distance, the enormous kneeling robot from image 2 fills the left of the background, head bowed, with one tiny faint amber point of light in its head. A thin line of his footprints leads back towards it. Cold soft sky light from the front on his face. Light snow falling, some of it close and blurred in the foreground. No other people, no text.
+end:
+  base: false
+  refs: [char-robot-v1, char-tetsu-v1, loc-yard-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the man, the machine and the world drawn together. Extreme wide side view of the snowfield from image 3 at dawn. At the far left the enormous robot from image 1 kneels in profile facing right, head bowed, hands open on its thighs, heavy with snow, with one tiny faint amber point of light in its lens. About two thirds of the way across the frame, well inside it, a tiny man, the man from image 2, walks away towards the right, seen from the side, no bigger than a fingernail. Between them the middle of the frame is empty snow, crossed only by his one thin line of footprints, with the pale sky and the flat grey sea above it. Light snow falling. Very calm. No other people, no text.
+end-last:
+  base: end
+  prompt: >-
+    The same image with exactly the same framing, the same robot, snow, sky, sea and light. The only change: the tiny man has walked a little further to the right, about one tenth of the frame width, still well inside the frame, and his line of footprints is that much longer. The amber point in the robot's lens stays one tiny faint point, with no glow and no beam. Nothing else changes. No text.

@@ -13,7 +13,7 @@ run.("magick", "-size", "1920x1080", "xc:#00B140", "-fill", "#e02040", "-draw", 
 voice = "#{fix}/voice.wav"
 run.("ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=300:duration=1.2", voice)
 music = "#{fix}/music.wav"
-run.("ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=90:duration=12", music)
+run.("ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=90:duration=30", music)
 movie = "#{fix}/h3.mp4"
 run.("ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "color=#00B140:s=1366x768:r=24:d=5", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
      "-vf", "drawbox=x=500+40*t:y=100:w=300:h=560:color=#e02040:t=fill", "-t", "5", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", movie)

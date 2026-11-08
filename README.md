@@ -144,7 +144,7 @@ A longer project uses the same steps, one run per scene, plus:
 skills/make-an-anime/
   SKILL.md                        what Claude follows
   references/                     planning, prompts, camera language, audio, episodes
-  examples/                       a starter project for `init --example`
+  examples/                       workflow showcases only: 01 is read on every run; 02-04 are three of the films above
   scripts/
     mv.rb, mcp.rb                 CLI and MCP entry points
     lib/fal/                      Fal queue client with receipts, and model wrappers

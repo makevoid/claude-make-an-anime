@@ -1,0 +1,5 @@
+{"chunks": [
+  {"text": "[Intro]\n[Instrumental]", "duration_ms": 6000, "positive_styles": ["quiet Japanese slice-of-life score", "solo felt piano, a small patient figure", "late at night, lots of space"], "negative_styles": ["vocals", "drums", "EDM", "orchestral swell"]},
+  {"text": "[Build]\n[Instrumental]", "duration_ms": 3500, "positive_styles": ["sudden bright anime energy", "fast pizzicato strings and taiko", "a rising run that lands on a hit"], "negative_styles": ["vocals", "EDM", "slow"], "context_adherence": "high"},
+  {"text": "[Outro]\n[Instrumental]", "duration_ms": 4500, "positive_styles": ["the same piano figure, now warm and resolved", "soft strings at dawn", "quiet, dry, a little funny"], "negative_styles": ["vocals", "drums", "big ending"], "context_adherence": "high"}
+]}

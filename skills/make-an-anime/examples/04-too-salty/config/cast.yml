@@ -1,0 +1,13 @@
+# Hana is young and worn out; Kiku's voice, Lily, was chosen from three in the voice-test run.
+hana:
+  name: Hana
+  voice: Jessica
+  stability: 0.5
+  similarity_boost: 0.8
+  ref: char-hana-v1
+kiku:
+  name: Kiku
+  voice: Lily
+  stability: 0.6
+  similarity_boost: 0.8
+  ref: char-kiku-v1

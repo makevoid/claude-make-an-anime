@@ -1,0 +1,7 @@
+# One old man. Casting reason: Bill is the oldest and driest of the premade male voices.
+tetsu:
+  name: Tetsu
+  voice: Bill
+  stability: 0.55
+  similarity_boost: 0.8
+  ref: char-tetsu-v1

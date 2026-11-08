@@ -1,0 +1,8 @@
+# Kiku's two test lines from the script, in three voices. Nothing here reaches the film.
+---
+- {name: alice-spring, character: kiku, voice: Alice, at: 0.3, language_code: ja, text: "[elderly woman, slow, dry, calm] きょねんの、はるからだよ。"}
+- {name: alice-ask, character: kiku, voice: Alice, at: 4.3, language_code: ja, text: "[elderly woman, slow, dry] なら、わかるひとに、きいておいで。"}
+- {name: lily-spring, character: kiku, voice: Lily, at: 9.3, language_code: ja, text: "[elderly woman, slow, dry, calm] きょねんの、はるからだよ。"}
+- {name: lily-ask, character: kiku, voice: Lily, at: 13.3, language_code: ja, text: "[elderly woman, slow, dry] なら、わかるひとに、きいておいで。"}
+- {name: matilda-spring, character: kiku, voice: Matilda, at: 18.3, language_code: ja, text: "[elderly woman, slow, dry, calm] きょねんの、はるからだよ。"}
+- {name: matilda-ask, character: kiku, voice: Matilda, at: 22.3, language_code: ja, text: "[elderly woman, slow, dry] なら、わかるひとに、きいておいで。"}

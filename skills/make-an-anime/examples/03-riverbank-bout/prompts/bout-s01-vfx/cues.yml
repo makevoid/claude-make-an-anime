@@ -1,0 +1,12 @@
+# Grain over the scene, a small jolt on each blow and a big one on the finish and the landing.
+source: output/bout-s01/final_sfx.mp4
+out: output/bout-s01/final_vfx.mp4
+cues:
+  - {fx: grain, f: 0, dur: 410, amt: 0.03}
+  - {fx: punch, f: 157, dur: 5, amt: 0.025, radius: 2}
+  - {fx: punch, f: 170, dur: 5, amt: 0.025, radius: 2}
+  - {fx: punch, f: 186, dur: 5, amt: 0.03, radius: 2}
+  - {fx: punch, f: 215, dur: 5, amt: 0.03, radius: 2}
+  - {fx: punch, f: 242, dur: 10, amt: 0.08, radius: 3}
+  - {fx: rgb, f: 242, dur: 6, amt: 0.006}
+  - {fx: punch, f: 263, dur: 7, amt: 0.04, radius: 2}

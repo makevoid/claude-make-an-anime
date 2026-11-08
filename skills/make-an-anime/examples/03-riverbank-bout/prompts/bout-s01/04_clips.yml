@@ -1,0 +1,26 @@
+# The opening manga page: two full-frame H3 takes, character and riverbank painted together and never keyed (key: none).
+# The overlay shows each through its side of the paper cut. Frame i is scene time i/24.
+- name: panel-riku
+  image: panel-riku
+  seconds: 5
+  frames: 120
+  audio: riku
+  audio_at: 0.0
+  key: none
+  prompt: >-
+    {{STYLE}} The same young man on the same riverbank as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-0.4 s: closed-mouth grin, his weight shifting slightly. 0.4-3.35 s: he says his line with clear cocky mouth movements that follow the voice, chin up, shoulders moving with his breath. 3.35-4.3 s: mouth closed, his grin widens as he listens. 4.3-5 s: he brings both wrapped fists up into a Muay Thai guard. The whole time the evening wind moves his hair, his shirt and the grass in front of him, the river glitters and the clouds drift slowly. He stays in the left part of the frame, feet planted. No new objects, no other people, no text.
+  camera:
+    move: locked-off, a tripod camera with no movement
+    anchors: the bridge and the horizon stay fixed
+- name: panel-ren
+  image: panel-ren
+  seconds: 5
+  frames: 120
+  audio: ren
+  audio_at: 0.0
+  key: none
+  prompt: >-
+    {{STYLE}} The same man on the same riverbank as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-3.3 s: he stands completely calm with his mouth closed, breathing slowly, his eyes on someone far to the left. 3.3-4.9 s: he says his line with firm mouth movements that follow the voice while he raises both fists into a karate guard. 4.9-5 s: mouth closed, guard held. The whole time the evening wind moves his hair, his sleeves and the grass in front of him, the river glitters, the clouds drift slowly, and a small commuter train crosses the distant bridge. He stays in the right part of the frame, feet planted. No new objects, no other people, no text.
+  camera:
+    move: locked-off, a tripod camera with no movement
+    anchors: the bridge and the horizon stay fixed

@@ -1,0 +1,52 @@
+# 336 frames (14 s): lab 84, mei 60, flask 48, dash 36, ono 72, title 36. Every take is one painted H3 shot.
+# Quiet shots lock the camera; the one fast beat gets a travelling camera and a retimed take, as in 03-riverbank-bout.
+- name: lab
+  image: lab
+  end_image: lab  # H3 drifted this wide to daylight twice; the same first and last frame holds the night
+  frames: 84
+  prompt: "{{STYLE}} The same young woman in the same lab as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. She stays still with her chin on her arms, breathing slowly, and blinks once, slowly. Her mouth stays closed. The liquid in the flask stays clear and still. Dust drifts in the lamp light. The light does not change at all: the windows stay the same deep blue pre-dawn for the whole take, the room stays dark, and the only warm light is the desk lamp. No new objects, no other people, no text."
+  camera:
+    move: locked-off wide shot, a tripod camera with no movement
+# audio: <cast id> pins that character's on-screen lines as H3 target audio, so the mouth moves on her words only.
+- name: mei
+  image: mei
+  frames: 60
+  audio: mei
+  prompt: "{{STYLE}} The same young woman as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-0.3 s: her mouth is closed, eyes on the flask. 0.3-1.2 s: without looking away she says two short words quietly, with small mouth movements that follow the voice. 1.2-2.5 s: her mouth closes and one corner of it lifts slightly. No new objects, no other people, no text."
+  camera:
+    move: locked-off close-up, a tripod camera with no movement
+# end_image pins the last frame. The colour is a colour, not a light: H3 turns a glow into a beam (02-final-inspection
+# draws its light in p5 instead).
+- name: flask
+  image: flask
+  end_image: flask-blue
+  frames: 48
+  prompt: "{{STYLE}} The same flask as in the image, ONE CONTINUOUS TAKE with no cuts. 0-0.6 s: the liquid is clear and perfectly still. 0.6-2 s: a deep cobalt blue rises from the bottom of the liquid like ink in water and fills it to the surface. The glass, the stand and the lamp light do not change. The liquid does not glow and gives off no light. No bubbles, no spill, no hands, no new objects, no text."
+  camera:
+    move: locked-off close-up, a tripod camera with no movement
+# One runner and a camera that travels with her (review:believable refuses a run without one). The 2.5 s take is
+# squeezed into 36 frames with retime; never retime a talking shot.
+- name: dash
+  image: dash
+  frames: 36
+  seconds: 2.5
+  source_frames: 60
+  retime: true
+  prompt: "{{STYLE}} The same young woman as in the image, on-model, alone, ONE CONTINUOUS TAKE with no cuts. She sprints flat out from left to right down the aisle with long strides, her feet pushing off the floor, the flask held tight against her chest, her lab coat and ponytail whipping back. She stays in the centre of the frame because the camera travels with her. The lab rushes past behind her from right to left the entire time: bench edges and glassware whip through the foreground as blurred streaks, the far wall slides past more slowly. No new objects, no other people, no text."
+  camera:
+    move: fast lateral tracking shot, the camera travels sideways to the right alongside the runner at her exact speed
+    from: the side view in the image
+    to: the same side view of her, further down the aisle
+    timing: full speed from the first frame to the last
+    anchors: she stays centred, the background never stops moving from right to left
+- name: ono
+  image: ono
+  frames: 72
+  audio: ono
+  prompt: "{{STYLE}} The same old man as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-0.6 s: he looks down at the blue flask, very still, tea cup in hand. 0.6-0.9 s: he raises his eyes to the left, to the young woman out of frame. 0.9-2.4 s: he says his short dry line with small mouth movements that follow the voice, the smallest smile under his moustache. 2.4-3 s: his mouth closes. The hand at the left edge keeps holding the flask still. Five fingers on each hand. Dawn light unchanged. No new objects, no other people, no text."
+  camera:
+    move: locked-off medium shot, a tripod camera with no movement
+# A solid frame costs nothing; the overlay draws the title on it.
+- name: title
+  color: "#000000"
+  frames: 36

@@ -1,0 +1,34 @@
+# First frames, edited from the sheets (base: false, refs: [...]; "image N" is the Nth ref). Every shot paints the
+# characters and the world in one image. Screen direction: her flask is at the left end of the lab and Ono's desk at the
+# right, so Mei faces left while she waits, runs left to right, and her hand enters Ono's shot from the left. Keep the
+# wide and the close-up on the same side of the line: a first render had them facing opposite ways.
+lab:
+  base: false
+  refs: [char-mei-v1, loc-lab-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the character and the world drawn together. Wide side view of the lab from image 2 at 4 a.m. In the left third of the frame the young woman from image 1, the same face, loose ponytail, white lab coat and mustard sweater, sits on a stool at the lamp-lit bench with her chin resting on her folded arms, in profile facing left, her eyes on the small round flask of clear liquid on its stand a hand's width from her face. Warm lamp light on her face and arms. To the right, the long dark aisle between the benches leads to the far desk under the blue windows, too far away to see anyone there. No other people, no text.
+mei:
+  base: false
+  refs: [char-mei-v1, loc-lab-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the character and the world drawn together. Close-up of the young woman from image 1, the same face and loose ponytail, chin on her folded arms in the white lab coat sleeves, in three-quarter view facing LEFT, sharp, in the right half of the frame. Her tired eyes are fixed on the round glass flask of clear liquid, soft and out of focus at the LEFT edge of the frame. Her mouth is closed. Warm desk lamp light from above and to the left, the dark lab of image 2 soft behind her. No other people, no text.
+flask:
+  base: false
+  refs: [loc-lab-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image. Close-up of the small round glass flask on its metal stand on the black bench from image 1, in the centre of the frame, filled two thirds with perfectly clear, still liquid. Warm lamp light from above makes one soft highlight on the glass and a small warm reflection on the bench. Behind it the dark lab is a soft blue blur. No people, no hands, no text, no labels on the glass.
+# An end frame painted from the first frame (base: flask), so H3 interpolates between two images that agree.
+flask-blue:
+  base: flask
+  prompt: >-
+    The same image with exactly the same framing, the same glass, stand, bench, highlight and lamp light. The only change: the liquid is now a deep, saturated cobalt blue from the bottom to the surface. It is coloured, not lit: no glow, no light coming from it. Nothing else changes. No text.
+dash:
+  base: false
+  refs: [char-mei-v1, loc-lab-v1]
+  prompt: >-
+    {{STYLE}} Film still from a fast tracking shot, one painted image with the character and the world drawn together. The young woman from image 1 alone, the same face, loose ponytail, white lab coat and mustard sweater, sprinting from left to right in pure side view down the aisle of the lab from image 2, in the centre of the frame, seen from the waist up. Mid-stride, leaning forward, her right hand holding the round flask of deep blue liquid tight against her chest, her left arm pumping, her lab coat and ponytail flying back, eyes wide. The camera travels beside her at her speed, so the bench edges and glassware in the near foreground are smeared into horizontal motion-blur streaks and the far wall is softly streaked, while she stays sharp. The first pale light of dawn from the windows ahead of her on her face. No other people, no text.
+ono:
+  base: false
+  refs: [char-ono-v1, loc-lab-v1]
+  prompt: >-
+    {{STYLE}} Hand-drawn anime film still, one painted image with the character and the world drawn together. Medium shot of the old man from image 1, the same lined face, white moustache and grey cardigan, sitting at the cluttered wooden desk at the end of the lab from image 2, in the right half of the frame, in three-quarter view facing left, a white tea cup in his right hand. On the desk in front of him stands the round flask of deep blue liquid, just set down: a young woman's hand in a white lab-coat sleeve enters from the left edge of the frame and still holds it. He looks down at the flask with a dry, unreadable face, mouth closed. Behind him the tall window shows the first pale gold dawn. Five fingers on each hand. No other people, no text.

@@ -1,0 +1,18 @@
+# The user's lines, written in kana so the voice cannot misread a kanji. The two early "too salty" lines share text and seed, so the second is the same take.
+---
+- {name: hana-ah, character: hana, at: 4.6, keep_s: 0.9, vo: true, language_code: ja, text: "[quiet, annoyed at herself] あっ…", subtitle: "Ah—"}
+- {name: kiku-salty1, character: kiku, at: 9.07, gate_s: 1.5, keep_s: 3.0, seed: 7001, language_code: ja, text: "[elderly woman, flat, almost bored] しょっぱい。", subtitle: "Too salty."}
+- {name: hana-yes, character: hana, at: 11.8, keep_s: 0.95, vo: true, language_code: ja, text: "[automatic, tired] …はい。", subtitle: "…Yes."}
+- {name: hana-day91, character: hana, at: 12.75, keep_s: 3.75, vo: true, language_code: ja, text: "[muttered under her breath, tired] きゅうじゅういちにちめ…また、いうんだろうな。", subtitle: "Day ninety-one. She'll say it again."}
+- {name: kiku-salty2, character: kiku, at: 15.86, gate_s: 1.5, keep_s: 3.0, seed: 7001, language_code: ja, text: "[elderly woman, flat, almost bored] しょっぱい。", subtitle: "Too salty."}
+- {name: hana-salt, character: hana, at: 19.2, keep_s: 2.6, vo: true, language_code: ja, text: "[offhand, tired] それ、しお、いれてない。", subtitle: "I left the salt out of that one."}
+- {name: hana-since, character: hana, at: 27.3, keep_s: 2.3, language_code: ja, text: "[very quiet] おばあちゃん…いつから。", subtitle: "Grandma… since when?"}
+- {name: kiku-spring, character: kiku, at: 29.7, keep_s: 2.6, language_code: ja, text: "[elderly woman, slow, calm] きょねんの、はるからだよ。", subtitle: "Last spring."}
+- {name: hana-what, character: hana, at: 32.2, keep_s: 3.0, language_code: ja, text: "[quiet, trailing off] じゃあ、いままで、なにを…", subtitle: "Then all this time, what were you…"}
+- {name: kiku-come, character: kiku, at: 36.8, keep_s: 2.7, language_code: ja, text: "[elderly woman, the gentlest she has ever been] おいで。め、とじて。", subtitle: "Come here. Close your eyes."}
+- {name: kiku-hear, character: kiku, at: 39.7, keep_s: 4.55, language_code: ja, text: "[elderly woman, almost a whisper] きこえるかい。トタンやねのあめだよ。あつすぎ。", subtitle: "Hear that? Rain on a tin roof. Too hot."}
+- {name: kiku-there, character: kiku, at: 44.3, keep_s: 2.8, language_code: ja, text: "[elderly woman, whispering, quietly pleased] …ほら。ないしょばなしに、なった。", subtitle: "…There. Now it's whispering."}
+- {name: kiku-roll, character: kiku, at: 47.4, keep_s: 1.7, vo: true, language_code: ja, text: "[elderly woman, quiet] まいて。", subtitle: "Roll."}
+- {name: kiku-salty3, character: kiku, at: 53.31, gate_s: 1.9, keep_s: 3.5, language_code: ja, text: "[elderly woman, slow, the smallest smile in her voice] …しょっぱい。", subtitle: "…Too salty."}
+- {name: hana-taste, character: hana, at: 57.1, keep_s: 2.6, language_code: ja, text: "[outraged, laughing and nearly crying] あじ、わからないくせに！", subtitle: "You can't even taste it!"}
+- {name: kiku-ask, character: kiku, at: 60.0, keep_s: 2.95, language_code: ja, text: "[elderly woman, dry, not looking at her] なら、わかるひとに、きいておいで。", subtitle: "Then go ask someone who can."}

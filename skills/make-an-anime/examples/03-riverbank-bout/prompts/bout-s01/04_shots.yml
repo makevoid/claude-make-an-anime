@@ -1,0 +1,70 @@
+# 410 frames: panels 120 (two painted H3 panels drawn by the overlay), charge 36 (one runner, tracking camera), exchange 84 (first 4.5 s of the take, sped up), finish 14 (cut on the impact), fall 36, line 72, tag 48.
+---
+- name: panels
+  color: "#000000" # the overlay draws the two painted panels and the paper cut here
+  frames: 120
+- name: charge
+  image: charge
+  frames: 36
+  seconds: 2.5
+  source_frames: 60 # sprint cadence and the whole pass of the big bush
+  retime: true
+  prompt: "{{STYLE}} The same young man as in the image, on-model, alone, ONE CONTINUOUS TAKE with no cuts. He sprints flat out from left to right with long powerful strides, his feet really pushing off the ground and throwing dirt behind him, arms pumping, shirt and hair whipping back. He stays in the centre of the frame because the camera travels with him. The whole world rushes past behind him from right to left the entire time: the near grass whips through the foreground as fast blurred streaks, the bushes and the path slide quickly past, the river and the bridge drift more slowly far behind, a strong layered parallax. No new objects, no other people, no text."
+  camera:
+    move: fast lateral tracking shot, the camera travels sideways to the right alongside the runner at his exact speed, never stopping
+    from: the side view in the image
+    to: the same side view of him, much further along the riverbank
+    timing: full speed from the first frame to the last
+    anchors: he stays centred, the background and the foreground never stop moving from right to left
+- name: exchange
+  image: exchange
+  frames: 84
+  seconds: 5
+  prompt: "{{STYLE}} The same two men as in the image, on-model, ONE CONTINUOUS TAKE with no cuts, a clean hand-to-hand exchange with weight behind every blow. 0-0.8 s: the man in navy on the left finishes a straight right punch and the man in white on the right parries it with his forearm. 0.8-1.7 s: the man in navy swings a left hook and the man in white ducks under it. 1.7-2.8 s: the man in white throws a hard straight punch and the man in navy blocks it with both forearms, sliding back a step with dust at his feet. 2.8-4.2 s: the man in navy steps back in with a fast one-two, both punches landing on the raised forearms of the man in white. 4.2-5 s: they push apart, breathing hard, guards up. Both keep exactly two arms and two legs, same outfits, no blood, no energy effects. No new objects, no other people, no text."
+  camera:
+    move: smooth partial arc around the two fighters, about 40 degrees in total, never a full rotation
+    from: the slightly low medium-wide two-shot in the image
+    to: the same distance, moved about 40 degrees around them to the right
+    timing: slow and constant from first frame to last
+    anchors: both fighters stay in frame, the man in navy stays on the left, the man in white stays on the right
+  source_frames: 108
+  retime: true
+- name: finish
+  image: finish
+  frames: 14
+  prompt: "{{STYLE}} The same two men as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-0.35 s: the man in white drives his straight punch forward with his whole body, shouting. 0.35 s: the fist lands on the cheek of the man in navy, whose head snaps sideways. 0.35-1.5 s: slow motion, the man in navy is lifted off his feet and starts falling backwards to the left, sweat flying, dust bursting around them, while the man in white follows through. No blood. No new objects, no other people, no text."
+  camera:
+    move: small sharp push-in, then a slight shake
+    from: the low medium shot in the image
+    to: slightly closer on the impact
+    timing: fast at first, then almost still
+- name: fall
+  image: fall
+  frames: 36
+  prompt: "{{STYLE}} The same two men as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-0.5 s: the man in navy flies backwards to the left through the air. 0.5-1.5 s: he hits the grass on his back, bounces once, skids to a stop and lies flat with dust rising around him. Far away on the right the man in white stays still, slowly lowering his punch. No blood. No new objects, no other people, no text."
+  camera:
+    move: quick slight pan left following the falling man, about 10 degrees
+    from: the wide low shot in the image
+    to: the same wide shot framed on the man on the ground
+    timing: fast, then settling
+    anchors: the river and the bridge stay in the background
+- name: line
+  image: line
+  frames: 72
+  audio: riku
+  prompt: "{{STYLE}} The same young man as in the image, on-model, lying on his back on the grass, ONE CONTINUOUS TAKE with no cuts. 0-0.1 s: his mouth is closed, chest heaving. 0.1-2.9 s: out of breath, he says his line looking up at the sky, with clear mouth movements that follow the voice, a stubborn tired smile, one eye half closed. 2.9-3 s: his mouth closes. Grass sways gently. His body stays flat on the ground. No new objects, no other people, no text."
+  camera:
+    move: very slow push-in from above
+    from: the close-up in the image
+    to: slightly closer on his face
+    timing: constant
+- name: tag
+  image: tag
+  frames: 48
+  audio: ren
+  prompt: "{{STYLE}} The same man in a white gi as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-0.1 s: small smile, mouth closed. 0.1-1.4 s: he says his short line quietly, with small mouth movements that follow the voice, looking down to the left. 1.4-2 s: his mouth closes in a small warm smile and he turns his head slightly away. The wind moves his hair and sleeves, the river glitters. No new objects, no other people, no text."
+  camera:
+    move: locked-off medium shot, a tripod camera with no movement
+    from: the framing in the image
+    to: the same framing
+    timing: static throughout

@@ -1,0 +1,121 @@
+# 1764 frames (73.5 s). Every take is one painted H3 shot with a locked or nearly locked camera. bite2 is literally the bite footage again.
+---
+- name: street
+  image: run:loc-street-v1
+  frames: 72
+  prompt: "{{STYLE}} The same street as in the image, ONE CONTINUOUS TAKE with no cuts. Heavy rain keeps falling, drops bouncing on the tin awnings and the wet pavement, water streaming off the awning edge in thin lines, ripples spreading through the amber reflection. The buildings, the wires and the window stay exactly as they are. No people, no vehicles, no text."
+  camera:
+    move: locked-off wide shot, a tripod camera with no movement
+- name: tear
+  image: tear
+  frames: 72
+  prompt: "{{STYLE}} The same pan and chopsticks as in the image, ONE CONTINUOUS TAKE with no cuts. 0-1 s: the chopsticks lift the thin egg sheet gently and start folding it. 1-1.6 s: the sheet tears in the middle with a small ragged split. 1.6-3 s: the chopsticks freeze and then lower, the torn egg keeps bubbling at its edges. No hands appear. Oil glistens, thin steam rises. No new objects, no faces, no text."
+  camera:
+    move: locked-off close-up, a tripod camera with no movement
+- name: taste
+  image: taste
+  frames: 60
+  prompt: "{{STYLE}} The same young woman as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-0.7 s: she tastes the egg from her fingertip, lips barely moving. 0.7-1.3 s: her hand lowers and she gives one small unconvinced nod. 1.3-2.5 s: she breathes out, lifts the bowl and turns towards the stove on her left. Her mouth stays closed, she does not speak. Her hands keep five fingers and the plaster stays on the index finger of the hand holding the bowl. No new objects, no other people, no text."
+  camera:
+    move: locked-off medium close-up, a tripod camera with no movement
+- name: bite
+  image: bite
+  frames: 96
+  audio: kiku
+  prompt: "{{STYLE}} The same elderly woman as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-1 s: very still, eyes half-closed, she is listening, her mouth closed. 1-1.9 s: without looking at it she raises the slice of omelette in her chopsticks to her mouth and takes it in one small bite, her lips closing around it. 1.9-2.4 s: she swallows, chopsticks lowered, jaw still. 2.4-3.1 s: she says one short flat word with small mouth movements that follow the voice, face otherwise unmoved. 3.1-4 s: her mouth closes and she does not move. Five fingers, chopsticks stay straight and rigid, rain light unchanged. No new objects, no other people, no text."
+  camera:
+    move: locked-off medium close-up, a tripod camera with no movement
+- name: tray
+  still: tray # a held drawing: an H3 take washed out the rolls with steam and the handwriting must stay exact
+  zoom: [1.0, 1.035]
+  frames: 96
+- name: bite2
+  same_take: bite
+  skip_frames: 29
+  frames: 60
+- name: wipe
+  image: wipe
+  frames: 72
+  prompt: "{{STYLE}} The same young woman as in the image, seen from behind, ONE CONTINUOUS TAKE with no cuts. She keeps wiping the copper pan with the folded cloth in slow tired circles, her shoulders low. She does not turn around, her face is never visible. The salt container in the foreground stays closed and still. No new objects, no other people, no text."
+  camera:
+    move: locked-off medium-wide shot, a tripod camera with no movement
+- name: silence
+  image: silence
+  frames: 120
+  prompt: "{{STYLE}} The same two women as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. The old woman in the foreground does not move at all for the whole five seconds: the chopsticks stay frozen in the air, the slice of omelette stays in their tips, her mouth stays closed. Only her eyes open slowly from half-closed to open between 0.5 and 2 s, then one small breath. Between 2 and 4.5 s the young woman far behind her, soft out of focus, slowly turns around from the stove to face her and stops. Thin steam drifts. Nobody speaks. No new objects, no other people, no text."
+  camera:
+    move: locked-off close-up, a tripod camera with no movement
+- name: across
+  image: across
+  frames: 216
+  audio: dialogue
+  prompt: "{{STYLE}} The same two women as in the image, on-model, ONE CONTINUOUS TAKE with no cuts, both in side view across the counter. 0.2-2.7 s: the young woman on the right says her line very quietly, her mouth following the voice, the old woman's mouth closed. 2.7-5 s: the old woman on the left lowers her chopsticks onto the plate and says her calm line, her mouth following the voice, the young woman's mouth closed. 5.2-8 s: the young woman starts to speak again and trails off, mouth following the voice, the old woman's mouth closed. 8-9 s: nobody speaks, the old woman slowly turns her eyes away towards the stove. The salt container stays closed on the counter. No new objects, no other people, no text."
+  camera:
+    move: locked-off medium two-shot, a tripod camera with no movement
+- name: tap
+  image: tap
+  frames: 84
+  audio: kiku
+  prompt: "{{STYLE}} The same elderly woman as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0.4-0.6 s: she taps the copper rim of the pan once with the chopstick, a single light tap, and the chopstick lifts away. 0.8-3.4 s: she looks to the right and speaks her gentle lines softly, mouth following the voice, a kind and tired face. 3.4 s: her mouth closes. The pan and the flame stay still. Five fingers, the chopstick stays straight. No new objects, no other people, no text."
+  camera:
+    move: locked-off medium shot, a tripod camera with no movement
+- name: faces
+  image: faces
+  frames: 192
+  audio: kiku
+  prompt: "{{STYLE}} The same two women as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. Both keep their eyes fully closed the whole time. 0.4-4.7 s: the old woman on the left speaks in an almost whispered voice, her lips barely moving and following the voice. The young woman on the right keeps her mouth closed, listening, her brow slowly loosening. 3-5 s: the two hands on the handle tilt the pan very slightly, slowly, and the steam thins. 5-7.5 s: the old woman whispers again with the smallest pleased curve of the mouth, and the young woman's lips part a little in wonder. The two hands stay one on top of the other with their fingers unchanged. The stove glow from below stays on both faces. No new objects, no other people, no text."
+  camera:
+    move: locked-off low-angle shot, a tripod camera with no movement, the tiniest slow drift upward at most
+- name: roll
+  image: roll
+  frames: 84
+  prompt: "{{STYLE}} The same pan as in the image, ONE CONTINUOUS TAKE with no cuts. 0-2.6 s: the chopstick tips push the golden cylinder of omelette slowly forward towards the near side of the pan, and it visibly rolls over and over along the pan, picking up the flat yellow sheet in front of it as it goes, so the flat sheet gets shorter and the cylinder gets a little thicker. 2.6-3.5 s: the finished roll rests at the near side of the pan, smooth and even from end to end, glistening, steam rising. The surface of the roll stays smooth: no lumps, no bumps, no flaps, and the egg never tears. No hands, no new objects, no people, no text."
+  camera:
+    move: locked-off close-up, a tripod camera with no movement
+- name: sliced
+  image: sliced
+  frames: 48
+  prompt: "{{STYLE}} The same chopping board as in the image, ONE CONTINUOUS TAKE with no cuts. Steam rises gently from the cut layers, the last slice settles and leans a tiny bit onto the one beside it. The knife does not move. No hands, no new objects, no people, no text."
+  camera:
+    move: very slow push-in, barely visible
+    from: the close view in the image
+    to: slightly closer on the layers
+    timing: constant
+- name: chew
+  image: chew
+  frames: 96
+  audio: kiku
+  prompt: "{{STYLE}} The same two women as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-2.3 s: the old woman in the soft background chews slowly with her eyes closed, the young woman in the sharp foreground does not breathe, one small swallow in her throat, her lips pressed together. 2.3-2.5 s: the old woman stops chewing and her jaw is still. 2.6-3.7 s: the old woman, eyes still closed, says one short word in a slow voice, mouth following the voice, the smallest smile. The young woman's mouth stays closed the whole time. 3.7-4 s: stillness. No new objects, no other people, no text."
+  camera:
+    move: locked-off shot, a tripod camera with no movement, the focus stays on the young woman in the foreground
+- name: outburst
+  image: outburst
+  end_image: outburst
+  frames: 65
+  audio: hana
+  prompt: "{{STYLE}} The same young woman as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0.1-2.5 s: she bursts out with her line, loud, mouth moving widely and following the voice, half laughing and half outraged, her shoulders shaking once. Her face stays clean and matte exactly as in the image from start to end, only her eyes shine. 2.5-2.7 s: she catches her breath, mouth still open. Her eyes stay the same size and shape. The background stays still with no steam or haze drifting in. No new objects, no other people, no text."
+  camera:
+    move: locked-off close-up, a tripod camera with no movement
+- name: noren
+  image: noren
+  frames: 84
+  audio: kiku
+  prompt: "{{STYLE}} The same elderly woman as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-1 s: with one hand and without looking at it, she slowly pushes the rolled indigo cloth along the counter to the right, about the length of a forearm, the pole sliding with it. 0.3-2.9 s: still looking away, she says her dry line with small mouth movements that follow the voice. 2.9-3.5 s: her mouth closes and her hand comes to rest. The cloth stays rolled and unmarked. No new objects, no other people, no text."
+  camera:
+    move: locked-off medium shot, a tripod camera with no movement
+- name: hang
+  image: hang
+  frames: 96
+  prompt: "{{STYLE}} The same street and the same young woman as in the image, seen from behind, ONE CONTINUOUS TAKE with no cuts. 0-1.5 s: she settles the pole in its hooks and the plain indigo cloth falls open and hangs across the top of the doorway, swaying. 1.5-3 s: she lowers her arms and steps back one small step, looking up at it. 3-4 s: she stands still. The cloth sways gently and has no markings. The pavement stays wet and mirror-like, slow drops fall from the awning, no rain. No people other than her, no vehicles, no text."
+  camera:
+    move: locked-off wide shot, a tripod camera with no movement
+- name: pour
+  image: pour
+  end_image: pour-end
+  frames: 84
+  prompt: "{{STYLE}} The same young woman as in the image, on-model, ONE CONTINUOUS TAKE with no cuts. 0-1.2 s: the thin stream of egg keeps falling into the pan, steam rising. 1.2-2.5 s: far behind her in the doorway on the left, one closed, tightly folded umbrella, tip pointing down, slides slowly into view at the edge of the door frame, held by the fingers of an unseen person, soft out of focus. That is a second umbrella: the tall dark umbrella propped against the wooden post inside the shop does not move at all and stays visible for the whole take. Never an open umbrella, and the top of the doorway does not change. No rain is falling outside. 2-3.5 s: she does not look around. She sets the bowl down, her eyes slowly close, and her face is calm and listening. Her mouth stays closed. Five fingers, the plaster stays on the hand on the handle. No faces of other people, no text."
+  camera:
+    move: locked-off medium shot, a tripod camera with no movement
+- name: title
+  color: "#000000"
+  frames: 67

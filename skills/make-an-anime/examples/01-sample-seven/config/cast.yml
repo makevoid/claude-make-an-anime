@@ -1,0 +1,14 @@
+# One ElevenLabs voice per character, shared by every scene. Casting reason: a young tired voice against an old dry one.
+# Japanese voices with English subtitles: language_code and subtitle in 03_dialogue.yml (examples 02-04).
+mei:
+  name: Mei
+  voice: Alice             # young, clear, a little worn out
+  stability: 0.45
+  similarity_boost: 0.8
+  ref: char-mei-v1
+ono:
+  name: Ono
+  voice: Bill              # old, dry, unhurried
+  stability: 0.55
+  similarity_boost: 0.8
+  ref: char-ono-v1

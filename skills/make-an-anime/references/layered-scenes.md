@@ -4,7 +4,7 @@
 
 Painted full-frame H3 shots are the default: they are one pass, and light, depth and contact come free. For two people talking far apart, painted panels with a paper cut are better than this recipe. Layers are the last resort, for someone who stays still and must act exactly on cue, cropped by the frame so no feet show.
 
-`examples/shonen-battle` shows the mechanics, but its layered section is what not to copy: its fighters punch and dash on green. It stays as a test of keying, and its items carry a `believable:` note saying so.
+No bundled example keys a performance. `examples/03-riverbank-bout` first opened on keyed sprites, and review rejected them as green screen: its painted panels (`key: none`) are the pattern to copy. `spec/pipeline_spec.rb` exercises the keying itself.
 
 ## The recipe
 
@@ -25,7 +25,7 @@ Painted full-frame H3 shots are the default: they are one pass, and light, depth
    ```
 
    Keep any green out of costumes, hair and effects, and lock the camera: the motion comes from p5.
-3. **Compose in p5.** `Anim.clip(name)` gives the sprite; `clip.at(t)` picks the frame that lip-syncs at scene time `t`, and `clip.draw(frame, x, y, height)` draws it. See `05_overlay.js` in the example.
+3. **Compose in p5.** `Anim.clip(name)` gives the sprite; `clip.at(t)` picks the frame that lip-syncs at scene time `t`, and `clip.draw(frame, x, y, height)` draws it. `examples/03-riverbank-bout/prompts/bout-s01/05_overlay.js` draws clips the same way, unkeyed.
 4. **Turn everything with one camera.** `roll: [from, to]` on a shot rolls its plate, eased, in local ffmpeg, scaled just enough to hide the corners. Draw sprites inside `Anim.withRoll(frame, fn)` and they turn with the plate. Subtitles drawn outside it stay level.
 
 ## Effects in `tools/p5/lib/battle.js`
