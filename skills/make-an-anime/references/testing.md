@@ -30,6 +30,8 @@ Production regression examples cover source-length rejection before assembly, sk
 
 ## Paid live E2E
 
+For the separate, one-call Seedance smoke, use `LIVE_FAL=1 LIVE_IMAGE=/absolute/reference.png PROFILE=seedance_live ruby scripts/mv.rb test` with `FAL_AI_API_KEY` in the environment. It generates the API minimum of four seconds at 480p, saves the raw take and a locally trimmed three-second sample, and verifies the media dimensions/durations. See [Seedance verification](seedance.md#verification). This profile does not run the H3/music tests or pay for draft completion.
+
 Live tests are excluded from routine runs. They require an explicit opt-in plus a real song excerpt and recognizable lyric words. This test invocation authorizes the listed test calls; it does not approve a new production plan.
 
 ```sh

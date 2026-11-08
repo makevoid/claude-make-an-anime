@@ -9,21 +9,21 @@ module Pipeline
       # END_KEYFRAME=0 disables pinning the last frame to the reference
       # (without it H3 drifts away from the reference style, e.g. "heals" run1's torn paper).
       def submit
+        return generation.generate if generation.completion?
         ref = project.fetch!(source, :url)
-        MODEL.new(client: client).animate(
+        generation.generate(
           prompt: project.prompt("04_video"),
           image_url: ref,
-          end_image_url: (ref unless ENV["END_KEYFRAME"] == "0"),
-          target_audio_url: project.fetch!(:music, :url),
-          duration: project.duration, seed: seed,
-          resolution: ENV.fetch("VIDEO_RES", MODEL::DEFAULT_RES)
+          end_image_url: (ref unless generation.seedance? || ENV["END_KEYFRAME"] == "0"),
+          audio_url: project.fetch!(:music, :url),
+          duration: generation.seconds(project.duration), seed: seed
         )
       end
 
       def materialize(result)
         video = result.output.fetch("video")
         raw = download(video["url"], "04_video_raw.mp4")
-        base_data(result).merge(
+        generation.metadata(result).merge(
           url: video["url"], raw_path: raw, path: ffmpeg.mux(raw, project[:music]["path"], project.path("final.mp4")),
           source: source, expanded_prompt: result.output["expanded_prompt"], timings: result.output["timings"]
         )
@@ -41,6 +41,10 @@ module Pipeline
         drift = (monos.max - monos.min).round(1)
         mono_gap = (split["mean_mono_pct"] - ref["mono_pct"]).round(1)
         sat_gap = (sats.sum / sats.size - ref["mean_saturation"]).round(3)
+        requested_height = project[key].dig("input", "resolution").to_s.to_i
+        requested_height = generation.seedance? ? 480 : 720 unless requested_height.positive?
+        # Seedance's nominal resolution tiers can round down a few pixels.
+        minimum_height = requested_height - (generation.seedance? ? 8 : 0)
         {
           summary: summary, contact_sheet: sheet,
           style: { ref_mono_pct: ref["mono_pct"], frame_mono_pct: monos, mean: split["mean_mono_pct"], drift: drift,
@@ -48,7 +52,7 @@ module Pipeline
           **verdict(
             "duration ~#{project.duration}s" => [(summary[:duration] - project.duration).abs < 0.6, "#{summary[:duration]}s"],
             "master audio muxed" => [summary.dig(:audio, :codec) == "aac" && summary.dig(:audio, :rate) == 44_100, summary[:audio].inspect],
-            "resolution >= 720p" => [summary.dig(:video, :h).to_i >= 720, "#{summary.dig(:video, :w)}x#{summary.dig(:video, :h)}"],
+            "resolution >= requested tier" => [[summary.dig(:video, :w), summary.dig(:video, :h)].map(&:to_i).min >= minimum_height, "#{summary.dig(:video, :w)}x#{summary.dig(:video, :h)}"],
             "reference style kept" => [mono_gap.abs <= [10, ref["mono_pct"] * 0.4].max, "frames #{split["mean_mono_pct"]}% mono vs ref #{ref["mono_pct"]}% (#{mono_gap}pp)"],
             "palette kept" => [sat_gap.abs < 0.08, "mean saturation #{sat_gap.positive? ? "+" : ""}#{sat_gap} vs ref #{ref["mean_saturation"]}"],
             "style stable" => [drift < 20, "mono drift #{drift}pp across frames"]
@@ -57,6 +61,9 @@ module Pipeline
       end
 
       private
+
+      def generation = @generation ||= VideoGeneration.new(project: project, spec: { "audio" => true }, client: client)
+      def endpoint = generation.model.endpoint
 
       # The frame H3 animates: run1's torn-paper collage, otherwise the base image.
       def source = project.step?(RefTorn) ? :ref_torn : :ref_base

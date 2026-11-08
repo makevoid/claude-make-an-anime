@@ -1,5 +1,7 @@
 # Ruby entry points and task recipes
 
+MiniMax H3 is the default animation provider. For explicitly requested Seedance 2.5 US, see [Seedance](seedance.md): `model: seedance` or `VIDEO_MODEL=seedance`, 480p by default, reference media/audio, and `seedance:complete[input.json,out.mp4]` for a saved draft at 1080p. The same shot/clip generation and review tasks apply.
+
 ## Directory layers
 
 ```text

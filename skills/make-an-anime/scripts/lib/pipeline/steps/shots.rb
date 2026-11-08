@@ -93,17 +93,22 @@ module Pipeline
           return { source: spec["still"] || spec["color"], path: out, spec: local_spec(spec) }
         end
         raise ArgumentError, "Never retime a talking or singing shot" if spec["audio"] && spec["retime"]
-        seconds = spec.fetch("seconds") { default_seconds(spec) }
+        generation = VideoGeneration.new(project: project, spec: spec, client: client)
+        seconds = generation.seconds(spec.fetch("seconds") { default_seconds(spec) })
         raise ArgumentError, "shot #{name} needs more source frames (#{spec["frames"]} > #{seconds}s)" if !spec["retime"] && (spec["source_frames"] || spec["frames"]) + spec.fetch("skip_frames", 0) > (seconds * FPS).round
         raise ArgumentError, "shot #{name}: source_frames #{spec["source_frames"]} < frames #{spec["frames"]} needs retime: true" if spec["source_frames"] && !spec["retime"] && spec["source_frames"] < spec["frames"]
-        audio = audio_url(name, spec, seconds) if spec["audio"]
-        result = MODEL.new(client: client).animate(
-          prompt: self.class.h3_prompt(project, spec), image_url: keyframe_url(spec.fetch("image")),
-          end_image_url: spec["end_image"]&.then { |k| keyframe_url(k) }, target_audio_url: audio,
-          duration: seconds, seed: seed, resolution: ENV.fetch("VIDEO_RES", MODEL::DEFAULT_RES)
-        )
+        result = if generation.completion?
+          generation.generate
+        else
+          audio = audio_url(name, spec, seconds) if spec["audio"]
+          generation.generate(
+            prompt: self.class.h3_prompt(project, spec), image_url: spec["image"]&.then { |k| keyframe_url(k) },
+            end_image_url: spec["end_image"]&.then { |k| keyframe_url(k) }, audio_url: audio,
+            duration: seconds, seed: seed
+          )
+        end
         url = result.output.fetch("video")["url"]
-        { request_id: result.request_id, input: result.input, url: url, path: download(url, "04_shot_#{name}.mp4") }
+        generation.metadata(result).merge(url: url, path: download(url, "04_shot_#{name}.mp4"))
       end
 
       # The H3 prompt: the shot prompt ({{STYLE}} expanded), then the camera direction as its own paragraph.

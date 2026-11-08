@@ -1,5 +1,7 @@
 # Animation, audio and effects recipes
 
+H3 is the default provider in these recipes. When the user explicitly requests Seedance, apply [Seedance's input and audio rules](seedance.md) and its 480p default; keep the same local editing and finishing workflow.
+
 ## Separation of work
 
 H3 supplies the characters and their world together, in one full-frame take; p5 supplies exact timing, panels, text, diagrams and layer order on top. Action is never keyed (see [believable-motion.md](believable-motion.md)). Keyed characters are for explainers and paper-style pieces with no realistic world, and for a still figure as a last resort. Python removes backgrounds, measures audio and composites sound. Swift applies final frame-cued camera, light and signal effects. Ruby services own all execution and manifests.

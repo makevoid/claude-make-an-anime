@@ -37,3 +37,5 @@ ruby .claude/skills/make-an-anime/scripts/mv.rb --project /absolute/video-projec
 ```
 
 The same variable works when launching `scripts/mcp.rb` directly in a developer MCP configuration. The installed plugin's server also falls back to it when the plugin option is unset; a configured option takes precedence. `FAL_KEY` and the old home-directory key file are no longer supported. Keep real keys out of prompts, source files, command arguments, and commits.
+
+For explicitly requested Seedance, MCP task options also accept `VIDEO_MODEL: "seedance"` and `VIDEO_RES: "480p"` (or a requested 720p/1080p). `seedance:complete[input.json,out.mp4]` is a supported paid task using the same approval and credentials. Per-shot and scene settings are described in [seedance.md](seedance.md).

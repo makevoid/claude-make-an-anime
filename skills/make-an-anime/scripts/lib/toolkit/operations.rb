@@ -16,6 +16,7 @@ module Toolkit
       "fonts:copy" => "Copy selected fonts into this video project: [selection.json] (local)",
       "openapi:fetch" => "Fetch current Fal input schemas (no generation)",
       "openapi:summary" => "Print saved Fal schema summaries",
+      "seedance:complete" => "Complete a saved Seedance draft at 1080p: [input.json,out.mp4] (paid)",
       "plan:approve" => "Record actual user approval: NOTE='approved wording'",
       "audio:seams" => "Report abrupt audio: every scene join in a film and the score joints inside scenes: [film,episode] (local)",
       "work:next" => "Allocate/resume next dependency-ready wave; SIZE=2/3..4/4..8/6..10",
@@ -75,7 +76,7 @@ module Toolkit
       "adopt" => "Recover completed Fal request [step,request_id]",
       "pick" => "Restore archived request [step,index]",
       "import" => "Copy step from another run [step,source_run]",
-      "test" => "Run RSpec suite; PROFILE=all|core|media|swift|live"
+      "test" => "Run RSpec suite; PROFILE=all|core|media|swift|live|seedance_live"
     }.freeze
     def ff = @ff ||= Media::FFmpeg.new
     def py = @py ||= Media::Python.new
@@ -96,6 +97,16 @@ module Toolkit
       when "fonts:copy" then required(a, 1); emit Fonts.new.copy(a[0])
       when "openapi:fetch" then endpoints.each { |id| Fal::OpenAPI.fetch(id); warn "fetched #{id}" }
       when "openapi:summary" then endpoints.each { |id| puts Fal::OpenAPI.load(id).summary if File.file?(Fal::OpenAPI.spec_path(id)) }
+      when "seedance:complete"
+        required(a, 2)
+        input = JSON.parse(File.read(a[0]), symbolize_names: true)
+        client = Fal::Client.new
+        result = Fal::Models::SeedanceDraftComplete.new(client: client).complete(**input)
+        FileUtils.mkdir_p(File.dirname(a[1]))
+        metadata = { endpoint: Fal::Models::SeedanceDraftComplete.endpoint, request_id: result.request_id, input: result.input, output: result.output }
+        File.write("#{a[1]}.json", JSON.pretty_generate(metadata))
+        client.download(result.output.fetch("video").fetch("url"), a[1])
+        emit(path: a[1], manifest: "#{a[1]}.json", request_id: result.request_id)
       when "review:likeness" then emit AnimeReview.new.likeness(a)
       when "review:camera" then emit AnimeReview.new.camera
       when "review:believable" then emit AnimeReview.new.believable

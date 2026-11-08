@@ -57,7 +57,7 @@ RSpec.configure do |c|
   c.order = :defined
   c.before do
     @saved_env = ENV.to_h
-    %w[RUN ONLY FORCE RECUT NEW_REQUEST VIDEO_RES].each { |k| ENV.delete(k) }
+    %w[RUN ONLY FORCE RECUT NEW_REQUEST VIDEO_RES VIDEO_MODEL SEED].each { |k| ENV.delete(k) }
   end
   c.after do
     ENV.replace(@saved_env)

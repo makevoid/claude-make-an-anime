@@ -71,19 +71,24 @@ module Pipeline
         # RECUT=1: cut the already-downloaded H3 clip again (new box/key/frames) instead of calling fal.
         prev = project[key]&.dig("items", name)
         if ENV["RECUT"] == "1" && prev&.dig("url") && File.exist?(local = project.path("04_clip_#{name}.mp4"))
-          return [local, prev.slice("request_id", "input", "url").transform_keys(&:to_sym)]
+          return [local, prev.slice("endpoint", "request_id", "input", "url", "draft_id", "seed").transform_keys(&:to_sym)]
         end
-        seconds = spec.fetch("seconds", 5)
-        audio = if spec["audio"] && spec["audio_at"] then stem_url(name, spec, seconds)
+        generation = VideoGeneration.new(project: project, spec: spec.merge("audio" => !!spec["audio_at"]), client: client)
+        seconds = generation.seconds(spec.fetch("seconds", 5))
+        result = if generation.completion?
+          generation.generate
+        else
+          audio = if spec["audio"] && spec["audio_at"] then stem_url(name, spec, seconds)
                 elsif spec["audio_at"] then song_url(name, spec["audio_at"], seconds)
                 end
-        result = MODEL.new(client: client).animate(
-          prompt: Shots.h3_prompt(project, spec), image_url: keyframe_url(spec.fetch("image")),
-          end_image_url: spec["end_image"]&.then { |k| keyframe_url(k) }, target_audio_url: audio,
-          duration: seconds, seed: seed, resolution: ENV.fetch("VIDEO_RES", MODEL::DEFAULT_RES)
-        )
+          generation.generate(
+            prompt: Shots.h3_prompt(project, spec), image_url: spec["image"]&.then { |k| keyframe_url(k) },
+            end_image_url: spec["end_image"]&.then { |k| keyframe_url(k) }, audio_url: audio,
+            duration: seconds, seed: seed
+          )
+        end
         url = result.output.fetch("video")["url"]
-        [download(url, "04_clip_#{name}.mp4"), { request_id: result.request_id, input: result.input, url: url }]
+        [download(url, "04_clip_#{name}.mp4"), generation.metadata(result).merge(url: url)]
       end
 
       # `seconds` of a full-song-aligned track (spec audio:) from this section's audio_at, as H3's target audio: the section's song offset

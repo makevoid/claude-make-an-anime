@@ -69,6 +69,8 @@ Claude reads the story, writes a production plan (cast, voices, shot list, every
 
 Reference photos are optional: original characters are designed from text. Use photos of real people only with their consent.
 
+MiniMax H3 remains the default video model. Ask explicitly for **Seedance** to use Seedance 2.5 US, defaulting to **480p** unless you specify another resolution. It supports image-to-video, reference-to-video and optional draft completion at 1080p. See [Seedance settings and drafts](skills/make-an-anime/references/seedance.md).
+
 ## How a scene is made
 
 Each stage reads prompts from `prompts/<run>/` and writes to `output/<run>/`, so everything can be inspected and redone on its own.

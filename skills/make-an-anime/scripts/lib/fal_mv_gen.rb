@@ -9,6 +9,7 @@ require "pipeline/project"
 require "pipeline/step"
 require "pipeline/items_step"
 require "pipeline/generation_config"
+require "pipeline/video_generation"
 Dir[File.join(__dir__, "pipeline", "steps", "*.rb")].sort.each { |f| require f }
 module Pipeline
   DEFAULT_RUN = "s01"
