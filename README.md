@@ -52,7 +52,7 @@ You also need these on your machine:
 | Ruby 3.2+ and Bundler | The toolkit itself |
 | FFmpeg, ImageMagick | Video, audio and image work |
 | Python 3 | Green-screen keying, score editing, analysis |
-| Node.js 22+ and Chrome | Rendering p5 titles, subtitles and composites |
+| Node.js 22.12+ and Chrome | Rendering p5 titles, subtitles and composites |
 | macOS 14+ and Swift 5.9+ | Optional: the Core Image VFX pass |
 
 Each project installs its own Ruby, Node and Python packages when the skill runs `setup`, and `doctor` reports anything missing.

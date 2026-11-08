@@ -10,7 +10,7 @@ PROFILE=media ruby scripts/mv.rb test
 PROFILE=swift ruby scripts/mv.rb test
 ```
 
-The repository root also has `rake test`. `PROFILE=all` (default) runs all non-live examples. It fails if a required backend cannot run, including Chrome local-server restrictions or Swift on a non-macOS machine. Use a narrower profile intentionally when that backend is unavailable; report what was not exercised. Tests leave diagnostic fixtures in `scripts/tmp/` and derived review outputs under `scripts/output/`, both ignored by git.
+From the repository root, run `ruby skills/make-an-anime/scripts/mv.rb test`. Alternatively, run `bundle exec rake test` from `skills/make-an-anime/scripts/` or an initialized project. `PROFILE=all` (default) runs all non-live examples. It fails if a required backend cannot run, including Chrome local-server restrictions or Swift on a non-macOS machine. Use a narrower profile intentionally when that backend is unavailable; report what was not exercised. Tests leave diagnostic fixtures in `scripts/tmp/` and derived review outputs under `scripts/output/`, both ignored by git.
 
 ## What is tested
 
