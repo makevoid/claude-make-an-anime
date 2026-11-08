@@ -1,3 +1,4 @@
+require "digest"
 module Pipeline
   module Steps
     # Step 3c — the scene soundtrack (local, no Fal call): the score (Music step) ducked under the dialogue (Dialogue step),
@@ -15,7 +16,9 @@ module Pipeline
         built = File.mtime(project[key]["path"])
         newer = [project[:music]&.dig("path"), project[:dialogue]&.dig("path")].compact.select { |p| File.exist?(p) && File.mtime(p) > built }
         warn "[#{key}] stale: #{newer.join(", ")} newer than the mix -> rebuilding" if newer.any?
-        newer.any?
+        changed = project[key]["fingerprint"] != fingerprint
+        warn "[#{key}] settings or source content changed -> rebuilding" if changed
+        newer.any? || changed
       end
 
       def submit
@@ -30,7 +33,7 @@ module Pipeline
         # The mix without the lift stays beside it: sfx:mix reads cue levels from it, so a louder voice keeps the effects where they were.
         ffmpeg.duck_mix(music, dialogue, project.path("03_mix_ref.wav"), seconds: project.duration, **opts) if lift.positive?
         out = ffmpeg.duck_mix(music, dialogue, project.path("03_mix.wav"), seconds: project.duration, **opts, dialogue_db: opts.fetch(:dialogue_db, 0) + lift)
-        { request_id: nil, endpoint: "local:mix", input: result.input.merge("music" => music, "dialogue" => dialogue), path: out }
+        { request_id: nil, endpoint: "local:mix", input: result.input.merge("music" => music, "dialogue" => dialogue), path: out, fingerprint: fingerprint }
       end
 
       def review
@@ -52,7 +55,14 @@ module Pipeline
 
       private
 
-      def settings = { "music_db" => -4, "dialogue_db" => 0, "duck" => true }.merge(project.generation.fetch(:mix, {}).transform_keys(&:to_s))
+      def fingerprint
+        sources = [project[:music]&.dig("path"), project[:dialogue]&.dig("path")].map do |path|
+          [path, path && File.file?(path) ? Digest::SHA256.file(path).hexdigest : nil]
+        end
+        Digest::SHA256.hexdigest(JSON.generate([settings.sort.to_h, project.duration, sources]))
+      end
+
+      def settings = { "music_db" => (project[:dialogue]&.dig("path") ? -4 : -12), "dialogue_db" => 0, "duck" => true }.merge(project.generation.fetch(:mix, {}).transform_keys(&:to_s))
     end
   end
 end

@@ -102,22 +102,22 @@ module Toolkit
       end
       issues = []
       rows = shots.map do |s|
-        inside = lines.select { |l| l["at"] < s[:to] && l["end"] > s[:from] }
+        inside = lines.select { |l| l.fetch("speech_at", l["at"]) < s[:to] && l["end"] > s[:from] }
         if s[:audio].is_a?(String) && s[:audio] != "dialogue"
           own = inside.reject { |l| l["vo"] }.select { |l| l["character"] == s[:audio] }
           issues << "#{s[:name]}: audio #{s[:audio]} but none of their on-screen lines play here" if own.empty?
           own.each do |l|
-            next if l["at"] >= s[:from] && l["end"] <= s[:to]
-            issues << format("%s: %s's line %s (%.2f–%.2f s) crosses the shot (%.2f–%.2f s)", s[:name], s[:audio], l["name"], l["at"], l["end"], s[:from], s[:to])
+            next if l.fetch("speech_at", l["at"]) >= s[:from] && l["end"] <= s[:to]
+            issues << format("%s: %s's line %s (%.2f–%.2f s) crosses the shot (%.2f–%.2f s)", s[:name], s[:audio], l["name"], l.fetch("speech_at", l["at"]), l["end"], s[:from], s[:to])
           end
         end
         inside.reject { |l| l["vo"] }.each do |l|
-          next if l["at"] >= s[:from] && l["end"] <= s[:to]
-          issues << format("%s: on-screen line %s crosses a cut (%.2f–%.2f s); move the cut or the line", s[:name], l["name"], l["at"], l["end"])
+          next if l.fetch("speech_at", l["at"]) >= s[:from] && l["end"] <= s[:to]
+          issues << format("%s: on-screen line %s crosses a cut (%.2f–%.2f s); move the cut or the line", s[:name], l["name"], l.fetch("speech_at", l["at"]), l["end"])
         end
         need = s[:audio] ? ((inside.map { |l| l["end"] }.max || s[:from]) - s[:from] + 0.25) * FPS : nil
         { shot: s[:name], frames: s[:frames], seconds: format("%.2f–%.2f", s[:from], s[:to]), kind: s[:kind], audio: s[:audio],
-          lines: inside.map { |l| format("%s%s %.2f–%.2f", l["name"], l["vo"] ? " (VO)" : "", l["at"], l["end"]) },
+          lines: inside.map { |l| format("%s%s %.2f–%.2f", l["name"], l["vo"] ? " (VO)" : "", l.fetch("speech_at", l["at"]), l["end"]) },
           min_frames_for_lines: need&.ceil }
       end
       { run: project.name, frames: shots.sum { _1[:frames] }, shots: rows, issues: issues.uniq, ok: issues.empty? }

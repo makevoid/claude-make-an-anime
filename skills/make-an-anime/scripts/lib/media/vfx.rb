@@ -16,7 +16,7 @@ module Media
     PACKAGE = File.join(ROOT, "tools", "vfx")
     BIN = File.join(PACKAGE, ".build", "release", "mvfx")
     CORE_IMAGE = %w[punch zoom shake whip mblur edgeblur glow flash dark rgb glitch tv grain].freeze
-    LIGHTS = %w[leak flare glints].freeze
+    LIGHTS = %w[leak flare glints halo].freeze
 
     attr_reader :name, :dir
 
@@ -99,11 +99,11 @@ module Media
     end
 
     # The whole video -> config `out` (the source's audio stream copied).
-    def render
+    def render(out_path: out)
       cues
       lights
-      mvfx("--out", out)
-      out
+      mvfx("--out", out_path)
+      out_path
     end
 
     def frames = @frames ||= FFmpeg.new.run("ffprobe", "-v", "error", "-select_streams", "v:0", "-count_packets", "-show_entries",

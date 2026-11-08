@@ -15,7 +15,7 @@ import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer-core";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const LIB = ["core", "time", "fx", "type", "paper", "riso", "screens", "battle"];
+const LIB = ["core", "time", "fx", "type", "paper", "riso", "screens", "battle", "particles", "rts", "mission", "court"];
 const CHROME = [
   process.env.CHROME_PATH,
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",

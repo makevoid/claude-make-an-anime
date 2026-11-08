@@ -6,7 +6,7 @@ H3 supplies the characters and their world together, in one full-frame take; p5 
 
 ## p5 scenes and overlays
 
-The renderer loads `tools/p5/lib/{core,time,fx,type,paper,riso,screens}.js` and calls a sketch for each frame at `t=frame/24`. Per-frame random seeds make repeats deterministic. Full-scene sketches draw on a background plate selected for the scene; overlay sketches leave transparent areas over an H3 plate. Load project fonts chosen for the approved art direction through `Anim.fonts`. Select drawing, texture and typography helpers to suit that direction. Library names and bundled examples do not prescribe a visual style.
+The renderer loads `tools/p5/lib/{core,time,fx,type,paper,riso,screens,battle,particles,rts,mission,court}.js` and calls a sketch for each frame at `t=frame/24`. Per-frame random seeds make repeats deterministic. Full-scene sketches draw on a background plate selected for the scene; overlay sketches leave transparent areas over an H3 plate. Load project fonts chosen for the approved art direction through `Anim.fonts`. Select drawing, texture and typography helpers to suit that direction. Library names and bundled examples do not prescribe a visual style.
 
 ### Project fonts
 
@@ -114,3 +114,7 @@ cues:
 Core Image supports `punch`, `zoom`, `shake`, `whip`, `mblur`, `edgeblur`, `glow`, `flash`, `dark`, `rgb`, `glitch`, `tv`, `grain`. `f`/`dur` are integer frames; `pre` starts a transition early. See `tools/vfx/Sources/mvfx/Effects.swift` for exact knobs. `leak`, `flare`, `glints` are p5 light cues: set `lights: tools/p5/examples/lights.js` for the bundled leak/flare/glints implementation, or author `05_lights.js` in the VFX prompt folder (or set `lights:` to another sketch), read `Anim.data('vfx').cues`, draw on transparent black, and use screen blending in Swift. A light cue without its sketch is an error, not an invisible effect.
 
 The Swift service builds the package through Ruby, uses FFmpeg rawvideo pipes and copies the source audio. Inspect a short clip and stills before the full render. Use distinct output paths for every finish revision. Effects should follow onsets/cuts/lyrics; start glow after a flash to avoid whiteouts, avoid double grain if p5 already draws it, and preserve deliberate quiet frames. A no-cue VFX render should resemble the clean encode; cued frames should differ measurably, which RSpec checks.
+
+## Generated interfaces and particle light passes
+
+[Game screens](game-screens.md) describes reusable original artwork, local sheet cutting, face collages and the RTS/mission/court helpers. [Particles and glow](particles-and-glow.md) documents deterministic emitters, `halo`, and `vfx:bake[run]` between overlay and SFX. The light pass blooms only explicitly emitted light, preserving the surrounding painting and readable HUD.

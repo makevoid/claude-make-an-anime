@@ -80,6 +80,8 @@ Use this only for a word that was misread, never to push real action through.
 
 ## Review by eye
 
+For scale, anatomy, contact, pinned end frames, pacing and a written review record, use [staging-and-review.md](staging-and-review.md). These checks complement the metrics below.
+
 Watch at normal speed, then look at a dense frame board around every hit and cut. Sparse boards miss short glitches.
 
 - Do the feet land where the body travels, and does anyone run in place?

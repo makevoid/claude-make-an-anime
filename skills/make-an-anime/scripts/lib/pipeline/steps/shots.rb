@@ -1,3 +1,4 @@
+require "digest"
 module Pipeline
   module Steps
     # Step 4b — a scene's edit (the anime default). prompts/<run>/04_shots.yml lists the shots in edit order, each `frames` long:
@@ -7,13 +8,14 @@ module Pipeline
     #   audio: <track>     H3 target audio from this shot's position in the scene: a cast id (that character's mouth track from
     #                      the Dialogue step, silent while others speak), "dialogue" (all lines) or true (the full soundtrack)
     #   seconds            H3 generation length, fractional allowed (0.92..15, >= 2 with audio); default: the shot length
-    #   retime: true       the whole H3 clip is squeezed into `frames` (fast camera moves; never with dialogue)
-    #   source_frames: N   use only the take's first N frames (cut before a defect, e.g. invented lettering), then trim or
+    #   retime: true       the selected H3 interval is squeezed into `frames` (fast camera moves; never with dialogue)
+    #   source_frames: N   use N frames after skip_frames (cut before a defect, e.g. invented lettering), then trim or
     #                      retime them to `frames`; the downloaded take stays whole, and a retake keeps the same cut point
     #   roll: [from, to]   a virtual camera roll over the shot, in degrees (clockwise), applied to the plate locally; layers
     #                      drawn in p5 follow it with Anim.withRoll(frame, fn) so sprites and background turn together
     #   still: <keyframe>  no generation: the keyframe held (zoom: [1.0, 1.06] for a slow push) — inserts, held drawings
     #   color: "#05070a"   no generation: a solid frame the overlay draws on (screens, title cards, smash-cut white)
+    #   from_take: <run>/<shot>  no generation: copy an existing take, validate its length and record its source digest
     #   from_run: <run>    no generation: that run's video (same timeline) from this shot's position
     #   same_take: <shot>  no generation: the footage of an earlier shot of this list, from skip_frames on, for a beat that must
     #                      repeat exactly (a running gag). Place the repeated line at the same offset inside the shot.
@@ -42,10 +44,21 @@ module Pipeline
       # those are compared by frame count only.
       def run!(**)
         Believability.refuse!(specs.flat_map { |name, spec| Believability.shot_problems(name, spec) })
+        specs.each do |name, spec|
+          raise ArgumentError, "#{name}: never retime a talking or singing shot" if spec["audio"] && spec["retime"]
+          raise ArgumentError, "#{name}: frames must be a positive integer" unless spec["frames"].is_a?(Integer) && spec["frames"].positive?
+          raise ArgumentError, "#{name}: skip_frames must be a nonnegative integer" unless spec.fetch("skip_frames", 0).is_a?(Integer) && spec.fetch("skip_frames", 0) >= 0
+        end
+        project.soundtrack # refuse missing/stale dialogue mixes before submitting a take
         super
       end
 
       def stale_item?(name, spec, item)
+        if spec["from_take"]
+          source = imported_take(spec)
+          return item["from_take"] != spec["from_take"] || item["source_sha256"] != Digest::SHA256.file(source).hexdigest
+        end
+        return true if item["from_take"] # switching an imported item to a different source type
         return false unless spec["still"] || spec["color"]
         stale = item["spec"] ? item["spec"] != local_spec(spec) : ffmpeg.summary(item["path"]).dig(:video, :frames).to_i != spec["frames"]
         warn "[#{key}] #{name}: local shot spec changed -> rebuilding" if stale
@@ -55,6 +68,17 @@ module Pipeline
       def local_spec(spec) = spec.slice("frames", "color", "still", "zoom")
 
       def generate(name, spec)
+        if spec["from_take"]
+          source = imported_take(spec)
+          validate_source!(name, spec, source)
+          out = project.path("04_shot_#{name}.mp4")
+          raise ArgumentError, "#{name}: from_take cannot overwrite its source" if File.expand_path(source) == File.expand_path(out)
+          tmp = "#{out}.tmp"
+          FileUtils.cp(source, tmp)
+          File.rename(tmp, out)
+          return { source: spec["from_take"], from_take: spec["from_take"], adopted: true,
+                   source_sha256: Digest::SHA256.file(source).hexdigest, path: out }
+        end
         if (run = spec["from_run"])
           return { source: run, path: Project.new(run).fetch!(:video, :path) }
         end
@@ -70,7 +94,7 @@ module Pipeline
         end
         raise ArgumentError, "Never retime a talking or singing shot" if spec["audio"] && spec["retime"]
         seconds = spec.fetch("seconds") { default_seconds(spec) }
-        raise ArgumentError, "shot #{name} needs more source frames (#{spec["frames"]} > #{seconds}s)" if !spec["retime"] && spec["frames"] > seconds * FPS
+        raise ArgumentError, "shot #{name} needs more source frames (#{spec["frames"]} > #{seconds}s)" if !spec["retime"] && (spec["source_frames"] || spec["frames"]) + spec.fetch("skip_frames", 0) > (seconds * FPS).round
         raise ArgumentError, "shot #{name}: source_frames #{spec["source_frames"]} < frames #{spec["frames"]} needs retime: true" if spec["source_frames"] && !spec["retime"] && spec["source_frames"] < spec["frames"]
         audio = audio_url(name, spec, seconds) if spec["audio"]
         result = MODEL.new(client: client).animate(
@@ -91,6 +115,7 @@ module Pipeline
       end
 
       def finish(items)
+        specs.each { |name, spec| validate_source!(name, spec, items.fetch(name).fetch("path")) }
         segments = specs.map do |name, spec|
           { path: items[name]["path"], frames: spec["frames"], retime: spec["retime"], keep: spec["source_frames"],
             skip: source_skip(spec), roll: spec["roll"] }
@@ -131,6 +156,26 @@ module Pipeline
 
       private
 
+      def imported_take(spec)
+        ref = spec.fetch("from_take")
+        raise ArgumentError, "from_take must be <run>/<shot>" unless ref.is_a?(String) && ref.match?(%r{\A[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+\z})
+        run, take = ref.split("/")
+        item = Project.new(run).fetch!(:shots, :items).fetch(take) { raise ArgumentError, "No take #{ref}" }
+        path = item.fetch("path")
+        raise ArgumentError, "Missing source take #{ref}: #{path}" unless File.file?(path)
+        path
+      end
+
+      def validate_source!(name, spec, path)
+        have = ffmpeg.summary(path).dig(:video, :frames).to_i
+        skip = source_skip(spec)
+        keep = spec["source_frames"]
+        raise ArgumentError, "#{name}: source_frames must be a positive integer" if keep && !(keep.is_a?(Integer) && keep.positive?)
+        need = skip + (keep || (spec["retime"] ? 1 : spec["frames"]))
+        raise ArgumentError, "#{name}: source has #{have} frames; needs #{need} including #{skip} skipped frames" if have < need
+        raise ArgumentError, "#{name}: source_frames < frames needs retime: true" if keep && !spec["retime"] && keep < spec["frames"]
+      end
+
       def source_skip(spec)
         return spec["start_frame"] if spec["from_run"]
 
@@ -145,7 +190,7 @@ module Pipeline
 
       # The shot's own length (H3 may add ~0.7 s), at least 2 s when audio is pinned, rounded up to 0.1 s.
       def default_seconds(spec)
-        [(spec["frames"].fdiv(FPS) * 10).ceil / 10.0, spec["audio"] ? 2.0 : 1.0].max
+        [((spec["frames"] + spec.fetch("skip_frames", 0)).fdiv(FPS) * 10).ceil / 10.0, spec["audio"] ? 2.0 : 1.0].max
       end
 
       def keyframe_path(name)

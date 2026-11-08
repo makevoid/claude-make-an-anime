@@ -20,6 +20,9 @@ import Foundation
 //   glitch    span   amt 1.0, fade 1: slices shoved sideways, RGB split, noise bars, flickering frame to frame
 //   tv        span   amt 1.0, fade 6, grain 0.09 (0 = none): scanlines, grain, soft focus, colour fade, vignette, rolling bar, line jitter
 //   grain     span   amt 0.25, fade 6: film grain on its own (soft-light, so flat paper takes less of it than midtones)
+//   halo      span   amt 1.2, radius 12 (px), fade 1: blooms the --lights layer before it is screen-blended, so only what p5 drew
+//                    as light (laser cores, muzzle flashes, explosion flashes) glows; a tight blur plus a wide one 3.5x larger.
+//                    Also a light cue in lib/media/vfx.rb, so the light layer is rendered on its frames.
 final class Effects {
     let extent: CGRect
     var w: CGFloat { extent.width }
@@ -35,6 +38,7 @@ final class Effects {
         var bloom = 0.0, bloomRadius = 18.0
         var flash = 0.0, flashColor = CIColor(red: 1, green: 0.98, blue: 0.94)
         var dark = 0.0, rgb = 0.0, glitch = 0.0, tv = 0.0, tvGrain = 0.09, grain = 0.0
+        var halo = 0.0, haloRadius = 12.0
         var seed = 0
     }
 
@@ -114,6 +118,9 @@ final class Effects {
                 s.tvGrain = c.grain ?? 0.09
             case "grain":
                 s.grain = max(s.grain, (c.amt ?? 0.25) * c.env(frame, defaultShape: "span"))
+            case "halo":
+                s.halo = max(s.halo, (c.amt ?? 1.2) * c.env(frame, defaultShape: "span"))
+                s.haloRadius = c.radius ?? 12
             default:
                 continue
             }
@@ -172,7 +179,8 @@ final class Effects {
             e.ev = Float(0.85 * s.flash)
             img = over(solid(s.flashColor, alpha: min(0.7, 0.36 * s.flash)), e.outputImage!)
         }
-        if let lights {
+        if var lights {
+            if s.halo > 0.01 { lights = halo(lights, amount: s.halo, radius: s.haloRadius) }
             let f = CIFilter.screenBlendMode()
             f.inputImage = lights
             f.backgroundImage = img
@@ -189,6 +197,32 @@ final class Effects {
     }
 
     // MARK: effects
+
+    // Bloom on the light layer only: the layer itself, plus a tight and a wide gaussian blur of it scaled by `amount`,
+    // added together and clamped to 0...1 (screen blend misbehaves above 1). Transparent pixels stay transparent.
+    func halo(_ light: CIImage, amount a: Double, radius r: Double) -> CIImage {
+        let base = light.cropped(to: extent)
+        func blurred(_ sigma: Double, _ gain: Double) -> CIImage {
+            let b = CIFilter.gaussianBlur()
+            b.inputImage = base.clampedToExtent()
+            b.radius = Float(sigma)
+            let m = CIFilter.colorMatrix()
+            m.inputImage = b.outputImage!.cropped(to: extent)
+            let g = CGFloat(gain)
+            m.rVector = CIVector(x: g, y: 0, z: 0, w: 0)
+            m.gVector = CIVector(x: 0, y: g, z: 0, w: 0)
+            m.bVector = CIVector(x: 0, y: 0, z: g, w: 0)
+            m.aVector = CIVector(x: 0, y: 0, z: 0, w: g)
+            return m.outputImage!.cropped(to: extent)
+        }
+        let sum = blurred(r, a).applyingFilter("CIAdditionCompositing", parameters: [kCIInputBackgroundImageKey: base])
+            .applyingFilter("CIAdditionCompositing", parameters: [kCIInputBackgroundImageKey: blurred(r * 3.5, a * 0.6)])
+        let clamp = CIFilter.colorClamp()
+        clamp.inputImage = sum.cropped(to: extent)
+        clamp.minComponents = CIVector(x: 0, y: 0, z: 0, w: 0)
+        clamp.maxComponents = CIVector(x: 1, y: 1, z: 1, w: 1)
+        return clamp.outputImage!.cropped(to: extent)
+    }
 
     // Sharp centre, blur growing toward the edges and corners (lens edge / dreamy focus).
     func edgeBlur(_ img: CIImage, radius: Double) -> CIImage {

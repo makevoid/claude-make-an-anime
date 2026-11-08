@@ -31,3 +31,7 @@ Cut detection is a candidate list: flat graphics and hard flashes need visual co
 Use `assets/plan-template.md`. The plan must cover the whole song, contain concrete prompts, and identify which details came from research. Estimate calls by model and generated seconds, allow a bounded number of retries and quote current pricing sources when available. If price cannot be established, say so and obtain a call-count budget. Do not invent a dollar total. The chat summary should let the user understand the video without reading every prompt, while the linked document makes each prompt reviewable.
 
 Approval covers execution within those creative and cost bounds. Ask again for a changed creative plan, an unavailable model that needs substitution, or spending beyond the allowance. Routine failed local renders, recuts and edits within the plan can proceed.
+
+## Budget by shot difficulty
+
+Classify shots as quiet, talking, perspective or motion. Estimate the actual keyframes, guides, end frames, voice takes and H3 seconds per class; do not budget one attempt for every shot. As a starting allowance, quiet shots may need one take, talking shots one or two, and difficult contact/travel shots two or three plus start/end image edits. Adjust to the project's evidence and budget. Locally drawn guides cost no model calls. Give pivotal motion and perspective shots priority within the retry pool; choose their duration for pace, not importance. Include extra logo/cloth edits when a recurring mark must remain exact. See [staging-and-review.md](staging-and-review.md).

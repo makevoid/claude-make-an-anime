@@ -15,6 +15,7 @@ module Pipeline
     #     subtitle: "Gatto! (Cat!)"    # optional: what the subtitle shows instead of `text` (a gloss); not sent to TTS
     #     gate_s: 0.28                 # optional: silence the start of the take in the mix (a blip before the first word)
     #     keep_s: 1.2                  # optional: keep only this much of the take (a long tail of breath or silence)
+    #     muffled: true                # optional: voice heard through a closed door, applied locally to the mix
     #     inner: true                  # optional, with vo: a thought in the character's head, treated so it isn't heard as spoken
     #     subtitle: " "                # a blank subtitle: a laugh or breath with no caption, not counted as speech when levelling
     #     gain_db: -5                  # optional: level this take in the scene mix only (takes vary by ±8 dB); the mouth
@@ -65,7 +66,7 @@ module Pipeline
           { "name" => name, "character" => spec["character"], "text" => spec["text"], "at" => spec["at"].to_f,
             "end" => (spec["at"] + (spec["keep_s"] || item["duration"])).round(3), "vo" => !!spec["vo"], "path" => item["path"],
             "speech_at" => (spec["at"] + [ffmpeg.leading_silence(item["path"]), spec["gate_s"].to_f].max).round(3), "subtitle" => spec["subtitle"],
-            "gate_s" => spec["gate_s"]&.to_f, "keep_s" => spec["keep_s"]&.to_f, "inner" => spec["inner"],
+            "gate_s" => spec["gate_s"]&.to_f, "keep_s" => spec["keep_s"]&.to_f, "inner" => spec["inner"], "muffled" => spec["muffled"],
             "gain_db" => spec["gain_db"]&.to_f }.compact
         end.sort_by { |l| l["at"] }
         late = lines.select { |l| l["end"] > length + 0.05 }
@@ -76,7 +77,7 @@ module Pipeline
           end
         end
         tracks = cast.keys.select { |c| lines.any? { |l| l["character"] == c } }.to_h do |character|
-          own = lines.select { |l| l["character"] == character && !l["vo"] }.map { |l| l.except("gain_db") }
+          own = lines.select { |l| l["character"] == character && !l["vo"] }.map { |l| l.except("gain_db", "muffled") }
           [character, ffmpeg.place_audio(own, project.path("03_voice_#{character}.wav"), seconds: length)]
         end
         words = lines.flat_map do |l|

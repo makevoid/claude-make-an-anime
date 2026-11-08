@@ -53,7 +53,7 @@ For a shot that continues the previous one, set `base:` to that keyframe and cha
 
 `Fal::Models::H3MaxImageToVideo`, `minimax/h3-max/image-to-video`, **768P by default** (H3 offers 480P/768P/1080P; there is no 720P), prompt expansion disabled. `VIDEO_RES=1080P` refines a hero shot. Duration is the shot length (fractional seconds allowed, 0.92–15 s, at least 2 s with target audio; H3 may add up to ~0.7 s). The plate is upscaled to 1920×1080.
 
-Prompt (`prompt:` in `04_shots.yml`): identity and style (`{{STYLE}}`, "the same characters as in the image") → what happens, as two or three timed acting beats ("0–1 s: …; 1–2.5 s: …") → mouth ("speaks the line with natural lip movements; mouth closed before and after") → what must stay unchanged (faces on-model, outfit, background layout, light) → exclusions (no text, no extra people, no new props, no scene change). Anime acting reads best with clear holds and limited, purposeful motion: a blink, a breath, a head tilt, a slow smile, hair and cloth secondary motion, light flicker from a screen.
+Prompt (`prompt:` in `04_shots.yml`): identity and a short style sentence ("hand-drawn 2D anime; the same characters as in the image") → what happens, as two or three timed acting beats ("0–1 s: …; 1–2.5 s: …") → mouth ("speaks the line with natural lip movements; mouth closed before and after") → what must stay unchanged (faces on-model, outfit, background layout, light) → exclusions (no text, no extra people, no new props, no scene change). Anime acting reads best with clear holds and limited, purposeful motion: a blink, a breath, a head tilt, a slow smile, hair and cloth secondary motion, light flicker from a screen.
 
 For a talking shot set `audio: <cast id>`; the shot then receives that character's mouth track from its own position in the scene. Never retime a talking shot.
 
@@ -115,3 +115,9 @@ If a take drifts off-model, reduce motion, shorten the shot or add an `end_image
 Fetch `openapi:fetch` and read `openapi:summary`. The wrappers validate known properties/enums/ranges. Add any other Fal model as a Ruby `Fal::Models::Base` subclass, then a service/task. Do not call an SDK or curl directly. Do not silently substitute a model or quality setting.
 
 Official sources: [H3 API](https://fal.ai/models/minimax/h3-max/image-to-video/api), [Sunburst generation](https://fal.ai/models/openai/gpt-image-2.6/sunburst/text-to-image/api), [Sunburst edit](https://fal.ai/models/openai/gpt-image-2.6/sunburst/edit/api), [ElevenLabs Eleven v4](https://fal.ai/models/elevenlabs/tts/eleven-v4/api), [ElevenLabs Music v2.5](https://fal.ai/models/elevenlabs/music/v2.5/api).
+
+## Difficult staging and small repairs
+
+Use [staging-and-review.md](staging-and-review.md) for perspective guides, connected anatomy, pinned endings, recurring marks, natural prop gestures, jumps, travel and playback review. Keep the full palette bible in image prompts; in H3 name only the current shot’s look, light and room, including full colour through the last frame when intended. A list of different palettes can become an unwanted colour transition.
+
+For a replay from another scene, set `from_take: source-run/shot-name`, `frames`, and optional `skip_frames` or `source_frames`. The original take is copied locally with provenance and a content digest; there is no model call. The copy refreshes when the source bytes change, and assembly rejects insufficient frames. Reused footage does not transfer the source scene’s dialogue: rebuild the destination mix and check synchronisation.

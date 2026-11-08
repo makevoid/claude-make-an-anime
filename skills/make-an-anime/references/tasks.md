@@ -109,7 +109,7 @@ Prompt files per run:
 | `03_score.json` / `.txt` | ElevenLabs Music v2.5 composition plan (`{"chunks": [...]}`) or prompt; instrumental, scene length |
 | `02_keyframes.yml` | Named image edit prompts, `base`, `refs` |
 | `04_video.txt` | Single-shot H3 prompt (the Video step reads this stem) |
-| `04_shots.yml` | Ordered shots: `image`/`end_image`, `frames`, `prompt`, `camera`, `audio: <cast id>`, `seconds`, or `still:`/`color:` inserts |
+| `04_shots.yml` | Ordered shots: `image`/`end_image`, `frames`, `prompt`, `camera`, `audio: <cast id>`, `seconds`, `from_take: run/shot`, or `still:`/`color:` inserts |
 | `04_clips.yml` | H3/still/source sprite specifications and chroma/crop |
 | `05_overlay.js` | p5 sketch, rendered through Ruby |
 
@@ -153,7 +153,7 @@ Example `03_dialogue.yml` and `04_shots.yml` for a scene:
   image: kid-bed
   frames: 84
   audio: kid
-  prompt: "{{STYLE}} The boy from the image half-lifts his head from the pillow, eyes barely open; 0.5–2.5 s he mumbles his line with small sleepy mouth movements; blinks slowly; blanket shifts. Faces on-model, room unchanged, no text, no extra people."
+  prompt: "Same restrained cel-anime look and dim bedroom lighting. The boy from the image half-lifts his head from the pillow, eyes barely open; 0.5–2.5 s he mumbles his line with small sleepy mouth movements; blinks slowly; blanket shifts. Faces on-model, room unchanged, no text, no extra people."
   camera: { move: locked-off, framing: medium close-up on the pillow, notes: "faint handheld micro-sway, no zoom" }
 - name: screen
   color: "#05070a"
@@ -200,11 +200,15 @@ RUN=ep01-s01 ruby scripts/mv.rb --project /absolute/project anim:overlay
 ruby scripts/mv.rb --project /absolute/project 'media:preview[output/clean.mp4,ep01-s01,ep01-s02]'
 ```
 
-`gen:ref_base`, `gen:keyframes`, `gen:dialogue`, `gen:video`, `gen:shots`, H3 `gen:clips`, generated music/score, `review:dialogue`, `gen:overlay`, `review:music`, stems and SFX may call paid Fal endpoints. `gen:music` for an imported song is local processing plus CDN upload; `gen:overlay` uses paid Whisper unless re-rendering saved cues through `anim:overlay`. Reviews other than music are local. `pipeline:all` includes paid review calls; allocate them in the plan.
+`gen:ref_base`, `gen:keyframes`, `gen:dialogue`, `gen:video`, `gen:shots`, H3 `gen:clips`, generated music/score, `review:dialogue`, `gen:overlay`, `review:music`, stems and SFX may call paid Fal endpoints. `gen:music` for an imported song is local processing plus CDN upload; `gen:overlay` uses paid Whisper unless re-rendering saved cues through `anim:overlay`. Other review tasks are local. `pipeline:all` includes paid review calls; allocate them in the plan.
 
 For existing reliable word timings, use `anim:prepare[full-song-words.json]` after the plate prerequisites exist, then `anim:preview`/`anim:overlay`. It accepts Whisper `chunks` or an array of `{w,s,e}` / `{word,start,end}`, selects this section and subtracts its song offset. With no argument it writes an empty cue list for sketches with explicitly authored timing. It also prepares configured tracks locally. `anim:overlay` records a complete manifest even on the first local render, so `review:overlay` works without a paid `gen:overlay` call.
 
 `FORCE=1` changes cached work; `ONLY` confines ItemsStep work to named assets. A selected partial item set will not build the complete step's board until all items exist. `NEW_REQUEST=1` allows a new identical paid request; normal retries reuse saved receipts. `history[step]`, `adopt[step,request_id]`, `pick[step,index]`, `import[step,source_run]` support recovery and reuse. ItemsStep recovery uses per-item stored request IDs and reruns; adopt/pick are for single-output steps.
+
+`gen:mix` fingerprints its settings and source audio; changes invalidate the cached mix even when timestamps are preserved. Re-run `gen:dialogue` after line-placement/filter edits, then `gen:mix` before shots or overlays. Music-only scenes default to `music_db: -12`; scenes with dialogue retain `-4`, and explicit values win. `muffled: true` applies a local closed-door filter to a line's mix, leaving its raw take and mouth track intact. `dialogue:timeline` uses the audible `speech_at` after gating when available.
+
+Existing shots can be copied locally with `from_take: source-run/shot-name`. `skip_frames` trims the prefix; `source_frames` selects the interval length after that prefix. Assembly rejects short sources before writing a plate. `retime: true` stretches that selected interval and is refused for shots with audio. See [staging-and-review.md](staging-and-review.md) for physical review and timing decisions.
 
 ## Analysis, finishing and utility tasks
 
@@ -222,8 +226,13 @@ VFX=finish-vfx ruby scripts/mv.rb --project /absolute/project vfx:analyze
 VFX=finish-vfx ruby scripts/mv.rb --project /absolute/project 'vfx:stills[0,24,120]'
 VFX=finish-vfx ruby scripts/mv.rb --project /absolute/project 'vfx:clip[96,144]'
 VFX=finish-vfx ruby scripts/mv.rb --project /absolute/project vfx:render
+ruby scripts/mv.rb --project /absolute/project 'vfx:bake[ep01-s01]'
+ruby scripts/mv.rb --project /absolute/project 'game:cut[config/cut-units.json]'
+ruby scripts/mv.rb --project /absolute/project 'game:faces[config/build-faces.json]'
 ruby scripts/mv.rb --project /absolute/project 'media:twitter[output/finished.mp4,output/delivery-1080.mp4]'
 ```
+
+For local particles and a repeatable light-only halo pass, see [particles-and-glow.md](particles-and-glow.md). For game artwork recipes and p5 screen/mission/court helpers, see [game-screens.md](game-screens.md). `vfx:bake` requires the documented cues paths, preserves the plain picture, and finishes before `sfx:mix`.
 
 `media:probe`, `media:sheet`, `media:frame`, `media:cut`, `media:cutout`, `media:sprite_box`, `media:style`, `media:concat`, `media:mux`, `media:upload` and `media:youtube` are listed by `-T` with their arguments. Export names denote encoding presets; they do not publish to platforms. For unlisted operations, add an OOP service under `lib/` and a thin registry delegate. Keep backend code under `tools/` and tests in `spec/`.
 

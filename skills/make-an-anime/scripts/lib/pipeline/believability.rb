@@ -28,7 +28,10 @@ module Pipeline
 
     # What the prompt actually asks for: the style bible and the negated phrases are removed, so a style that mentions a
     # fight, or "no running" and "nobody falls", do not count as action.
-    def asserted(text) = text.to_s.sub(Project.style.to_s, " ").gsub(NEGATED, " ")
+    def asserted(text)
+      text.to_s.sub(Project.style.to_s, " ").gsub(NEGATED, " ")
+          .gsub(/\b(?:water|liquid|stream|tap|faucet)\s+(?:is\s+)?running\b|\brunning\s+(?:water|liquid|stream|tap|faucet)\b/i, " ")
+    end
 
     def camera_text(spec)
       camera = spec["camera"]
@@ -37,7 +40,7 @@ module Pipeline
 
     def keyed?(spec) = %w[green paper].include?(spec.fetch("key", "paper"))
 
-    def generated?(spec) = !(spec["still"] || spec["color"] || spec["from_run"] || spec["same_take"] || spec["source"])
+    def generated?(spec) = !(spec["still"] || spec["color"] || spec["from_run"] || spec["from_take"] || spec["same_take"] || spec["source"])
 
     def running?(spec) = generated?(spec) && !spec["believable"] && asserted(spec["prompt"]).match?(RUN_WORDS)
 

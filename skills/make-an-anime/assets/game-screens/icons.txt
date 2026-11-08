@@ -1,0 +1,8 @@
+Video game interface art asset: an icon sheet of command buttons for an original 2004 PC real-time strategy game. Original designs, not from any existing game.
+
+Exactly 12 square icons in a grid of 4 columns by 3 rows, evenly spaced, all the same size, each with a clear gap of flat black between them, on a flat, even, pure black background (#000000). Each icon is a small square button: a dark gunmetal bevelled tile with a thin glowing cobalt-blue rim, and in the middle one bold, simple painted emblem in bright steel, white, cyan and amber, readable at very small size:
+row 1: a boot print with a forward arrow (move), an octagonal shield with a palm (stop), a crosshair over a short blade (attack), two curved arrows chasing each other in a circle (patrol);
+row 2: a planted kite shield with a down arrow (hold position), a wrench crossed with a hammer (build), a laser rifle with a bright muzzle glint (fire), a round grenade with a spark (grenade);
+row 3: a radar dish with wave arcs (scan), a hexagon shield with a plus (shield boost), a flag on a pole (rally point), a small rocket rising with a flame (missile).
+
+Crisp clean edges, high-end pre-rendered look of that era. No text, no letters, no numbers, no hotkey letters, no logos, no watermark.

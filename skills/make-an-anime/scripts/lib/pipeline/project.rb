@@ -77,7 +77,13 @@ module Pipeline
     def prompt?(stem) = !Dir[File.join(ROOT, "prompts", name, "#{stem}.*")].empty?
 
     # The scene soundtrack: the Mix step's dialogue + score when present, else the Music step's audio.
-    def soundtrack = self[:mix]&.dig("path") || fetch!(:music, :path)
+    def soundtrack
+      if self[:dialogue] || self[:mix]
+        raise "Soundtrack mix missing or stale: run gen:mix after gen:dialogue/gen:music or mix setting changes" unless Steps::Mix.new(project: self).done?
+        return fetch!(:mix, :path)
+      end
+      fetch!(:music, :path)
+    end
 
     # The shared anime style bible (config/style.md), substituted for {{STYLE}} in every image and H3 prompt so one
     # paragraph keeps every character sheet, keyframe and shot in the same look.

@@ -188,7 +188,7 @@ module Media
 
     # Cut and join shots into one silent video at `fps`, sized like the first shot. segments: [{ path:, frames:,
     # skip: (source frames to drop first), retime: (squeeze the whole source into `frames`), keep: (use only the source's
-    # first N frames, before the trim or retime), roll: [from, to] (degrees, clockwise: a virtual camera roll, eased, scaled
+    # N frames after skip, before the retime), roll: [from, to] (degrees, clockwise: a virtual camera roll, eased, scaled
     # up just enough to hide the corners; p5 layers follow it with Anim.withRoll) }].
     # A stretched source can end a frame short of `frames` (fps drops the last stretched frame at EOF: a 72->96 retime
     # gave 95). Clone the last frame a little before the trim so a retimed shot is always exactly `frames`.
@@ -198,12 +198,13 @@ module Media
       first = summary(segments.first[:path])[:video]
       size = "scale=#{w || first[:w]}:#{h || first[:h]}:flags=lanczos,setsar=1"
       chains = segments.each_with_index.map do |seg, i|
-        timing = if seg[:retime] && seg[:keep]
-                   "fps=#{fps},trim=end_frame=#{seg[:keep]},setpts=(PTS-STARTPTS)*#{seg[:frames].fdiv(seg[:keep]).round(6)},fps=#{fps},#{PAD_END},trim=end_frame=#{seg[:frames]}"
-                 elsif seg[:retime]
-                   "setpts=(PTS-STARTPTS)*#{(seg[:frames].fdiv(fps) / duration(seg[:path])).round(6)},fps=#{fps},#{PAD_END},trim=end_frame=#{seg[:frames]}"
+        skip = seg[:skip].to_i
+        timing = if seg[:retime]
+                   keep = seg[:keep] || (duration(seg[:path]) * fps).round - skip
+                   raise ArgumentError, "No source frames remain after skip" unless keep.positive?
+                   "fps=#{fps},trim=start_frame=#{skip}:end_frame=#{skip + keep},setpts=(PTS-STARTPTS)*#{seg[:frames].fdiv(keep).round(6)},fps=#{fps},#{PAD_END},trim=end_frame=#{seg[:frames]}"
                  else
-                   "fps=#{fps},trim=start_frame=#{seg[:skip].to_i}:end_frame=#{seg[:skip].to_i + seg[:frames]}"
+                   "fps=#{fps},trim=start_frame=#{skip}:end_frame=#{skip + seg[:frames]}"
                  end
         "[#{i}:v]#{timing},setpts=PTS-STARTPTS,#{size}#{roll_filter(seg, w || first[:w], h || first[:h])}[v#{i}]"
       end
@@ -260,6 +261,7 @@ module Media
         gain += ",afade=t=in:st=#{l["gate_s"].to_f}:d=0.02" if l["gate_s"]
         gain += ",afade=t=out:st=#{[l["keep_s"].to_f - 0.12, 0].max}:d=0.12,atrim=end=#{l["keep_s"].to_f}" if l["keep_s"]
         gain += ",highpass=f=160,aecho=0.8:0.8:60|120:0.28|0.16" if l["inner"]
+        gain += ",lowpass=f=900,lowpass=f=1400,aecho=0.8:0.6:18|31:0.35|0.25" if l["muffled"]
         "[#{i}:a]aresample=44100,aformat=sample_fmts=fltp:channel_layouts=stereo#{gain},adelay=#{ms}|#{ms}[a#{i}]"
       end
       graph = "#{chains.join(";")};#{lines.each_index.map { |i| "[a#{i}]" }.join}amix=inputs=#{lines.size}:normalize=0,apad=whole_dur=#{seconds}[out]"
