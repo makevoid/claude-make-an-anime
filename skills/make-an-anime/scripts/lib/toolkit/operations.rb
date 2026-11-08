@@ -1,5 +1,5 @@
 require_relative "../media/vfx_bake"
-require_relative "../media/game_assets"
+require_relative "../media/animation_assets"
 require_relative "../workflow/approval"
 require_relative "../workflow/waves"
 require_relative "../workflow/journal"
@@ -62,8 +62,8 @@ module Toolkit
       "media:upload" => "Upload [path] to Fal CDN",
       "ref:import" => "Reuse existing hosted identity [new_run,local_image,original_manifest.json] (no upload)",
       "vfx:bake" => "Bake a scene light pass without stacking it: [run] (local)",
-      "game:cut" => "Cut generated game sheets using a JSON recipe: [recipe.json] (local)",
-      "game:faces" => "Build or cut a face-icon collage using a JSON recipe: [recipe.json] (local)",
+      "assets:cut" => "Cut animation asset sheets using a JSON recipe: [recipe.json] (local)",
+      "assets:faces" => "Build or cut a face-icon collage using a JSON recipe: [recipe.json] (local)",
       "vfx:build" => "Build Swift Core Image renderer (macOS)",
       "vfx:analyze" => "Analyze VFX source beats and cuts; VFX=name",
       "vfx:stills" => "Preview cued VFX frames [0,24,...]; VFX=name",
@@ -88,8 +88,8 @@ module Toolkit
     def call(name, a)
       case name
       when "vfx:bake" then required(a, 1); emit Media::VfxBake.new(a[0]).bake
-      when "game:cut" then required(a, 1); emit Media::GameAssets.new.cut(a[0])
-      when "game:faces" then required(a, 1); emit Media::GameAssets.new.faces(a[0])
+      when "assets:cut" then required(a, 1); emit Media::AnimationAssets.new.cut(a[0])
+      when "assets:faces" then required(a, 1); emit Media::AnimationAssets.new.faces(a[0])
       when "doctor" then doctor
       when "setup" then setup
       when "fonts:list" then emit Fonts.new.list

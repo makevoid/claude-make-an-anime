@@ -1,7 +1,7 @@
 require_relative "python"
 module Media
   # JSON recipes avoid comma-separated task arguments for names, crops and paths.
-  class GameAssets
+  class AnimationAssets
     def cut(recipe)
       r = JSON.parse(File.read(recipe))
       mode = r.fetch("mode")

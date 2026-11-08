@@ -1,0 +1,1 @@
+Redraw each portrait in this grid in the approved animation style, keeping the same character in the same cell. Preserve age, face shape, hair, clothing and distinguishing features. Keep the grid, spacing, background and character order. One portrait per cell, with clear silhouettes; no extra portraits, text, labels, logos or watermarks.

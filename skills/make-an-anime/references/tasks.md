@@ -227,12 +227,12 @@ VFX=finish-vfx ruby scripts/mv.rb --project /absolute/project 'vfx:stills[0,24,1
 VFX=finish-vfx ruby scripts/mv.rb --project /absolute/project 'vfx:clip[96,144]'
 VFX=finish-vfx ruby scripts/mv.rb --project /absolute/project vfx:render
 ruby scripts/mv.rb --project /absolute/project 'vfx:bake[ep01-s01]'
-ruby scripts/mv.rb --project /absolute/project 'game:cut[config/cut-units.json]'
-ruby scripts/mv.rb --project /absolute/project 'game:faces[config/build-faces.json]'
+ruby scripts/mv.rb --project /absolute/project 'assets:cut[config/cut-sprites.json]'
+ruby scripts/mv.rb --project /absolute/project 'assets:faces[config/build-faces.json]'
 ruby scripts/mv.rb --project /absolute/project 'media:twitter[output/finished.mp4,output/delivery-1080.mp4]'
 ```
 
-For local particles and a repeatable light-only halo pass, see [particles-and-glow.md](particles-and-glow.md). For game artwork recipes and p5 screen/mission/court helpers, see [game-screens.md](game-screens.md). `vfx:bake` requires the documented cues paths, preserves the plain picture, and finishes before `sfx:mix`.
+For local particles and a repeatable light-only halo pass, see [particles-and-glow.md](particles-and-glow.md). For animation artwork recipes and sprite motion, see [animation-assets.md](animation-assets.md). `vfx:bake` requires the documented cues paths, preserves the plain picture, and finishes before `sfx:mix`.
 
 `media:probe`, `media:sheet`, `media:frame`, `media:cut`, `media:cutout`, `media:sprite_box`, `media:style`, `media:concat`, `media:mux`, `media:upload` and `media:youtube` are listed by `-T` with their arguments. Export names denote encoding presets; they do not publish to platforms. For unlisted operations, add an OOP service under `lib/` and a thin registry delegate. Keep backend code under `tools/` and tests in `spec/`.
 

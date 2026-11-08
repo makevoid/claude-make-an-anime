@@ -6,7 +6,7 @@ H3 supplies the characters and their world together, in one full-frame take; p5 
 
 ## p5 scenes and overlays
 
-The renderer loads `tools/p5/lib/{core,time,fx,type,paper,riso,screens,battle,particles,rts,mission,court}.js` and calls a sketch for each frame at `t=frame/24`. Per-frame random seeds make repeats deterministic. Full-scene sketches draw on a background plate selected for the scene; overlay sketches leave transparent areas over an H3 plate. Load project fonts chosen for the approved art direction through `Anim.fonts`. Select drawing, texture and typography helpers to suit that direction. Library names and bundled examples do not prescribe a visual style.
+The renderer loads `tools/p5/lib/{core,time,fx,type,paper,riso,screens,battle,particles}.js` and calls a sketch for each frame at `t=frame/24`. Per-frame random seeds make repeats deterministic. Full-scene sketches draw on a background plate selected for the scene; overlay sketches leave transparent areas over an H3 plate. Load project fonts chosen for the approved art direction through `Anim.fonts`. Select drawing, texture and typography helpers to suit that direction. Library names and bundled examples do not prescribe a visual style.
 
 ### Project fonts
 
@@ -117,4 +117,4 @@ The Swift service builds the package through Ruby, uses FFmpeg rawvideo pipes an
 
 ## Generated interfaces and particle light passes
 
-[Game screens](game-screens.md) describes reusable original artwork, local sheet cutting, face collages and the RTS/mission/court helpers. [Particles and glow](particles-and-glow.md) documents deterministic emitters, `halo`, and `vfx:bake[run]` between overlay and SFX. The light pass blooms only explicitly emitted light, preserving the surrounding painting and readable HUD.
+[Animation assets](animation-assets.md) describes reusable original artwork, local sheet cutting, portrait collages and a time-driven sprite example. [Particles and glow](particles-and-glow.md) documents deterministic emitters, `halo`, and `vfx:bake[run]` between overlay and SFX. The light pass blooms only explicitly emitted light, preserving the surrounding painting and readable text.

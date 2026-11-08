@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""Cut generated game-art sheets into transparent PNGs a p5 overlay loads, and measure a HUD frame's empty screens.
+"""Prepare animation artwork: separate sprites, crop icon grids, open frame apertures, and fit images.
 
 Run with the project's venv and -I (the sheets are generated files, treat them as data):
 
   .venv/bin/python -I tools/python/cut_sheets.py sprites <sheet.png> <out_dir> --names a,b,c,... [--key alpha|magenta|black]
-      Sprites laid out in rows with clear gaps (a unit sheet). Rows are found from the alpha (or keyed) coverage along y,
+      Sprites laid out in rows with clear gaps (props, poses or decorative elements). Rows are found from the alpha (or keyed) coverage along y,
       then sprites inside each row along x, so the order is row by row, left to right. Each sprite is trimmed with a
       small margin and saved as <out_dir>/<name>.png. Specks smaller than --min-px pixels per row/column are ignored.
 
   .venv/bin/python -I tools/python/cut_sheets.py grid <sheet.png> <out_dir> --names a,b,... [--key black] [--inset 0]
       Icons on a flat background in a grid: the same row/column search, each tile saved square, at --size px (128).
 
-  .venv/bin/python -I tools/python/cut_sheets.py frame <console.png> <out.png> <slots.json> [--key alpha|magenta]
-      A HUD frame with a keyed-out top: writes the transparent frame (its flat-black screens made transparent too,
-      so whatever p5 draws under the frame shows through them) and slots.json, the screens' rectangles in the frame's
+  .venv/bin/python -I tools/python/cut_sheets.py frame <frame.png> <out.png> <slots.json> [--key alpha|magenta]
+      A decorative frame with a keyed-out background: writes the transparent frame (its flat-black apertures made transparent too,
+      so whatever p5 draws under the frame shows through them) and slots.json, the apertures' rectangles in the frame's
       own pixels, largest first, as {"w", "h", "slots": [[x, y, w, h], ...]}.
 
   .venv/bin/python -I tools/python/cut_sheets.py fit <image.png> <out.png> --width W [--crop x,y,w,h]
@@ -166,7 +166,7 @@ def label(mask):
 
 
 def cmd_frame(args):
-    a = load_rgba(args.console)
+    a = load_rgba(args.frame)
     rgba = key_alpha(a, args.key) if args.key != "alpha" else np.clip(a, 0, 255).astype(np.uint8)
     solid = rgba[..., 3] > 200
     dark = solid & (a[..., :3].max(axis=2) < args.dark)
@@ -175,7 +175,7 @@ def cmd_frame(args):
     comps = [c for c in label(small) if c[4] >= args.min_area and c[4] >= 0.8 * c[2] * c[3]]  # filled, box-like
     comps.sort(key=lambda c: -c[4])
     slots = [[int(x * f), int(y * f), int(w * f), int(h * f)] for x, y, w, h, _ in comps]
-    # Clear the screens so the layer under the frame shows through them.
+    # Clear the apertures so the layer under the frame shows through them.
     hole = np.zeros(dark.shape, dtype=bool)
     for x, y, w, h in slots:
         hole[y:y + h, x:x + w] = True
@@ -213,7 +213,7 @@ def main():
         s.add_argument("--size", type=int, default=128)
         s.add_argument("--inset", type=int, default=0)
     s = sub.add_parser("frame")
-    s.add_argument("console"); s.add_argument("out"); s.add_argument("slots")
+    s.add_argument("frame"); s.add_argument("out"); s.add_argument("slots")
     s.add_argument("--key", default="alpha")
     s.add_argument("--dark", type=int, default=22)
     s.add_argument("--scale", type=int, default=4)
@@ -232,7 +232,7 @@ def main():
         outputs = [os.path.join(args.out, f"{n}.png") for n in names]
         source = args.sheet
     else:
-        source = args.console if args.cmd == "frame" else args.image
+        source = args.frame if args.cmd == "frame" else args.image
         outputs = [args.out] + ([args.slots] if args.cmd == "frame" else [])
         if args.cmd == "frame" and min(args.scale, args.min_area) <= 0:
             p.error("scale and min-area must be positive")

@@ -154,7 +154,7 @@ module Toolkit
         when "initialize"
           requested = params["protocolVersion"]
           { protocolVersion: PROTOCOLS.include?(requested) ? requested : PROTOCOLS.first,
-            capabilities: { tools: {} }, serverInfo: { name: "anime", version: "0.5.0" } }
+            capabilities: { tools: {} }, serverInfo: { name: "anime", version: "0.6.0" } }
         when "ping" then {}
         when "tools/list" then { tools: TOOLS }
         when "tools/call" then call_tool(params)

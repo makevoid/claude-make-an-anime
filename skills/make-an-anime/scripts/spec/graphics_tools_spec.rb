@@ -19,60 +19,52 @@ RSpec.describe "Deterministic graphics and asset tools", :media do
     expect(alpha.max).to be > 0
   end
 
-  it "cuts game sprites through the Ruby recipe task and refuses mismatched names" do
+  it "cuts animation sprites through the Ruby recipe task and refuses mismatched names" do
     sheet = file("sheet.png")
     magick.run("magick", "-size", "200x100", "xc:none", "-fill", "red", "-draw", "rectangle 10,10 70,80", "-fill", "blue", "-draw", "rectangle 120,10 180,80", sheet)
-    json(file("cut.json"), mode: "sprites", source: sheet, out: file("units"), names: %w[red blue])
-    out, err, status = cli("game:cut[#{file('cut.json')}]")
+    json(file("cut.json"), mode: "sprites", source: sheet, out: file("sprites"), names: %w[red blue])
+    out, err, status = cli("assets:cut[#{file('cut.json')}]")
     expect(status.success?).to be(true), err
     expect(JSON.parse(out)["sprites"].keys).to eq(%w[red blue])
-    expect(pixels(file("units/red.png"))).to include([255, 0, 0, 255])
+    expect(pixels(file("sprites/red.png"))).to include([255, 0, 0, 255])
     json(file("bad.json"), mode: "sprites", source: sheet, out: file("bad"), names: %w[red])
-    _, err, status = cli("game:cut[#{file('bad.json')}]")
+    _, err, status = cli("assets:cut[#{file('bad.json')}]")
     expect(status.success?).to be(false)
     expect(err).to include("found 2 sprites, expected 1")
     expect(Dir[File.join(file("bad"), "*.png")]).to be_empty
   end
 
-  it "renders the RTS example and mission/court helpers using local fixture art" do
-    assets = file("game-art"); FileUtils.mkdir_p(File.join(assets, "units")); FileUtils.mkdir_p(File.join(assets, "icons"))
-    magick.run("magick", "-size", "960x540", "gradient:#203040-#607050", File.join(assets, "map.jpg"))
-    magick.run("magick", "-size", "960x540", "xc:none", "-fill", "#304050", "-draw", "rectangle 0,400 959,539", File.join(assets, "console.png"))
-    magick.run("magick", "-size", "100x100", "xc:#708090", File.join(assets, "portrait.png"))
-    magick.run("magick", "-size", "40x60", "xc:#3090ff", File.join(assets, "units/trooper.png"))
-    json(File.join(assets, "console_slots.json"), w: 960, h: 540, top: 400, slots: [[20, 420, 100, 100], [140, 420, 100, 100], [260, 420, 280, 100], [560, 420, 50, 100], [650, 430, 20, 20], [680, 430, 20, 20], [710, 430, 20, 20], [740, 430, 20, 20]])
-    json(file("game.json"), dir: "/" + assets.delete_prefix("#{RT}/"), units: ["trooper"], icons: [])
+  it "animates a cut-out prop over transparency with deterministic frame selection" do
+    magick.run("magick", "-size", "40x60", "xc:none", "-fill", "#3090ff", "-draw", "ellipse 20,30 16,26 0,360", file("leaf.png"))
+    json(file("assets.json"), sprite: "/" + file("leaf.png").delete_prefix("#{RT}/"))
     renderer = Media::Anim.new
-    renderer.render(File.join(RT, "tools/p5/examples/game-screen.js"), file("game"), width: 960, height: 540, fps: 24, frames: 12, only: [0, 10], data: { game: file("game.json") })
-    expect(pixels(file("game/0000.png"))).not_to eq(pixels(file("game/0010.png")))
-    File.write(file("court.js"), <<~JS)
-      Anim.sketch({
-        async load(){this.R=await Anim.rts.load(Anim.data('game'));this.R.bezel={box:[0,400,120,120],inset:[8,8,8,8],corner:16}},
-        draw(t){
-          background('#102030'); const box={x:80,y:80,w:560,h:300};
-          Anim.mission.begin(this.R,box,{s:1});
-          Anim.mission.floor(box,{seed:'fixture',tile:40});
-          Anim.court.lines(Anim.court.full(box));
-          Anim.court.ball(t,300,230,{dribble:true});
-          Anim.mission.end(this.R,box,{s:1,logo:false});
-        }
-      });
-    JS
-    renderer.render(file("court.js"), file("court"), width: 720, height: 480, fps: 24, frames: 6, only: [0, 5], data: { game: file("game.json") })
-    expect(pixels(file("court/0000.png"))).not_to eq(pixels(file("court/0005.png")))
+    sketch = File.join(RT, "tools/p5/examples/sprite-motion.js")
+    args = { width: 320, height: 180, fps: 24, frames: 25, data: { assets: file("assets.json") } }
+    renderer.render(sketch, file("motion"), **args)
+    renderer.render(sketch, file("isolated"), **args, only: [24, 0])
+    [0, 24].each do |frame|
+      name = format("%04d.png", frame)
+      expect(pixels(file("isolated/#{name}"))).to eq(pixels(file("motion/#{name}")))
+    end
+    center = ->(path) do
+      points = pixels(path).each_with_index.filter_map { |pixel, i| i % 320 if pixel.last > 128 }
+      points.sum.fdiv(points.length)
+    end
+    expect(center.call(file("motion/0024.png")) - center.call(file("motion/0000.png"))).to be > 80
+    expect(pixels(file("motion/0024.png")).first.last).to eq(0)
   end
 
-  it "cuts icon grids, detects HUD holes and fits art through the recipe service" do
+  it "cuts icon grids, detects frame apertures and fits art through the recipe service" do
     sheet = file("icons.png")
     magick.run("magick", "-size", "200x100", "xc:black", "-fill", "red", "-draw", "rectangle 10,10 70,80", "-fill", "blue", "-draw", "rectangle 120,10 180,80", sheet)
-    service = Media::GameAssets.new
-    json(file("grid.json"), mode: "grid", source: sheet, out: file("icons"), names: %w[attack move], size: 64)
-    expect(service.cut(file("grid.json"))["tiles"].keys).to eq(%w[attack move])
-    magick.run("magick", "-size", "240x120", "xc:#808080", "-fill", "black", "-draw", "rectangle 20,20 100,100", file("console.png"))
-    json(file("frame.json"), mode: "frame", source: file("console.png"), out: file("cut-console.png"), slots: file("slots.json"), scale: 1, min_area: 100)
+    service = Media::AnimationAssets.new
+    json(file("grid.json"), mode: "grid", source: sheet, out: file("icons"), names: %w[sun moon], size: 64)
+    expect(service.cut(file("grid.json"))["tiles"].keys).to eq(%w[sun moon])
+    magick.run("magick", "-size", "240x120", "xc:#808080", "-fill", "black", "-draw", "rectangle 20,20 100,100", file("frame.png"))
+    json(file("frame.json"), mode: "frame", source: file("frame.png"), out: file("cut-frame.png"), slots: file("slots.json"), scale: 1, min_area: 100)
     expect(service.cut(file("frame.json"))["slots"]).to eq(1)
-    expect(pixels(file("cut-console.png"))[60 * 240 + 60].last).to eq(0)
-    json(file("fit.json"), mode: "fit", source: sheet, out: file("map.jpg"), width: 100)
+    expect(pixels(file("cut-frame.png"))[60 * 240 + 60].last).to eq(0)
+    json(file("fit.json"), mode: "fit", source: sheet, out: file("background.jpg"), width: 100)
     expect(service.cut(file("fit.json"))["size"]).to eq([100, 50])
   end
 
@@ -85,8 +77,10 @@ RSpec.describe "Deterministic graphics and asset tools", :media do
     ] }
     json(file("faces.json"), spec)
     json(file("build.json"), mode: "build", spec: file("faces.json"), out: file("collage.png"))
-    service = Media::GameAssets.new
-    expect(service.faces(file("build.json"))["cells"]).to eq(2)
+    service = Media::AnimationAssets.new
+    out, err, status = cli("assets:faces[#{file('build.json')}]")
+    expect(status.success?).to be(true), err
+    expect(JSON.parse(out)["cells"]).to eq(2)
     json(file("split.json"), mode: "cut", spec: file("faces.json"), source: file("collage.png"), out: file("faces"), size: 64)
     expect(service.faces(file("split.json"))["icons"].keys).to eq(%w[pilot rival])
     expect(pixels(file("faces/pilot.png"))).to include([255, 0, 0, 255])

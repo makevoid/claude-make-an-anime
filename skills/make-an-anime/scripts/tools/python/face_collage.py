@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Game unit icons of real characters, in one image edit: crop each face from its character sheet, lay the faces out in
-a clean grid collage (no text), send the collage to the image-edit model with a prompt that redraws every cell as a
-super-deformed (chibi) unit icon of the same person in the same cell, then cut the cells back out.
+"""Prepare character portraits for an animation: crop faces from accepted sheets into a reference collage,
+then split an edited portrait sheet into named transparent images. Styling is chosen in the image-edit prompt;
+the tool does not impose a genre, costume, icon frame or character proportions.
 
   .venv/bin/python -I tools/python/face_collage.py build <spec.json> <out.png> [--preview faces.jpg]
   .venv/bin/python -I tools/python/face_collage.py cut <edited.png> <spec.json> <out_dir> [--size 256]
@@ -10,10 +10,10 @@ spec.json:
   {"cols": 4, "rows": 2, "cell": [460, 520], "gap": 40, "margin": 60, "background": "#d8d8d8", "aspect": 1.7778,
    "faces": [{"name": "pilot", "sheet": "output/char-pilot-v1/01_ref_base.png", "box": [cx, cy, w], "scale": 4}, ...]}
   box is the face's centre and width in the sheet's pixels divided by `scale` (measure on a downscaled copy and give
-  the copy's factor); the crop is w wide and 1.2 w tall, so hair and chin fit. Cells are filled row by row.
+  the copy's factor); the crop is w wide with the configured cell aspect ratio. Cells are filled row by row.
 
 `cut` does not trust the model to keep the exact pixel grid: it finds the icons by projection (anything that differs
-from the background colour), expects cols x rows of them in reading order, and saves each one square (centred, padded with
+from the background colour), expects one per named face in reading order, and saves each one square (centred, padded with
 transparency), at --size. If the count is off, it stops; --grid-fallback explicitly enables a measured content-grid fallback for review.
 Needs Pillow and numpy only. Prints a JSON summary.
 """

@@ -1,9 +1,0 @@
-Video game sprite sheet for an original 2004 PC real-time strategy game: small game units for two factions, each seen from a high overhead camera at about 60 degrees, a slight isometric three-quarter angle, the way they look on the battlefield. High-end pre-rendered 3D sprites of that era, crisp, clean silhouettes, strong rim light, readable at small size. Original designs, not from any existing game.
-
-The background is one flat, even, pure magenta colour (#FF00FF) everywhere, with no shadows on it, no floor, no gradient, no texture, so the sprites can be keyed out. Each unit stands alone with wide empty magenta space around it, nothing touching, and no shadow under it.
-
-Exactly 8 units in a grid of 4 columns by 2 rows, evenly spaced:
-Top row, the blue faction, steel-blue and white armour with cobalt lights, all facing right: 1) an armoured infantry trooper with a long rifle and a big shoulder lamp, 2) a squat two-legged walker mech with twin cannons, 3) a low hover tank with a long barrel, 4) a small delta-wing gunship.
-Bottom row, the red faction, crimson and black plating with orange glowing vents, all facing left: 5) a four-legged spider drone with a single red eye, 6) a heavy armoured crawler with a spiked ram, 7) a fast raider skiff with two blades, 8) a tall stilt-legged war walker with a glowing core.
-
-No text, no letters, no numbers, no labels, no health bars, no selection circles, no interface, no logos, no watermark.

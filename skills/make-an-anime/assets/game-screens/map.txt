@@ -1,5 +1,0 @@
-Video game art asset: the battlefield terrain of an original 2004 PC real-time strategy game, as the player sees it, a high overhead camera looking down at about 60 degrees, a slight isometric three-quarter angle, the whole image filled with ground to every edge. High-end pre-rendered 2D terrain tiles of that era, crisp and detailed, readable at small size.
-
-An alien frontier world at night, lit by cold blue moonlight with warm amber work lights: a wide plateau of dusty ochre-grey dirt and cracked rock in the middle, raised rocky cliff ledges with sharp highlights along the top and the bottom edges, one ramp up between them, a dark chasm with glowing teal fissures in the lower left corner, a field of tall glowing blue crystals at the far left, a small green gas vent with a faint plume on the right, scattered boulders, metal debris, a few scorch marks and tread tracks across the open ground, a broken road of metal plates crossing from left to right.
-
-Only terrain: no units, no vehicles, no soldiers, no creatures, no buildings, no interface, no cursor, no selection marks, no minimap, no text, no letters, no numbers, no logos, no watermark.

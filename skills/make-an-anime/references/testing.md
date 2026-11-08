@@ -26,7 +26,7 @@ Offline synthetic media is deliberately simple so placement/alpha/timing are mea
 
 The media profile also checks seeded alpha-component cleanup through the public Ruby task: retained subject RGBA and soft alpha remain exact, detached lettering disappears, the original file remains unchanged, and invalid/missing seeds fail without publishing a partial sequence.
 
-Production regression examples cover source-length rejection before assembly, skipped-prefix retiming, cross-scene take reuse and replacement detection, gated speech timelines, water-versus-running language, audio/settings cache invalidation, and local muffled dialogue. Graphics fixtures verify deterministic particle frames in and out of order, a separate light layer, RTS/mission/court rendering, sheet and face cutting (including ambiguous-count rejection), and repeatable halo baking that preserves remixed audio and leaves the final unchanged on invalid cues.
+Production regression examples cover source-length rejection before assembly, skipped-prefix retiming, cross-scene take reuse and replacement detection, gated speech timelines, water-versus-running language, audio/settings cache invalidation, and local muffled dialogue. Graphics fixtures verify deterministic particle frames in and out of order, a separate light layer, time-driven cut-out sprite motion, sheet and face cutting (including ambiguous-count rejection), and repeatable halo baking that preserves remixed audio and leaves the final unchanged on invalid cues.
 
 ## Paid live E2E
 

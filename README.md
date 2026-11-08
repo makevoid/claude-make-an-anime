@@ -83,7 +83,7 @@ Each stage reads prompts from `prompts/<run>/` and writes to `output/<run>/`, so
 6. **Sound.** `sfx:gen` creates sound effects with Stable Audio, and `sfx:mix` places them from a cue list and levels them against the mix.
 7. **Finish.** `vfx:render` adds grain, glow or impact effects with Swift Core Image, on frame-accurate cues. The optional `vfx:bake` pass preserves the plain picture so repeating the finish does not accumulate effects.
 
-For detailed staging and playback review, see [Staging and review](skills/make-an-anime/references/staging-and-review.md). Local graphics tools include [deterministic particles and light-only glow](skills/make-an-anime/references/particles-and-glow.md), plus [game screens and asset cutting](skills/make-an-anime/references/game-screens.md).
+For detailed staging and playback review, see [Staging and review](skills/make-an-anime/references/staging-and-review.md). Local graphics tools include [deterministic particles and light-only glow](skills/make-an-anime/references/particles-and-glow.md), plus [animation asset preparation](skills/make-an-anime/references/animation-assets.md).
 
 The same steps as commands, once a project and its prompts exist:
 

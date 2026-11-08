@@ -1,6 +1,6 @@
 {
   "name": "make-an-anime",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "license": "MIT",
   "description": "Create anime from a story: character sheets (GPT Image 2.6 Sunburst), cinematic MiniMax H3 shots, green-screen layered composites, ElevenLabs v4 character voices, ElevenLabs Music v2.5 scores, p5 titles and subtitles, SFX and Swift VFX. Works from a 12-second scene to a full episode.",
   "author": {
