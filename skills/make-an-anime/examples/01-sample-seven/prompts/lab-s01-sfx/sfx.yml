@@ -7,10 +7,10 @@ peak_db: -3
 max_gain_db: 18
 voice_dip_db: 5
 sounds:
-  room: {prompt: "A quiet empty laboratory at night, a low steady refrigerator hum and a faint ticking wall clock, no music, no voices", duration: 14, seed: 71}
-  chair: {prompt: "A wheeled stool shoved back hard on a tiled floor, one quick scrape, isolated, no music, no voices", duration: 1, seed: 72}
-  steps: {prompt: "One person sprinting in sneakers on a tiled floor, fast light footsteps, isolated, no music, no voices", duration: 2, seed: 73}
-  knock: {prompt: "A glass flask set down hard on a wooden desk, one solid knock with a small glassy ring, isolated, no music, no voices", duration: 1, seed: 74}
+  room: {prompt: "A quiet empty laboratory at night, a low steady refrigerator hum and a faint ticking wall clock, no music, no voices", duration: 14}
+  chair: {prompt: "A wheeled stool shoved back hard on a tiled floor, one quick scrape, isolated, no music, no voices", duration: 1}
+  steps: {prompt: "One person sprinting in sneakers on a tiled floor, fast light footsteps, isolated, no music, no voices", duration: 2}
+  knock: {prompt: "A glass flask set down hard on a wooden desk, one solid knock with a small glassy ring, isolated, no music, no voices", duration: 1}
 cues:
   - {at: 0.0, sound: room, rel_db: -10, len: 14.0, fade: 0.6}
   - {at: 7.9, sound: chair, rel_db: 2, len: 0.5, fade: 0.05}

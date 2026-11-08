@@ -8,12 +8,12 @@ module Media
   # Sound effects over a finished video (the full-song preview). prompts/<name>/sfx.yml has
   #   source: / out:          the video to add sounds to (only read) and the new file
   #   rel_db:                 default level of a cue, in dB relative to the music's loudness under it (−4 ≈ clearly audible, still under it)
-#   peak_db / max_gain_db:  caps: a cue never peaks above peak_db (−6) nor gets boosted more than max_gain_db (+18)
-  #   sounds: { name => { prompt:, duration:, seed:, negative: } }   generated with fal stable-audio-3 SFX (Fal::Models::StableAudioSfx),
+  #   peak_db / max_gain_db:  caps: a cue never peaks above peak_db (−6) nor gets boosted more than max_gain_db (+18)
+  #   sounds: { name => { prompt:, duration:, loop:, prompt_influence: } }   generated with ElevenLabs Sound Effects v3,
   #           or { tone: Hz, duration: }: a steady sine synthesized with ffmpeg (a monitor flatline; the model only makes rhythmic beeps)
   #   cues:   [{ at: song s, sound:, rel_db:, rate: (pitch/speed), len: (s, cut + fade), fade: (s) }, ...]
   # Sounds are cached in output/<name>/sounds/<sound>.wav with a sidecar json; a sound is generated again only when its prompt,
-  # duration or seed changed (or FORCE=1 with ONLY=a,b). scripts/sfx_mix.py trims their leading silence, sets each cue's level
+  # model, duration, loop or prompt influence changed (or FORCE=1 with ONLY=a,b). scripts/sfx_mix.py trims their leading silence, sets each cue's level
   # against the music in its window and limits the sum; the video stream is copied untouched.
   class Sfx < Shell
     ROOT = File.expand_path("../..", __dir__)
@@ -41,8 +41,13 @@ module Media
         want = if spec["tone"]
                  { "tone" => spec["tone"], "duration" => spec.fetch("duration", 2) }
                else
-                 { "prompt" => spec.fetch("prompt"), "duration" => spec.fetch("duration", 2), "seed" => spec["seed"],
-                   "negative_prompt" => spec["negative"] || config["negative"] }
+                 prompt = spec.fetch("prompt")
+                 negative = spec["negative"] || config["negative"]
+                 prompt = "#{prompt}. Avoid: #{negative}" unless negative.to_s.strip.empty?
+                 warn "[sfx] #{sound}: seed is ignored by ElevenLabs SFX v3" if spec.key?("seed")
+                 { "model" => Fal::Models::ElevenlabsSfx.endpoint, "prompt" => prompt,
+                   "duration" => spec.fetch("duration", 2), "loop" => spec.fetch("loop", false),
+                   "prompt_influence" => spec.fetch("prompt_influence", 0.3) }
                end
         meta = File.join(dir, "sounds", "#{sound}.json")
         have = File.exist?(meta) && File.exist?(wav(sound)) ? JSON.parse(File.read(meta)) : {}
@@ -57,12 +62,26 @@ module Media
         end
         warn "[sfx] #{sound} generating…"
         client ||= Fal::Client.new
-        model ||= Fal::Models::StableAudioSfx.new(client: client)
-        res = model.generate(prompt: want["prompt"], duration: want["duration"], seed: want["seed"],
-                             negative_prompt: want["negative_prompt"], output_format: "wav")
-        client.download(res.output.dig("audio", "url"), wav(sound))
-        File.write(meta, JSON.pretty_generate(want.merge("request_id" => res.request_id, "used_seed" => res.output["seed"],
-                                                         "url" => res.output.dig("audio", "url"))))
+        model ||= Fal::Models::ElevenlabsSfx.new(client: client)
+        duration = want["duration"]
+        generated_duration = want["loop"] == true && duration.is_a?(Numeric) ? [duration, 30].min : duration
+        res = model.generate(prompt: want["prompt"], duration: generated_duration,
+                             loop: want["loop"], prompt_influence: want["prompt_influence"])
+        url = res.output.fetch("audio").fetch("url")
+        original = File.join(dir, "sounds", "#{sound}.mp3")
+        client.download(url, original)
+        # Decode before looping: repeated MP3 encoder padding otherwise shortens the final PCM duration.
+        pending = File.join(dir, "sounds", "#{sound}.pending.wav")
+        run("ffmpeg", "-y", "-v", "error", "-i", original, "-t", generated_duration,
+            "-ar", "48000", "-ac", "2", "-c:a", "pcm_s16le", pending)
+        if want["loop"]
+          looped = File.join(dir, "sounds", "#{sound}.looped.wav")
+          run("ffmpeg", "-y", "-v", "error", "-stream_loop", "-1", "-i", pending,
+              "-t", duration, "-c:a", "pcm_s16le", looped)
+          File.rename(looped, pending)
+        end
+        File.rename(pending, wav(sound))
+        File.write(meta, JSON.pretty_generate(want.merge("request_id" => res.request_id, "url" => url)))
         sound
       end
     end

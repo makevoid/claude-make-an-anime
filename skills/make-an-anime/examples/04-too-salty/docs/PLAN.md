@@ -10,7 +10,7 @@ The user's script, `docs/BRIEF.md`, is the source. About 70 s (73.5 s as cut), 2
 | MiniMax H3 Max 768P | about 18 takes | 10 more |
 | ElevenLabs Eleven v4 | 6 voice tests, 13 lines | 10 more |
 | ElevenLabs Music v2.5 | 1 score | 1 more |
-| Stable Audio SFX | about 9 sounds | 6 more |
+| ElevenLabs Sound Effects v3 | about 9 sounds | 6 more |
 | Whisper | line checks | as needed |
 
 ## Creative direction

@@ -92,13 +92,17 @@ rel_db: -6
 peak_db: -6
 max_gain_db: 18
 sounds:
-  pop: {prompt: "One short dry cartoon cork pop, isolated, no music or voice", duration: 2, seed: 7}
+  pop: {prompt: "One short dry cartoon cork pop, isolated, no music or voice", duration: 2}
   flatline: {tone: 1000, duration: 1}
 cues:
   - {at: 1.25, sound: pop, rel_db: -5, len: 0.25, fade: 0.03}
 ```
 
-Stable Audio SFX is paid; a steady tone is synthesized locally. SFX are cached by prompt, duration, seed and negative prompt. Mix trims leading silence, sets cue loudness relative to music in that window, caps gain and peak-limits. Use exact song times, not cut-relative times. Check dialogue intelligibility, silence jokes and audible but subordinate effects. The final mux can add codec peaks, so listen and measure the delivered file if close to full scale.
+ElevenLabs Sound Effects v3 is paid; a steady tone is synthesized locally. SFX use `elevenlabs/sound-effects/v3` and are cached by model, prompt, duration, `loop` (default false) and `prompt_influence` (default 0.3). Duration is 0.5–30 seconds; for longer ambience set `loop: true` to generate up to 30 seconds and repeat it locally to the requested length. The downloaded MP3 is retained and decoded to a 48 kHz stereo WAV for mixing.
+
+Legacy `seed` is ignored with a warning; legacy `negative` is appended to the prompt as “Avoid: …” (combined prompt limit: 450 characters). For a fresh take of identical input use `FORCE=1 NEW_REQUEST=1`.
+
+Mix trims leading silence, sets cue loudness relative to music in that window, caps gain and peak-limits. Use exact song times, not cut-relative times. Check dialogue intelligibility, silence jokes and audible but subordinate effects. The final mux can add codec peaks, so listen and measure the delivered file if close to full scale.
 
 ## Swift VFX and p5 light layers
 

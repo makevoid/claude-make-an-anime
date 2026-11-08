@@ -6,15 +6,15 @@ peak_db: -3
 max_gain_db: 18
 voice_dip_db: 5
 sounds:
-  rain: {prompt: "Heavy steady rain falling on a corrugated tin awning, heard from inside a small quiet room, metallic pattering, no music, no voices, no thunder", duration: 47, seed: 51}
-  sizzle_loud: {prompt: "Beaten egg sizzling loudly and angrily in a very hot copper pan, spitting and crackling, close up, no music, no voices", duration: 5, seed: 52}
-  sizzle_soft: {prompt: "Egg sizzling very softly and steadily in a copper pan on a low flame, a gentle whisper, close up, no music, no voices", duration: 12, seed: 53}
-  ring: {prompt: "One light tap of a bamboo chopstick on the rim of a copper pan, a single clean metallic ring that fades, isolated, no music, no voices", duration: 2, seed: 54}
-  click: {prompt: "Bamboo chopsticks set down on a small ceramic plate, one soft dry click, isolated, no music, no voices", duration: 1, seed: 55}
-  wipe: {prompt: "A folded cloth slowly wiping the inside of a metal pan, soft quiet rubbing, no music, no voices", duration: 3, seed: 56}
-  roll_slide: {prompt: "A rolled heavy cloth on a wooden pole sliding along a wooden counter, one soft low slide, isolated, no music, no voices", duration: 1.5, seed: 57}
-  dawn: {prompt: "A quiet Tokyo street at dawn after rain, slow water drips from an awning, a few distant sparrows, no traffic, no music, no voices", duration: 12, seed: 58}
-  cloth: {prompt: "A heavy cotton curtain falling open and swaying on a wooden pole, soft cloth flap, isolated, no music, no voices", duration: 1.5, seed: 59}
+  rain: {prompt: "Heavy steady rain falling on a corrugated tin awning, heard from inside a small quiet room, metallic pattering, no music, no voices, no thunder", duration: 47, loop: true}
+  sizzle_loud: {prompt: "Beaten egg sizzling loudly and angrily in a very hot copper pan, spitting and crackling, close up, no music, no voices", duration: 5}
+  sizzle_soft: {prompt: "Egg sizzling very softly and steadily in a copper pan on a low flame, a gentle whisper, close up, no music, no voices", duration: 12}
+  ring: {prompt: "One light tap of a bamboo chopstick on the rim of a copper pan, a single clean metallic ring that fades, isolated, no music, no voices", duration: 2}
+  click: {prompt: "Bamboo chopsticks set down on a small ceramic plate, one soft dry click, isolated, no music, no voices", duration: 1}
+  wipe: {prompt: "A folded cloth slowly wiping the inside of a metal pan, soft quiet rubbing, no music, no voices", duration: 3}
+  roll_slide: {prompt: "A rolled heavy cloth on a wooden pole sliding along a wooden counter, one soft low slide, isolated, no music, no voices", duration: 1.5}
+  dawn: {prompt: "A quiet Tokyo street at dawn after rain, slow water drips from an awning, a few distant sparrows, no traffic, no music, no voices", duration: 12}
+  cloth: {prompt: "A heavy cotton curtain falling open and swaying on a wooden pole, soft cloth flap, isolated, no music, no voices", duration: 1.5}
 cues:
   - {at: 0.0, sound: rain, rel_db: -2, len: 39.5, fade: 0.8}
   - {at: 3.0, sound: sizzle_soft, rel_db: -8, len: 3.0, fade: 0.2}

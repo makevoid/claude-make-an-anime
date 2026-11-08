@@ -229,14 +229,14 @@ module Toolkit
 
     def sfx
       <<~YAML
-        # #{@run} sound effects over the finished scene (Stable Audio SFX, paid; tones are local). Times in scene seconds.
+        # #{@run} sound effects over the finished scene (ElevenLabs Sound Effects v3, paid; tones are local). Times in scene seconds.
         source: output/#{@run}/final_overlay.mp4
         out: output/#{@run}/final_sfx.mp4
         rel_db: -8
         peak_db: -6
         max_gain_db: 18
         sounds:
-          ambience: {prompt: "PLACE ambience, no music, no voices", duration: 10, seed: 1}
+          ambience: {prompt: "PLACE ambience, no music, no voices", duration: 10}
         cues:
           - {at: 0.0, sound: ambience, rel_db: -12, len: #{seconds}, fade: 0.8}
       YAML

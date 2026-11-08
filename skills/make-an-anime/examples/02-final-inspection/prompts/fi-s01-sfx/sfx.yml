@@ -6,14 +6,14 @@ peak_db: -3
 max_gain_db: 18
 voice_dip_db: 5
 sounds:
-  wind: {prompt: "Cold steady wind over an empty snowfield and around large rusted metal, low and hollow, no music, no voices", duration: 40, seed: 61}
-  surf: {prompt: "Distant slow waves on a cold shore heard from far away across snow, soft and low, no music, no voices, no birds", duration: 40, seed: 62}
-  creak: {prompt: "One long slow low creak of huge old rusted steel settling in the cold, distant and heavy, isolated, no music, no voices", duration: 4, seed: 63}
-  brush: {prompt: "A leather glove brushing dry powder snow off metal, two soft strokes, close up, isolated, no music, no voices", duration: 2, seed: 64}
-  pour: {prompt: "Hot tea poured from a thermos into a small enamel cup, a thin steady stream, close up, outdoors, no music, no voices", duration: 2, seed: 65}
-  cup_set: {prompt: "A small enamel cup set down carefully on thick steel plate, one small soft clink, isolated, no music, no voices", duration: 1, seed: 66}
-  boots: {prompt: "Slow heavy boots walking in dry fresh snow, a soft regular crunch, an old man's short steps, no music, no voices", duration: 6, seed: 67}
-  hum: {prompt: "A very low almost subsonic electrical hum slowly waking up inside a huge old machine, deep and steady, faint, no music, no voices", duration: 16, seed: 68}
+  wind: {prompt: "Cold steady wind over an empty snowfield and around large rusted metal, low and hollow, no music, no voices", duration: 40, loop: true}
+  surf: {prompt: "Distant slow waves on a cold shore heard from far away across snow, soft and low, no music, no voices, no birds", duration: 40, loop: true}
+  creak: {prompt: "One long slow low creak of huge old rusted steel settling in the cold, distant and heavy, isolated, no music, no voices", duration: 4}
+  brush: {prompt: "A leather glove brushing dry powder snow off metal, two soft strokes, close up, isolated, no music, no voices", duration: 2}
+  pour: {prompt: "Hot tea poured from a thermos into a small enamel cup, a thin steady stream, close up, outdoors, no music, no voices", duration: 2}
+  cup_set: {prompt: "A small enamel cup set down carefully on thick steel plate, one small soft clink, isolated, no music, no voices", duration: 1}
+  boots: {prompt: "Slow heavy boots walking in dry fresh snow, a soft regular crunch, an old man's short steps, no music, no voices", duration: 6}
+  hum: {prompt: "A very low almost subsonic electrical hum slowly waking up inside a huge old machine, deep and steady, faint, no music, no voices", duration: 16}
 cues:
   - {at: 0.0, sound: wind, rel_db: -3, len: 34.0, fade: 1.0}
   - {at: 0.0, sound: surf, rel_db: -13, len: 34.0, fade: 1.0}

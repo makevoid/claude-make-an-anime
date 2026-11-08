@@ -10,7 +10,7 @@ A shonen fight of about 17 s, 24 fps, 16:9, 1080p, requested after a first shone
 | MiniMax H3 Max 768P | 8 takes (2 panels, 6 shots) | 5 more |
 | ElevenLabs Eleven v4 | 5 lines | 6 more |
 | ElevenLabs Music v2.5 | 1 score | 1 more |
-| Stable Audio SFX | up to 8 sounds | 4 more |
+| ElevenLabs Sound Effects v3 | up to 8 sounds | 4 more |
 | Whisper | 5 line checks | 6 more |
 
 ## What changes from the first attempt

@@ -82,7 +82,7 @@ Each stage reads prompts from `prompts/<run>/` and writes to `output/<run>/`, so
 3. **Keyframes.** GPT Image 2.6 paints the first frame of each shot from the sheets.
 4. **Shots.** MiniMax H3 animates each keyframe as one continuous take, with the camera move written into the prompt and the speaker's voice as target audio so the mouth follows the line. Held stills and colour inserts cost nothing. Existing takes can be reused across scenes with `from_take`. For moments that need exact placement, [layered scenes](skills/make-an-anime/references/layered-scenes.md) composite green-screen sprites over a painted plate.
 5. **Overlay.** A p5 script (`05_overlay.js`) draws titles, subtitles, fades and any composite work.
-6. **Sound.** `sfx:gen` creates sound effects with Stable Audio, and `sfx:mix` places them from a cue list and levels them against the mix.
+6. **Sound.** `sfx:gen` creates sound effects with ElevenLabs Sound Effects v3, and `sfx:mix` places them from a cue list and levels them against the mix.
 7. **Finish.** `vfx:render` adds grain, glow or impact effects with Swift Core Image, on frame-accurate cues. The optional `vfx:bake` pass preserves the plain picture so repeating the finish does not accumulate effects.
 
 For detailed staging and playback review, see [Staging and review](skills/make-an-anime/references/staging-and-review.md). Local graphics tools include [deterministic particles and light-only glow](skills/make-an-anime/references/particles-and-glow.md), plus [animation asset preparation](skills/make-an-anime/references/animation-assets.md).

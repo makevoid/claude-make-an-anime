@@ -6,13 +6,13 @@ peak_db: -3
 max_gain_db: 18
 voice_dip_db: 5
 sounds:
-  river: {prompt: "Evening riverbank ambience, gentle wind through tall grass and soft water lapping, steady, no music, no voices", duration: 18, seed: 41}
-  train: {prompt: "A distant commuter train crossing a steel railway bridge far away, soft rhythmic clatter, no music, no voices", duration: 4, seed: 42}
-  run: {prompt: "One person sprinting barefoot on grass and packed earth, fast heavy footsteps, isolated, no music, no voices", duration: 1.5, seed: 48}
-  whoosh: {prompt: "One short fast punch whoosh through the air, anime fight sound effect, isolated, no music, no voices", duration: 1, seed: 44}
-  block: {prompt: "One hard punch landing on a raised forearm, a tight meaty smack, anime fight sound effect, isolated, no music, no voices", duration: 1, seed: 45}
-  impact: {prompt: "One huge heavy punch impact with a deep boom and a sharp crack, anime finishing blow sound effect, isolated, no music, no voices", duration: 1.5, seed: 46}
-  thud: {prompt: "A body slamming flat onto grass and earth, one heavy thud with a short dusty skid, isolated, no music, no voices", duration: 1, seed: 47}
+  river: {prompt: "Evening riverbank ambience, gentle wind through tall grass and soft water lapping, steady, no music, no voices", duration: 18}
+  train: {prompt: "A distant commuter train crossing a steel railway bridge far away, soft rhythmic clatter, no music, no voices", duration: 4}
+  run: {prompt: "One person sprinting barefoot on grass and packed earth, fast heavy footsteps, isolated, no music, no voices", duration: 1.5}
+  whoosh: {prompt: "One short fast punch whoosh through the air, anime fight sound effect, isolated, no music, no voices", duration: 1}
+  block: {prompt: "One hard punch landing on a raised forearm, a tight meaty smack, anime fight sound effect, isolated, no music, no voices", duration: 1}
+  impact: {prompt: "One huge heavy punch impact with a deep boom and a sharp crack, anime finishing blow sound effect, isolated, no music, no voices", duration: 1.5}
+  thud: {prompt: "A body slamming flat onto grass and earth, one heavy thud with a short dusty skid, isolated, no music, no voices", duration: 1}
 cues:
   - {at: 0.0, sound: river, rel_db: -10, len: 17.08, fade: 0.4}
   - {at: 0.8, sound: train, rel_db: -6, len: 4.0, fade: 0.8}

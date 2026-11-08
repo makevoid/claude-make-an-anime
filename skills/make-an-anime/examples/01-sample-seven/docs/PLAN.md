@@ -14,7 +14,7 @@ plans that grew through review: `examples/02-final-inspection`, `03-riverbank-bo
 | MiniMax H3 Max 768P | 5 takes, 13 s generated | 3 more |
 | ElevenLabs Eleven v4 | 3 lines | 3 more |
 | ElevenLabs Music v2.5 | 1 score of 14 s | 1 more |
-| Stable Audio SFX | 4 sounds | 2 more |
+| ElevenLabs Sound Effects v3 | 4 sounds | 2 more |
 | Whisper | 3 line checks | 3 more |
 
 ## Creative direction

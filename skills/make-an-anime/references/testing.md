@@ -40,6 +40,8 @@ LIVE_FAL=1 LIVE_SONG=/absolute/short-song.wav LIVE_LYRICS='known sung words' PRO
 
 Supply `FAL_AI_API_KEY` via the environment for this explicit developer CLI test. The plugin's sensitive key is scoped to its MCP server, which does not expose the live test runner. Budget per run: one Sunburst generation, one Sunburst edit, one five-second H3 768P clip (a harness-only saving; real projects keep the 1080P default), one Whisper transcription, one Demucs separation and one SFX generation. Local composition/VFX adds no model charges. No automatic paid rerolls. Run only after accepting those costs. Output is retained for inspection. A provider failure ends the test with request evidence; resume/recover before paying again.
 
+For an SFX-only paid smoke, run `LIVE_FAL=1 PROFILE=sfx_live ruby scripts/mv.rb test` with `FAL_AI_API_KEY` injected into the environment. This submits one two-second ElevenLabs Sound Effects v3 request (approximately $0.004), fetches its OpenAPI schema, exercises the SFX download and WAV conversion, checks duration and non-silent PCM, and verifies cache reuse. Artifacts and request receipts remain in `scripts/tmp/sfx-live/`; repeated runs reuse them. This does not run the image/video live suite. Listen to the retained `output/pop/sounds/pop.wav` to assess whether the sound matches the prompt.
+
 ## Behavioral rehearsal for the Markdown workflow
 
 Executable tests check document links/interfaces; they do not prove an agent will obey creative prose. Rehearse these scenarios using the skill with a disposable project. Paid calls require authorization; preserve authorization already given for a bounded regeneration:

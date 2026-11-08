@@ -35,8 +35,8 @@ RSpec.describe "Paid Fal and local finishing", :live do
       expect(animation.input[:resolution]).to eq("768P")
       expect(ff.summary(clip).dig(:video,:h)).to be >= 700
       expect(ff.duration(clip)).to be_within(0.3).of(5)
-      sfx = Fal::Models::StableAudioSfx.new(client: client).generate(prompt: "One short cartoon pop, isolated, no voice or music", duration: 2)
-      sound = client.download(sfx.output.fetch("audio").fetch("url"), file("pop.wav"))
+      sfx = Fal::Models::ElevenlabsSfx.new(client: client).generate(prompt: "One short cartoon pop, isolated, no voice or music", duration: 2)
+      sound = client.download(sfx.output.fetch("audio").fetch("url"), file("pop.mp3"))
       expect(ff.duration(sound)).to be > 0
       json(file("requests.json"), [generated, edited, transcript, stem, animation, sfx].map { |r| {request_id: r.request_id, input: r.input} })
       # Key the actual model clip, place at a controlled location, overlay and finish through Swift.
