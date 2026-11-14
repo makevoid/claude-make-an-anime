@@ -50,4 +50,4 @@ SFX=scene-sfx ruby mv.rb sfx:mix
 
 `vfx:bake` keeps `final_overlay_plain.mp4`, renders into a temporary file and replaces `final_overlay.mp4` only on success. A receipt hashes the video stream separately from audio. Rerunning starts from the plain picture, so glow never stacks; an audio-only remix is copied onto that picture first. Missing or changed plain footage is an error for a recognized baked output. Rebuild `gen:overlay` to establish a fresh source. A per-scene lock serializes baking; finish the overlay/remix task before starting a bake.
 
-For a distinct final output instead, use ordinary `vfx:render`. Swift VFX requires macOS. Neither workflow makes model calls.
+For a distinct final output instead, use ordinary `vfx:render`. Swift VFX requires macOS; elsewhere the Python port (`tools/python/mvfx.py`) runs the same cues. Neither workflow makes model calls.

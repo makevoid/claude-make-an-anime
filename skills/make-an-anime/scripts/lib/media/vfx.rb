@@ -9,14 +9,30 @@ module Media
   # Post-processing VFX over a finished video (the full-song preview): a cue list (prompts/<name>/cues.yml) drives
   #   - vfx/ (Swift, Core Image): punch zoom shake whip mblur edgeblur glow flash dark rgb glitch tv, and
   #   - prompts/<name>/05_lights.js (p5): leak flare glints, rendered only on their frames and screen-blended in by vfx/.
+  # Without Swift (Windows, Linux) tools/python/mvfx.py renders the same cue file with NumPy/OpenCV; see Vfx.backend.
   # Output goes to output/<name>/ (analysis, cues.json, lights/, stills/, clips) and the cue file's `out:` (the full render).
   # The source video is only read: the VFX version is a new file.
   class Vfx < Shell
     ROOT = File.expand_path("../..", __dir__)
     PACKAGE = File.join(ROOT, "tools", "vfx")
     BIN = File.join(PACKAGE, ".build", "release", "mvfx")
+    PYTHON_MVFX = File.join(Python::SCRIPTS, "mvfx.py")
+    BACKENDS = %w[swift python].freeze
     CORE_IMAGE = %w[punch zoom shake whip mblur edgeblur glow flash dark rgb glitch tv grain].freeze
     LIGHTS = %w[leak flare glints halo].freeze
+
+    # Swift + Core Image on macOS, the NumPy/OpenCV port everywhere else. MV_VFX=swift|python overrides it.
+    def self.backend
+      choice = ENV["MV_VFX"].to_s
+      return RUBY_PLATFORM.include?("darwin") ? "swift" : "python" if choice.empty?
+      raise ArgumentError, "MV_VFX must be swift or python, got #{choice.inspect}" unless BACKENDS.include?(choice)
+      choice
+    end
+
+    # Python backend ready: numpy and OpenCV importable by the toolkit's Python.
+    def self.python_ready?
+      system(Python.new.executable, "-c", "import numpy, cv2", out: File::NULL, err: File::NULL)
+    end
 
     attr_reader :name, :dir
 
@@ -42,6 +58,11 @@ module Media
     end
 
     def build
+      if self.class.backend == "python"
+        return PYTHON_MVFX if self.class.python_ready?
+        raise CommandError, "The Python VFX backend needs numpy and opencv-python-headless in #{Python.new.executable}; run setup " \
+                            "(or pip install -r requirements.txt)"
+      end
       run("swift", "build", "-c", "release", "--package-path", PACKAGE)
       BIN
     end
@@ -112,8 +133,15 @@ module Media
     private
 
     def mvfx(*args)
-      build if !File.exist?(BIN) || Dir[File.join(PACKAGE, "**", "*.swift")].any? { |f| File.mtime(f) > File.mtime(BIN) }
-      JSON.parse(run(BIN, "--in", source, "--cues", path("cues.json"), "--lights", path("lights"), *args.map(&:to_s)).lines.last)
+      common = ["--in", source, "--cues", path("cues.json"), "--lights", path("lights"), *args.map(&:to_s)]
+      out = if self.class.backend == "python"
+              build
+              run(Python.new.executable, PYTHON_MVFX, *common)
+            else
+              build if !File.exist?(BIN) || Dir[File.join(PACKAGE, "**", "*.swift")].any? { |f| File.mtime(f) > File.mtime(BIN) }
+              run(BIN, *common)
+            end
+      JSON.parse(out.lines.last)
     end
   end
 end

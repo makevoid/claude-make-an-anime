@@ -76,7 +76,7 @@ RSpec.describe "Bundled examples" do
       project = File.join(tmp, "p")
       init_example(project)
       FileUtils.ln_s(File.join(RT, "node_modules"), File.join(project, "node_modules"))
-      env = { "MV_PYTHON" => ENV.fetch("MV_PYTHON", File.join(RT, ".venv", "bin", "python3")) }
+      env = { "MV_PYTHON" => ENV.fetch("MV_PYTHON", Media::Python.venv_python(RT)) }
       _, err, status = Open3.capture3(env, RbConfig.ruby, "mv.rb", "fonts:copy[config/fonts.json]", chdir: project)
       expect(status.success?).to be(true), err
       out, err, status = Open3.capture3(env, RbConfig.ruby, "spec/support/example_driver.rb", chdir: project)
