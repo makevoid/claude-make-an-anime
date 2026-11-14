@@ -1,4 +1,5 @@
 require "rbconfig"
+require_relative "../media/python"
 module Toolkit
   class TestRunner
     def run
@@ -14,7 +15,7 @@ module Toolkit
         raise "Paid SFX smoke requires LIVE_FAL=1" unless ENV["LIVE_FAL"] == "1"
       end
       # Specs chdir into temporary workspaces; pin the toolkit's own venv so Python helpers keep numpy/PIL.
-      venv = File.expand_path(".venv/bin/python3")
+      venv = Media::Python.venv_python(Dir.pwd)
       ENV["MV_PYTHON"] ||= venv if File.file?(venv)
       args = [RbConfig.ruby, "-S", "rspec", "spec", "--format", "documentation"]
       args += profile == "all" ? ["--tag", "~live"] : ["--tag", profile]

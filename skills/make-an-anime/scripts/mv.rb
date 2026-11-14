@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 require "optparse"
 require "fileutils"
-require "json"
 require "rbconfig"
 require "open3"
 runtime = __dir__
@@ -20,6 +19,9 @@ begin
   parser.parse!(ARGV)
   command = options[:list] ? "-T" : (ARGV.shift || "pipeline:status")
   if command == "init"
+    # json loads here, not at the top: activating the default json gem before bundler/setup makes Bundler refuse the
+    # Gemfile's json on a first setup run ("You have already activated json ...").
+    require "json"
     require_relative "lib/toolkit/initializer"
     puts JSON.pretty_generate(Toolkit::Initializer.new(runtime).create(project: options[:project], song: options[:song], prompt: options[:prompt], references: options[:references], example: options[:example]))
     exit

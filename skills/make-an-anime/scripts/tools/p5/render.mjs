@@ -21,7 +21,11 @@ const CHROME = [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   "/Applications/Chromium.app/Contents/MacOS/Chromium",
   "/usr/bin/google-chrome",
-  "/usr/bin/chromium"
+  "/usr/bin/chromium",
+  // Windows: Chrome, then Chromium-based Edge (puppeteer-core drives both). Keep in step with Media.chrome_paths.
+  ...[process.env.ProgramFiles, process.env["ProgramFiles(x86)"], process.env.LOCALAPPDATA].filter(Boolean)
+    .flatMap((dir) => [path.join(dir, "Google", "Chrome", "Application", "chrome.exe"),
+                       path.join(dir, "Microsoft", "Edge", "Application", "msedge.exe")])
 ].filter(Boolean);
 const TYPES = { ".js": "text/javascript", ".mjs": "text/javascript", ".ttf": "font/ttf", ".otf": "font/otf",
                 ".json": "application/json", ".png": "image/png", ".jpg": "image/jpeg", ".html": "text/html" };

@@ -7,7 +7,21 @@ module Media
   class Python < Shell
     SCRIPTS = File.expand_path("../../tools/python", __dir__)
 
-    def executable = ENV["MV_PYTHON"] || (File.file?(File.expand_path(".venv/bin/python3")) ? File.expand_path(".venv/bin/python3") : "python3")
+    # The venv's interpreter under `root`: .venv/bin/python3 (macOS, Linux) or .venv/Scripts/python.exe (Windows).
+    # Returns the platform's expected path when no venv exists yet.
+    def self.venv_python(root = Dir.pwd)
+      unix, windows = File.join(root, ".venv", "bin", "python3"), File.join(root, ".venv", "Scripts", "python.exe")
+      [unix, windows].find { |p| File.file?(p) } || (Gem.win_platform? ? windows : unix)
+    end
+
+    # A system Python 3 to create the venv with: python3, else python (Windows installs often have only that).
+    def self.system_python = %w[python3 python].find { |bin| Shell.available?(bin) }
+
+    def executable
+      return ENV["MV_PYTHON"] if ENV["MV_PYTHON"]
+      venv = self.class.venv_python(Dir.pwd)
+      File.file?(venv) ? venv : (self.class.system_python || "python3")
+    end
 
     def call(script, *args)
       JSON.parse(run(executable, File.join(SCRIPTS, script), *args, quiet: true))

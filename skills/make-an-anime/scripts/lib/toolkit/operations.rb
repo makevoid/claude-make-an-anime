@@ -214,11 +214,18 @@ module Toolkit
       out
     end
     def doctor
-      bins = %w[ffmpeg ffprobe magick python3 node swift]
+      bins = %w[ffmpeg ffprobe magick node]
       checks = bins.to_h { |b| [b, Media::Shell.available?(b)] }
+      checks["python3"] = !Media::Python.system_python.nil?
       checks["python_packages"] = system(py.executable, "-c", "import PIL, numpy", out: File::NULL, err: File::NULL)
+      # VFX: Swift + Core Image on macOS, tools/python/mvfx.py (numpy + OpenCV) elsewhere.
+      if Media::Vfx.backend == "swift"
+        checks["swift"] = Media::Shell.available?("swift")
+      else
+        checks["vfx_python"] = Media::Vfx.python_ready?
+      end
       checks["node_packages"] = File.directory?("node_modules/p5") && File.directory?("node_modules/puppeteer-core")
-      checks["chrome"] = [ENV["CHROME_PATH"], "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "/usr/bin/google-chrome", "/usr/bin/chromium"].compact.any? { |p| File.file?(p) }
+      checks["chrome"] = Media.chrome_paths.any? { |p| File.file?(p) }
       checks["fal_key"] = !ENV["FAL_AI_API_KEY"].to_s.strip.empty?
       emit checks
       raise "Missing prerequisites; see references/testing.md and run setup" if ENV["STRICT"] == "1" && checks.values.any? { |v| !v }
@@ -227,8 +234,8 @@ module Toolkit
       shell = Media::Shell.new
       shell.run(RbConfig.ruby, "-S", "bundle", "install")
       shell.run("npm", "ci")
-      shell.run("python3", "-m", "venv", ".venv") unless File.directory?(".venv")
-      shell.run(File.expand_path(".venv/bin/python3"), "-m", "pip", "install", "-r", "requirements.txt")
+      shell.run(Media::Python.system_python || "python3", "-m", "venv", ".venv") unless File.directory?(".venv")
+      shell.run(Media::Python.venv_python(Dir.pwd), "-m", "pip", "install", "-r", "requirements.txt")
       doctor
     end
   end

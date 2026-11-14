@@ -2,7 +2,7 @@
 name: make-an-anime
 description: Create and revise anime, from a 12-second battle scene to full episodes and narrated documentaries, from a story and optional character reference photos. Character and location sheets with GPT Image 2.6 Sunburst, cinematic camera-directed shots animated with MiniMax H3 Max with characters and world painted together, manga paper-cut panels, a distinct ElevenLabs Eleven v4 voice per character with lip-sync, ElevenLabs Music v2.5 scores, p5 screens/titles/subtitles, SFX and Swift VFX. Use for whole episodes, pilots, single scenes, or revisions to their cast, voices, shots, sound and effects.
 license: MIT
-compatibility: Designed for Claude Code. Requires Ruby 3.2+, Bundler, web search and sub-agent tools. Media tasks require FFmpeg, ImageMagick, Python 3, Node.js 22.12+ and Chrome. Swift VFX requires macOS 14+ and Swift 5.9+. Fal generation requires the plugin's sensitive FAL_AI_API_KEY option or that environment variable for local development.
+compatibility: Designed for Claude Code. Requires Ruby 3.2+, Bundler, web search and sub-agent tools. Media tasks require FFmpeg, ImageMagick, Python 3, Node.js 22.12+ and Chrome. Swift VFX requires macOS 14+ and Swift 5.9+; on Windows and Linux the same VFX cues render through tools/python/mvfx.py (NumPy + OpenCV). Fal generation requires the plugin's sensitive FAL_AI_API_KEY option or that environment variable for local development.
 ---
 
 # Make an anime
